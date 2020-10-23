@@ -1,12 +1,12 @@
-package cx2002grp2.stars.database;
+package cx2002grp2.stars.data;
 
 import cx2002grp2.stars.MainApp;
 import cx2002grp2.stars.util.OnExitObserver;
 
 /**
- * AutoSaveData
+ * 
  */
-public abstract class AbstractDatabase implements OnExitObserver {
+public abstract class AbstractDatabase<ItemType> implements OnExitObserver {
     AbstractDatabase() {
         MainApp.getApp().register(this);
     }
@@ -17,5 +17,9 @@ public abstract class AbstractDatabase implements OnExitObserver {
     }
 
     public abstract void saveData();
+
+    public abstract void add(ItemType item);
+
+    public abstract void del(ItemType item);
 
 }
