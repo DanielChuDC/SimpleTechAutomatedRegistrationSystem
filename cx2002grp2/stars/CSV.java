@@ -5,11 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-
-import cx2002grp2.stars.util.ToStringRowInterface;
 
 /**
  * For reading and writing csv table files. Containing two subclasses:
@@ -58,43 +55,43 @@ public class CSV {
         private boolean hasHeader;
 
         /**
-         * Construct csv reader to read the csv file with given filepath, assuming that
+         * Construct csv reader to read the csv file with given filePath, assuming that
          * the csv file has header.
          * 
-         * @param filepath the path to the csv file to be read
+         * @param filePath the path to the csv file to be read
          */
-        public Reader(String filepath) {
-            this(filepath, HAS_HEADER);
+        public Reader(String filePath) {
+            this(filePath, HAS_HEADER);
         }
 
         /**
-         * Construct csv reader to read the csv file with given filepath.
+         * Construct csv reader to read the csv file with given filePath.
          * <p>
          * If hasHeader is true, the first line of csv file will be regarded as header
          * row. Otherwise, the first line of csv file will be treated as normal data
          * row.
          * 
-         * @param filepath  the path to the csv file to be read
+         * @param filePath  the path to the csv file to be read
          * @param hasHeader whether the csv file has header
          */
-        public Reader(String filepath, boolean hasHeader) {
-            this(filepath, hasHeader, CSV.DEFALUT_DELIMITER, CSV.DEFALUT_ESCAPE_CHAR);
+        public Reader(String filePath, boolean hasHeader) {
+            this(filePath, hasHeader, CSV.DEFALUT_DELIMITER, CSV.DEFALUT_ESCAPE_CHAR);
         }
 
         /**
-         * Construct csv reader to read the csv file with given filepath.
+         * Construct csv reader to read the csv file with given filePath.
          * <p>
          * If hasHeader is true, the first line of csv file will be regarded as header
          * row. Otherwise, the first line of csv file will be treated as normal data
          * row.
          * 
-         * @param filepath   the path to the csv file to be read
+         * @param filePath   the path to the csv file to be read
          * @param hasHeader  whether the csv file has header
          * @param delimiter  user defined delimiter used during csv parsing
          * @param escapeChar user defined escaping character used during csv parsing
          */
-        public Reader(String filepath, boolean hasHeader, char delimiter, char escapeChar) {
-            this.csvFile = new File(filepath);
+        public Reader(String filePath, boolean hasHeader, char delimiter, char escapeChar) {
+            this.csvFile = new File(filePath);
             this.hasHeader = hasHeader;
             this.escapeChar = escapeChar;
             this.delimiter = delimiter;
@@ -182,7 +179,7 @@ public class CSV {
          * 
          * @return The path to the csv file being read.
          */
-        public String filepath() {
+        public String filePath() {
             return this.csvFile.getName();
         }
 
@@ -341,8 +338,8 @@ public class CSV {
         /**
          * Parse a csv field not quoted by the escape character.
          * <p>
-         * The beginning and ending blank characters will be trimmed.
-         * All the other charactor will reserved.
+         * The beginning and ending blank characters will be trimmed. All the other
+         * charactor will reserved.
          * 
          * @param line the csv row where the field is in.
          * @param beg  the beginning position of csv field.
@@ -354,7 +351,7 @@ public class CSV {
             if (line.charAt(beg) == delimiter) {
                 return new ReadFieldResult("", beg);
             }
-            
+
             int i = beg;
             int lastNonSpace = beg;
             while (i < line.length() && line.charAt(i) != delimiter) {
@@ -372,7 +369,13 @@ public class CSV {
     }
 
     /**
-     * For writing csv file 
+     * For writing csv file
+     * <p>
+     * File will no be occupied unless the writing method is called.
+     * <p>
+     * If the state of header changes due to modification functions like {@link void
+     * writeHeader(Iterable header)}, then the value of hasHeader will change
+     * simultaneously.
      */
     public static class Writer {
         /**
@@ -389,26 +392,58 @@ public class CSV {
         private File csvFile;
         /**
          * If the csv to be read has header row.
+         * <p>
+         * If the state of header changes due to modification functions like {@link void
+         * writeHeader(Iterable header)}, then the value of hasHeader will change
+         * simultaneously.
          */
         private boolean hasHeader;
 
-        public Writer(String filepath) {
-            this(filepath, HAS_HEADER);
+        /**
+         * Construct csv writer to write the csv file with given filePath, assuming that
+         * the csv file has header.
+         * 
+         * @param filePath the path to the csv file to be read
+         */
+        public Writer(String filePath) {
+            this(filePath, HAS_HEADER);
         }
 
-        public Writer(String filepath, boolean hasHeader) {
-            this(filepath, hasHeader, CSV.DEFALUT_DELIMITER, CSV.DEFALUT_ESCAPE_CHAR);
+        /**
+         * Construct csv writer to write the csv file with given filePath.
+         * <p>
+         * If hasHeader is true, the first line of csv file will be regarded as header
+         * row. Otherwise, the first line of csv file will be treated as normal data
+         * row.
+         * 
+         * @param filePath  the path to the csv file to be read
+         * @param hasHeader whether the csv file has header
+         */
+        public Writer(String filePath, boolean hasHeader) {
+            this(filePath, hasHeader, CSV.DEFALUT_DELIMITER, CSV.DEFALUT_ESCAPE_CHAR);
         }
 
-        public Writer(String filepath, boolean hasHeader, char delimiter, char escapeChar) {
-            this.csvFile = new File(filepath);
+        /**
+         * Construct csv writer to write the csv file with given filePath.
+         * <p>
+         * If hasHeader is true, the first line of csv file will be regarded as header
+         * row. Otherwise, the first line of csv file will be treated as normal data
+         * row.
+         * 
+         * @param filePath   the path to the csv file to be read
+         * @param hasHeader  whether the csv file has header
+         * @param delimiter  user defined delimiter used during csv parsing
+         * @param escapeChar user defined escaping character used during csv parsing
+         */
+        public Writer(String filePath, boolean hasHeader, char delimiter, char escapeChar) {
+            this.csvFile = new File(filePath);
             this.escapeChar = escapeChar;
             this.delimiter = delimiter;
             this.hasHeader = hasHeader;
         }
 
-        public <StringIterable extends Iterable<String>> void writeTable(Iterable<String> header,
-                Iterable<StringIterable> data) {
+        public <StringIterable extends Iterable<String>>
+        void writeBoth(Iterable<String> header, Iterable<StringIterable> data) {
             PrintStream printer = getPrinter();
 
             if (header != null) {
@@ -427,28 +462,22 @@ public class CSV {
             printer.close();
         }
 
-        public <StringIterable extends Iterable<String>> void writeTable(Iterable<StringIterable> data) {
+        public <StringIterable extends Iterable<String>>
+        void writeData(Iterable<StringIterable> data) {
             Reader reader = this.toReader();
             List<String> header = reader.readHeader();
-            writeTable(header, data);
+            writeBoth(header, data);
         }
 
+        /**
+         * Doc
+         * 
+         * @param header
+         */
         public void writeHeader(Iterable<String> header) {
             Reader reader = this.toReader();
             List<List<String>> data = reader.readData();
-            writeTable(header, data);
-        }
-
-        public void writeHeader(ToStringRowInterface header) {
-            writeHeader(header.toStringRow());
-        }
-
-        public void writeData(Iterable<ToStringRowInterface> data) {
-            List<Iterable<String>> convertedData = new LinkedList<Iterable<String>>();
-            for (ToStringRowInterface row : data) {
-                convertedData.add(row.toStringRow());
-            }
-            writeTable(convertedData);
+            writeBoth(header, data);
         }
 
         public Reader toReader() {
@@ -463,7 +492,7 @@ public class CSV {
             return this.escapeChar;
         }
 
-        public String filepath() {
+        public String filePath() {
             return this.csvFile.getName();
         }
 
@@ -537,7 +566,7 @@ public class CSV {
         CSV.Writer writer = new CSV.Writer("test1.csv");
         header.set(1, "Happy \"!\"!\"\"");
 
-        writer.writeTable(data);
+        writer.writeData(data);
         writer.writeHeader(header);
 
         CSV.Reader reader0 = writer.toReader();
