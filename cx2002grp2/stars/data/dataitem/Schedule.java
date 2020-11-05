@@ -1,4 +1,4 @@
-package cx2002grp2.stars.data;
+package cx2002grp2.stars.data.dataitem;
 
 /**
  * Schedule

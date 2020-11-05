@@ -4,7 +4,7 @@ import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cx2002grp2.stars.data.User;
+import cx2002grp2.stars.data.dataitem.User;
 
 /**
  * Function

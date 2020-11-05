@@ -1,6 +1,6 @@
 package cx2002grp2.stars;
 
-import cx2002grp2.stars.data.User;
+import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.functions.AbstractFunction;
 
 /**

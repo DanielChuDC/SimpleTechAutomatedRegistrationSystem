@@ -1,4 +1,4 @@
-package cx2002grp2.stars.data;
+package cx2002grp2.stars.data.database;
 
 import cx2002grp2.stars.MainApp;
 import cx2002grp2.stars.util.OnExitObserver;
@@ -8,6 +8,7 @@ import cx2002grp2.stars.util.OnExitObserver;
  */
 public abstract class AbstractDatabase<ItemType> implements OnExitObserver {
     AbstractDatabase() {
+        loadData();
         MainApp.getApp().register(this);
     }
 
@@ -16,10 +17,14 @@ public abstract class AbstractDatabase<ItemType> implements OnExitObserver {
         saveData();
     }
 
-    public abstract void saveData();
+    protected abstract void loadData();
+
+    protected abstract void saveData();
 
     public abstract void add(ItemType item);
 
-    public abstract void del(ItemType item);
+    public abstract boolean del(ItemType item);
+
+    public abstract boolean contains(ItemType item);
 
 }
