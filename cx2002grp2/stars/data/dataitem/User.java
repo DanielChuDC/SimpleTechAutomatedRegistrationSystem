@@ -5,5 +5,6 @@ package cx2002grp2.stars.data.dataitem;
  */
 public class User implements SingleStringKeyItem {
 
+    enum Level { STUDENT, STAFF }
     
 }
