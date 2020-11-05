@@ -26,8 +26,8 @@ import java.util.Scanner;
  * 
  */
 public class CSV {
-    public static final char DEFALUT_DELIMITER = ',';
-    public static final char DEFALUT_ESCAPE_CHAR = '"';
+    public static final char DEFAULT_DELIMITER = ',';
+    public static final char DEFAULT_ESCAPE_CHAR = '"';
     public static final boolean NO_HEADER = false;
     public static final boolean HAS_HEADER = true;
 
@@ -75,7 +75,7 @@ public class CSV {
          * @param hasHeader whether the csv file has header
          */
         public Reader(String filePath, boolean hasHeader) {
-            this(filePath, hasHeader, CSV.DEFALUT_DELIMITER, CSV.DEFALUT_ESCAPE_CHAR);
+            this(filePath, hasHeader, CSV.DEFAULT_DELIMITER, CSV.DEFAULT_ESCAPE_CHAR);
         }
 
         /**
@@ -420,7 +420,7 @@ public class CSV {
          * @param hasHeader whether the csv file has header
          */
         public Writer(String filePath, boolean hasHeader) {
-            this(filePath, hasHeader, CSV.DEFALUT_DELIMITER, CSV.DEFALUT_ESCAPE_CHAR);
+            this(filePath, hasHeader, CSV.DEFAULT_DELIMITER, CSV.DEFAULT_ESCAPE_CHAR);
         }
 
         /**

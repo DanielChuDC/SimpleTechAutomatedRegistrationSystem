@@ -22,7 +22,7 @@ public abstract class AbstractFunction {
     }
 
     public final void run(User user) {
-        if (!accessable(user)) {
+        if (!accessible(user)) {
             throw new AccessControlException("User " + user + " has not access to function: " + name());
         }
 
@@ -31,7 +31,7 @@ public abstract class AbstractFunction {
 
     abstract protected void implementation(User user);
 
-    abstract public boolean accessable(User user);
+    abstract public boolean accessible(User user);
 
     abstract public String name();
 
