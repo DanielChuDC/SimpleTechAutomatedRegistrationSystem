@@ -2,7 +2,7 @@ package cx2002grp2.stars.data.database;
 
 import cx2002grp2.stars.data.converter.CourseConverter;
 import cx2002grp2.stars.data.dataitem.Course;
-import cx2002grp2.stars.util.SimpleMapLoader;
+import cx2002grp2.stars.data.SimpleMapLoader;
 
 public class CourseDB extends SingleStringKeyDatabase<Course> {
 
@@ -13,7 +13,7 @@ public class CourseDB extends SingleStringKeyDatabase<Course> {
         CourseConverter converter = new CourseConverter();
         SimpleMapLoader<Course> loader = new SimpleMapLoader<Course>();
 
-        loader.load(DB_FILE_PATH, this.getDataset(), converter);
+        loader.load(DB_FILE_PATH, this.getDataMap(), converter);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class CourseDB extends SingleStringKeyDatabase<Course> {
         CourseConverter converter = new CourseConverter();
         SimpleMapLoader<Course> loader = new SimpleMapLoader<Course>();
 
-        loader.save(this.getDataset(), DB_FILE_PATH, converter);
+        loader.save(this.getDataMap(), DB_FILE_PATH, converter);
     }
     
 }

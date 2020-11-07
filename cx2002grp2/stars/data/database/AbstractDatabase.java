@@ -8,7 +8,6 @@ import cx2002grp2.stars.util.OnExitObserver;
  */
 public abstract class AbstractDatabase<ItemType> implements OnExitObserver {
     AbstractDatabase() {
-        loadData();
         MainApp.getApp().register(this);
     }
 
@@ -21,10 +20,9 @@ public abstract class AbstractDatabase<ItemType> implements OnExitObserver {
 
     protected abstract void saveData();
 
-    public abstract void add(ItemType item);
+    public abstract boolean add(ItemType item);
 
     public abstract boolean del(ItemType item);
 
     public abstract boolean contains(ItemType item);
-
 }

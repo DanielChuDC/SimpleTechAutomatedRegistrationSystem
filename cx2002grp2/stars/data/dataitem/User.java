@@ -3,8 +3,8 @@ package cx2002grp2.stars.data.dataitem;
 /**
  * User
  */
-public class User implements SingleStringKeyItem {
+public class User extends SingleStringKeyItem {
 
-    enum Level { STUDENT, STAFF }
+    public enum Level { STUDENT, STAFF }
     
 }

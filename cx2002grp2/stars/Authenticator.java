@@ -1,13 +1,13 @@
 package cx2002grp2.stars;
 
 import cx2002grp2.stars.data.dataitem.User;
-import cx2002grp2.stars.functions.AbstractFunction;
+import cx2002grp2.stars.functions.Function;
 
 /**
  * Authenticator
  */
 public class Authenticator {
-    AbstractFunction availableFunctions(User user) {
+    Function availableFunctions(User user) {
         
         return null;
     }

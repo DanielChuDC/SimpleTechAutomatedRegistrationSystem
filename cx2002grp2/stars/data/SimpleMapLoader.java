@@ -1,4 +1,4 @@
-package cx2002grp2.stars.util;
+package cx2002grp2.stars.data;
 
 import java.util.ArrayList;
 import java.util.List;

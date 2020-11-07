@@ -7,17 +7,17 @@ import java.util.List;
 import cx2002grp2.stars.data.dataitem.User;
 
 /**
- * Function
+ * 
  */
-public abstract class AbstractFunction {
+public abstract class Function {
 
-    static final List<AbstractFunction> allFunctions = new ArrayList<>();
+    static final List<Function> allFunctions = new ArrayList<>();
 
-    static Iterable<AbstractFunction> getAllFunctions() {
+    static Iterable<Function> getAllFunctions() {
         return allFunctions;
     }
 
-    AbstractFunction() {
+    Function() {
         allFunctions.add(this);
     }
 
