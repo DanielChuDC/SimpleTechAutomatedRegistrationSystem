@@ -5,6 +5,6 @@ package cx2002grp2.stars.data.dataitem;
  */
 public class User extends SingleStringKeyItem {
 
-    public enum Level { STUDENT, STAFF }
+    public enum Domain { STUDENT, STAFF }
     
 }

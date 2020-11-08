@@ -1,7 +1,7 @@
-Username,Admin,Level,Password (12345678 by default)
-testuser0,0,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
-testuser1,1,STAFF,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
-testuser2,0,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
-testuser3,0,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
-testuser4,0,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
-testuser5,0,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
+Username,Admin,Domain,Password (12345678 by default)
+testuser0,false,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
+testuser1,true,STAFF,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
+testuser2,false,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
+testuser3,false,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
+testuser4,false,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
+testuser5,false,STUDENT,73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=
