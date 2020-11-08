@@ -5,18 +5,17 @@ import cx2002grp2.stars.util.OnExitSubject;
 /**
  * MainApp
  */
-
 public class MainApp extends OnExitSubject {
 
     private static final MainApp app = new MainApp();
+
     public static MainApp getApp() {
         return app;
     }
-    
+
     private MainApp() {
-        
+
     }
-    
 
     private boolean initialized = false;
 
@@ -41,7 +40,6 @@ public class MainApp extends OnExitSubject {
 
     private void mainBody() {
     }
-
 
     public static void main(String[] args) {
         MainApp app = MainApp.getApp();
