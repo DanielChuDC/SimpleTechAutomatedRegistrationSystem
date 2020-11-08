@@ -2,8 +2,6 @@ package cx2002grp2.stars;
 
 import java.util.Map.Entry;
 
-import javax.swing.text.html.parser.Entity;
-
 import cx2002grp2.stars.data.database.AbstractDatabase;
 import cx2002grp2.stars.data.database.SingleStringKeyDatabase;
 import cx2002grp2.stars.data.dataitem.SingleStringKeyItem;
@@ -11,7 +9,7 @@ import cx2002grp2.stars.data.dataitem.SingleStringKeyItem;
 /**
  * Config
  */
-public class Configuratoins extends SingleStringKeyDatabase<Configuratoins.OneConfig> {
+public class Configs extends SingleStringKeyDatabase<Configs.OneConfig> {
     
     public static class OneConfig extends SingleStringKeyItem implements Entry<String, Object> {
         private String key;
