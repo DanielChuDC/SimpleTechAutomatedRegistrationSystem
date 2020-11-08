@@ -7,7 +7,7 @@ import cx2002grp2.stars.util.OnExitObserver;
  * 
  */
 public abstract class AbstractDatabase<ItemType> implements OnExitObserver {
-    AbstractDatabase() {
+    public AbstractDatabase() {
         MainApp.getApp().register(this);
     }
 

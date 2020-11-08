@@ -1,8 +1,9 @@
 package cx2002grp2.stars.data.database;
 
+import cx2002grp2.stars.data.SimpleMapLoader;
 import cx2002grp2.stars.data.converter.CourseIndexConverter;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
-import cx2002grp2.stars.util.SimpleMapLoader;
+;
 
 public class CourseIndexDB extends SingleStringKeyDatabase<CourseIndex> {
     
