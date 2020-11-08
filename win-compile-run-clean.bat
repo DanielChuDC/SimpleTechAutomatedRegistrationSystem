@@ -1,7 +1,10 @@
 @echo off
 
+set CLASSPATH=".;javax\mail.jar;javax\activation.jar";
+echo %CLASSPATH%
+
 echo Compiling...
-javac *.java cx2002grp2/stars/*.java
+javac App.java 
 echo Finished compiling
 
 echo ==========RUN==========
@@ -9,7 +12,7 @@ java App
 echo ==========END==========
 
 echo Cleaning .class files
-del *.class cx2002grp2\stars\*.class cx2002grp2\stars\util\*.class cx2002grp2\stars\functions\*.class cx2002grp2\stars\data\*.class
+del /s /q /f *.class
 echo Program end
 
 pause

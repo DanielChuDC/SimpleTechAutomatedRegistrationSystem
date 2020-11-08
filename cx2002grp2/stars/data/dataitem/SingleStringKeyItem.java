@@ -24,7 +24,7 @@ public abstract class SingleStringKeyItem {
     public abstract void setKey(String newKey);
 
     /**
-     * Return whether two item are equal to each other by comparing their key.
+     * Return whether two item are equal to each other by comparing their keys.
      */
     @Override
     public boolean equals(Object obj) {
