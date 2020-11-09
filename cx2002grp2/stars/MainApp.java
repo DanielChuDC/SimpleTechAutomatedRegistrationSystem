@@ -1,5 +1,12 @@
 package cx2002grp2.stars;
 
+import cx2002grp2.stars.data.database.CourseDB;
+import cx2002grp2.stars.data.database.CourseIndexDB;
+import cx2002grp2.stars.data.database.RegistrationDB;
+import cx2002grp2.stars.data.database.StudentDB;
+import cx2002grp2.stars.data.database.UserDB;
+import cx2002grp2.stars.data.dataitem.CourseIndex;
+import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.util.OnExitSubject;
 
 /**
@@ -19,10 +26,23 @@ public class MainApp extends OnExitSubject {
 
     private boolean initialized = false;
 
+    /**
+     * 
+     * @param args
+     */
     public void initialize(String[] args) {
+        CourseDB.getDB();
+        CourseIndexDB.getDB();
+        RegistrationDB.getDB();
+        StudentDB.getDB();
+        UserDB.getDB();
+
         initialized = true;
     }
 
+    /**
+     * 
+     */
     public final void run() {
         if (!initialized) {
             throw new RuntimeException("Running MainApp without initialization.");

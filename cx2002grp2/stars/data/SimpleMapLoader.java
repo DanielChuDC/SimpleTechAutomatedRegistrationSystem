@@ -8,7 +8,16 @@ import cx2002grp2.stars.CSV;
 import cx2002grp2.stars.data.converter.Converter;
 import cx2002grp2.stars.data.dataitem.SingleStringKeyItem;
 
+/**
+ * 
+ */
 public class SimpleMapLoader<ItemType extends SingleStringKeyItem> {
+    /**
+     * 
+     * @param inputCsvFilePath
+     * @param outputMap
+     * @param converter
+     */
     public void load(String inputCsvFilePath, Map<String, ItemType> outputMap, Converter<ItemType> converter) {
 
         CSV.Reader input = new CSV.Reader(inputCsvFilePath);
@@ -21,6 +30,12 @@ public class SimpleMapLoader<ItemType extends SingleStringKeyItem> {
         }
     }
 
+    /**
+     * 
+     * @param inputMap
+     * @param outputCsvFilePath
+     * @param converter
+     */
     public void save(Map<String, ItemType> inputMap, String outputCsvFilePath, Converter<ItemType> converter) {
         CSV.Writer output = new CSV.Writer(outputCsvFilePath);
 

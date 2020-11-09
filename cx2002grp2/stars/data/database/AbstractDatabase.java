@@ -16,13 +16,34 @@ public abstract class AbstractDatabase<ItemType> implements OnExitObserver {
         saveData();
     }
 
+    /**
+     * 
+     */
     protected abstract void loadData();
 
+    /**
+     * 
+     */
     protected abstract void saveData();
 
+    /**
+     * 
+     * @param item
+     * @return
+     */
     public abstract boolean add(ItemType item);
 
+    /**
+     * 
+     * @param item
+     * @return
+     */
     public abstract boolean del(ItemType item);
 
+    /**
+     * 
+     * @param item
+     * @return
+     */
     public abstract boolean contains(ItemType item);
 }

@@ -35,10 +35,20 @@ public abstract class SingleStringKeyDatabase<ItemType extends SingleStringKeyIt
         return data.values().iterator();
     }
 
+    /**
+     * 
+     * @param key
+     * @return
+     */
     public ItemType get(String key) {
         return data.get(key);
     }
 
+    /**
+     * 
+     * @param key
+     * @return
+     */
     public boolean del(String key) {
         if (contains(key)) {
             data.remove(key);
@@ -47,10 +57,21 @@ public abstract class SingleStringKeyDatabase<ItemType extends SingleStringKeyIt
         return false;
     }
 
+    /**
+     * 
+     * @param key
+     * @return
+     */
     public boolean contains(String key) {
         return data.containsKey(key);
     }
 
+    /**
+     * 
+     * @param oldKey
+     * @param newKey
+     * @return
+     */
     public boolean changeKey(String oldKey, String newKey) {
         if (this.contains(newKey)) {
             return false;
@@ -68,14 +89,28 @@ public abstract class SingleStringKeyDatabase<ItemType extends SingleStringKeyIt
         return true;
     }
 
+    /**
+     * 
+     * @param oldItem
+     * @param newKey
+     * @return
+     */
     public boolean changeKey(ItemType oldItem, String newKey) {
         return changeKey(oldItem.getKey(), newKey);
     }
 
+    /**
+     * 
+     * @return
+     */
     protected Map<String, ItemType> getDataMap() {
         return this.data;
     }
 
+    /**
+     * 
+     * @param newData
+     */
     protected void setDataMap(Map<String, ItemType> newData) {
         if (data == null) {
             throw new NullPointerException();

@@ -8,6 +8,16 @@ public class CourseDB extends SingleStringKeyDatabase<Course> {
 
     private static final String DB_FILE_PATH = "tables/course.csv";
 
+    private static CourseDB instance = new CourseDB();
+
+    private CourseDB() {
+        loadData();
+    }
+
+    public static CourseDB getDB() {
+        return instance;
+    }
+
     @Override
     protected void loadData() {
         CourseConverter converter = new CourseConverter();
@@ -23,5 +33,5 @@ public class CourseDB extends SingleStringKeyDatabase<Course> {
 
         loader.save(this.getDataMap(), DB_FILE_PATH, converter);
     }
-    
+
 }
