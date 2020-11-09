@@ -14,11 +14,15 @@ public class Student extends User {
 	private String matricNo;
 	private Gender gender;
 	private String fullName;
-    private String nationality;
-    private String email;
-    private String phoneNo;
+	private String nationality;
+	private int yearOfStudy;
+	private String programme;
 	private Set<Registration> registrationList;
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getMatricNo() {
 		return this.matricNo;
 	}
@@ -31,6 +35,10 @@ public class Student extends User {
 		this.matricNo = matricNo;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Gender getGender() {
 		return this.gender;
 	}
@@ -43,6 +51,10 @@ public class Student extends User {
 		this.gender = gender;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getFullName() {
 		return this.fullName;
 	}
@@ -55,6 +67,10 @@ public class Student extends User {
 		this.fullName = fullName;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getNationality() {
 		return this.nationality;
 	}
@@ -67,33 +83,37 @@ public class Student extends User {
 		this.nationality = nationality;
 	}
 
-    /**
-     * 
-     * @return
-     */
-    public String getEmail() {
-        return email;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public int getYearOfStudy() {
+		return yearOfStudy;
+	}
 
-    /**
-     * 
-     * @param email
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	/**
+	 * 
+	 * @param yearOfStudy
+	 */
+	public void setYearOfStudy(int yearOfStudy) {
+		this.yearOfStudy = yearOfStudy;
+	}
 
-    public String getPhoneNo() {
-        return phoneNo;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public String getProgramme() {
+		return programme;
+	}
 
-    /**
-     * 
-     * @param phoneNo
-     */
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
+	/**
+	 * 
+	 * @param programme
+	 */
+	public void setProgramme(String programme) {
+		this.programme = programme;
+	}
 
     /**
      * 

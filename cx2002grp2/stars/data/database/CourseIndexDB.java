@@ -31,18 +31,12 @@ public class CourseIndexDB extends SingleStringKeyDatabase<CourseIndex> {
 
     @Override
     protected void loadData() {
-        CourseIndexConverter converter = new CourseIndexConverter();
-        SimpleMapLoader<CourseIndex> loader = new SimpleMapLoader<CourseIndex>();
-
-        loader.load(DB_FILE_PATH, this.getDataMap(), converter);
+        // TODO - implement method
     }
 
     @Override
     protected void saveData() {
-        CourseIndexConverter converter = new CourseIndexConverter();
-        SimpleMapLoader<CourseIndex> loader = new SimpleMapLoader<CourseIndex>();
-
-        loader.save(this.getDataMap(), DB_FILE_PATH, converter);
+        // TODO - implement method
     }
 
 }

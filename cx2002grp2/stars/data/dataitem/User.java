@@ -12,6 +12,8 @@ public class User extends SingleStringKeyItem {
     private String username;
     private String hashedPassword;
     private User.Domain domain;
+    private String email;
+    private String phoneNo;
 
     @Override
     public String getKey() {
@@ -60,7 +62,41 @@ public class User extends SingleStringKeyItem {
      * @param domain
      */
     public void setDomain(Domain domain) {
-        // TODO - implement User.setDomain
-        throw new UnsupportedOperationException();
+        this.domain = domain;
     }
+
+    
+    /**
+     * 
+     * @return
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * 
+     * @param email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+	/**
+	 * 
+	 * @return
+	 */
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    /**
+     * 
+     * @param phoneNo
+     */
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+
 }
