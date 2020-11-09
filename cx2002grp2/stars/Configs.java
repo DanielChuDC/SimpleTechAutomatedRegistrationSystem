@@ -87,6 +87,15 @@ public class Configs extends SingleStringKeyDatabase<Configs.OneConfig> {
 		// TODO - implement Configs.setSystemEmailPasswd
     }
 
+    public static int getMaxAu() {
+        // TODO - implement method
+        return 23;
+    }
+
+    public static void setMaxAu(int newAu) {
+        // TODO - implement method
+    }
+
 	protected void loadData() {
 		// TODO - implement Configs.loadData
 	}
