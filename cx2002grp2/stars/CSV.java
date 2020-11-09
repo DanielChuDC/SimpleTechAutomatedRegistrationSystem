@@ -298,19 +298,23 @@ public class CSV {
         /**
          * Parse a csv field quoted by the escape character.
          * <p>
-         * The beginning and ending escape character will be removed. All the two
+         * The beginning and ending escape character will be removed. Any two
          * consecutive escape characters in the field will be transformed into in one
          * escape character. All the other character in between will be reserved.
          * 
          * @param line the csv row where the field is in.
          * @param beg  the beginning position of csv field.
          * @return The parsed field.
+         * @throws IllegalArgumentException The format of the input field is illegal.
          */
         private ReadFieldResult parseQuotedField(String line, int beg) {
             int i = nextNonBlank(line, beg);
 
-            assert line.charAt(i) == escapeChar
-                    : "The input feild is not quoted by expected character (" + escapeChar + ")";
+            if (line.charAt(i) != escapeChar) {
+                throw new IllegalArgumentException(
+                        "The input feild is not quoted by expected character (" + escapeChar + ")");
+            }
+
             ++i;
             StringBuilder builder = new StringBuilder();
             boolean closed = false;
@@ -344,6 +348,7 @@ public class CSV {
          * @param line the csv row where the field is in.
          * @param beg  the beginning position of csv field.
          * @return The parsed field.
+         * @throws IllegalArgumentException The format of the input field is illegal.
          */
         private ReadFieldResult parseNormalField(String line, int beg) {
             beg = nextNonBlank(line, beg);
@@ -442,8 +447,22 @@ public class CSV {
             this.hasHeader = hasHeader;
         }
 
-        public <StringIterable extends Iterable<String>>
-        void writeBoth(Iterable<String> header, Iterable<StringIterable> data) {
+        /**
+         * Write both header and data into the csv file.
+         * <p>
+         * If @param header is null, the new csv file will has no header and hasHeader()
+         * will return false after writing. Otherwise, the new csv file will has header
+         * and hasHeader() will return true.
+         * <p>
+         * If the @param data is null, the new csv file will has no any data.
+         * 
+         * @param <StringIterable> The type inner string iterable of the 2D-Iterable.
+         * @param header           The header of new csv file
+         * @param data             A 2D-Iterable of String that representing the data of
+         *                         table to be written.
+         */
+        public <StringIterable extends Iterable<String>> void writeBoth(Iterable<String> header,
+                Iterable<StringIterable> data) {
             PrintStream printer = getPrinter();
 
             if (header != null) {
@@ -462,15 +481,27 @@ public class CSV {
             printer.close();
         }
 
-        public <StringIterable extends Iterable<String>>
-        void writeData(Iterable<StringIterable> data) {
+        /**
+         * Write the data in a 2D-Iterable into the csv file and reserve the original
+         * header.
+         * <p>
+         * If the @param data is null, the new csv file will has no any data.
+         * 
+         * @param <StringIterable> The type inner string iterable of the 2D-Iterable.
+         * @param data             The data to be written into csv file.
+         */
+        public <StringIterable extends Iterable<String>> void writeData(Iterable<StringIterable> data) {
             Reader reader = this.toReader();
             List<String> header = reader.readHeader();
             writeBoth(header, data);
         }
 
         /**
-         * Doc
+         * Write the new header into csv file and reserve the original data.
+         * <p>
+         * If @param header is null, the new csv file will has no header and hasHeader()
+         * will return false after writing. Otherwise, the new csv file will has header
+         * and hasHeader() will return true.
          * 
          * @param header
          */
@@ -480,34 +511,78 @@ public class CSV {
             writeBoth(header, data);
         }
 
+        /**
+         * Convert the csv writer to the corresponding csv reader.
+         * 
+         * @return a csv reader with the same related csv file, header setting, parsing
+         *         delimiter and parsing escape character.
+         */
         public Reader toReader() {
             return new Reader(csvFile.getName(), hasHeader, delimiter, escapeChar);
         }
 
+        /**
+         * Get the delimiter used to parse the csv file.
+         * 
+         * @return The delimiter used to parse the csv file
+         */
         public char delimiter() {
             return this.delimiter;
         }
 
+        /**
+         * Get the escaping character used to parse the csv file.
+         * 
+         * @return the escaping character used to parse the csv file.
+         */
         public char escapeChar() {
             return this.escapeChar;
         }
 
+        /**
+         * Get the file path that the csv writer going to write.
+         * 
+         * @return the file path that the csv writer going to write.
+         */
         public String filePath() {
             return this.csvFile.getName();
         }
 
+        /**
+         * Get whether the csv has header.
+         * 
+         * @return Whether the csv has header.
+         */
         public boolean hasHeader() {
             return this.hasHeader;
         }
 
+        /**
+         * Convert a string to a csv field format.
+         * <p>
+         * If the field contains neither delimeter nor escaping character, and has no
+         * white space character at the beginning or the end, the original string will
+         * be returned.
+         * <p>
+         * Otherwise, the string will be converted into csv field format. That is, a
+         * escaping character will be prepended at the beginning of the field, another
+         * one will be appended at the end, any single escaping character in the
+         * original text will be transformed into two consecutive escaping characters.
+         * 
+         * @param str the string to be transformed.
+         * @return The string in csv format.
+         */
         private String csvFormatStr(String str) {
-            assert str.indexOf('\n') == -1 : "CSV formater does not support multiple line field.";
+            if (str.indexOf('\n') != -1) {
+                throw new IllegalArgumentException("Multiple-line field is not supported.");
+            }
 
             if (str.length() == 0) {
                 return str;
             }
 
-            if (str.indexOf(delimiter) != -1 || str.indexOf(escapeChar) != -1) {
+            if (str.indexOf(delimiter) != -1 || str.indexOf(escapeChar) != -1 || Character.isWhitespace(str.charAt(0))
+                    || Character.isWhitespace(str.charAt(str.length() - 1))) {
 
                 StringBuilder builder = new StringBuilder(str.length() + 2);
                 builder.append(escapeChar);
@@ -525,6 +600,16 @@ public class CSV {
             return str;
         }
 
+        /**
+         * Convert a series of Strings in to a csv row.
+         * <p>
+         * That is, all the string fields are converted into csv format and concatenated
+         * together; deleimeters are inserted between every two consecutive converted
+         * fields.
+         * 
+         * @param row the series of strings to be converted.
+         * @return a csv format row
+         */
         private String convertRow(Iterable<String> row) {
             StringBuilder builder = new StringBuilder();
             boolean firstField = true;
@@ -537,6 +622,10 @@ public class CSV {
             return builder.toString();
         }
 
+        /**
+         * Get the printer of the csv file for output.
+         * @return
+         */
         private PrintStream getPrinter() {
             PrintStream printer;
 
