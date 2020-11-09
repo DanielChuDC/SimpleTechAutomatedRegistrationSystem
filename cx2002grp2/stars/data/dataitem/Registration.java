@@ -10,6 +10,7 @@ public class Registration {
     public enum Status { REGISTERED, WAITLIST, EXAMPED }
     
 	private Student student;
+	private Course course;
 	private CourseIndex courseIndex;
 	private LocalDateTime registerDateTime;
 	private Registration.Status status;
@@ -18,8 +19,16 @@ public class Registration {
         return this.student;
 	}
 
+	public Course getCourse() {
+		return this.course;
+	}
+
 	public CourseIndex getCourseIndex() {
         return this.courseIndex;
+	}
+
+	public void setCourseIndex(CourseIndex courseIndex) {
+		this.courseIndex = courseIndex;
 	}
 
 	public LocalDateTime getRegisterDateTime() {
