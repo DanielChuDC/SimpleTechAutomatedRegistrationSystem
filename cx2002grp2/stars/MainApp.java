@@ -5,8 +5,6 @@ import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.database.RegistrationDB;
 import cx2002grp2.stars.data.database.StudentDB;
 import cx2002grp2.stars.data.database.UserDB;
-import cx2002grp2.stars.data.dataitem.CourseIndex;
-import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.util.OnExitSubject;
 
 /**
