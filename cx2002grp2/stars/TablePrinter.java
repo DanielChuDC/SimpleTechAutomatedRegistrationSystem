@@ -15,7 +15,7 @@ public class TablePrinter {
 	 * 
 	 * @param student
 	 */
-	public void printStudentBrief(Student student) {
+	public static void printStudentBrief(Student student) {
 
 	}
 
@@ -31,7 +31,7 @@ public class TablePrinter {
 	 * 
 	 * @param student
 	 */
-	public void printStudentAndReg(Student student) {
+	public static void printStudentAndReg(Student student) {
 
 	}
 
@@ -49,7 +49,7 @@ public class TablePrinter {
 	 * 
 	 * @param index
 	 */
-	public void printIndexAndSchedule(CourseIndex index) {
+	public static void printIndexAndSchedule(CourseIndex index) {
 
 	}
 
@@ -64,7 +64,7 @@ public class TablePrinter {
 	 * 
 	 * @param registration
 	 */
-	public void printRegDetail(Registration registration) {
+	public static void printRegDetail(Registration registration) {
 
 	}
 
@@ -77,7 +77,7 @@ public class TablePrinter {
 	 * 
 	 * @param regs
 	 */
-	public void printStudentInRegList(Iterable<Registration> regs) {
+	public static void printStudentInRegList(Iterable<Registration> regs) {
 
 	}
 
