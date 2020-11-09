@@ -1,10 +1,12 @@
 package cx2002grp2.stars.data.dataitem;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * 
@@ -16,6 +18,14 @@ public class CourseIndex extends SingleStringKeyItem {
 	private int maxVacancy;
 	private List<Schedule> scheduleList;
 	private SortedSet<Registration> registrationList;
+
+	public CourseIndex(String indexNo, Course course, int maxVacancy) {
+		this.indexNo = indexNo;
+		this.course = course;
+		this.maxVacancy = maxVacancy;
+		this.scheduleList = new ArrayList<>();
+		this.registrationList = new TreeSet<>();
+	}
 
     @Override
 	public String getKey() {
@@ -158,5 +168,5 @@ public class CourseIndex extends SingleStringKeyItem {
         // TODO - implement CourseIndex.delRegistration
         return false;
 	}
-
+	
 }

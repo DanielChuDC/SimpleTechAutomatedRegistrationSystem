@@ -3,11 +3,13 @@ package cx2002grp2.stars.data.dataitem;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Schedule
  */
 public class Schedule {
+	
     public enum ClassType { LEC, TUT, SEM, LAB, DES, PRJ }
     
 	private CourseIndex courseIndex;
@@ -19,6 +21,18 @@ public class Schedule {
 	private LocalTime beginTime;
 	private LocalTime endTime;
 	private Set<Integer> teachingWeeks;
+
+	public Schedule(CourseIndex courseIndex, ClassType classType, String group, DayOfWeek dayOfWeek, String venue, String remark, LocalTime beginTime, LocalTime endTime) {
+		this.courseIndex = courseIndex;
+		this.classType = classType;
+		this.group = group;
+		this.dayOfWeek = dayOfWeek;
+		this.venue = venue;
+		this.remark = remark;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
+		this.teachingWeeks = new TreeSet<>();
+	}
 
     /**
      * 

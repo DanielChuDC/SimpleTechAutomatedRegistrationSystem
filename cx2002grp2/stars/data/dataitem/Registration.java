@@ -12,7 +12,15 @@ public class Registration {
 	private Student student;
 	private CourseIndex courseIndex;
 	private LocalDateTime registerDateTime;
-	private Registration.Status status;
+	private Status status;
+
+	public Registration(Student student, CourseIndex courseIndex, LocalDateTime registerDateTime, Status status) {
+		this.student = student;
+		this.courseIndex = courseIndex;
+		this.registerDateTime = registerDateTime;
+		this.status = status;
+	}
+	
 
 	public Student getStudent() {
         return this.student;

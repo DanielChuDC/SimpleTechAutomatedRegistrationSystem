@@ -15,8 +15,16 @@ public class User extends SingleStringKeyItem {
     private String email;
     private String phoneNo;
 
-    public User(User another) {
-        // TODO - implement method
+    public User(User other) {
+        this(other.username, other.hashedPassword, other.domain, other.email, other.phoneNo);
+    }
+
+    public User(String username, String hashedPassword, User.Domain domain, String email, String phoneNo) {
+        this.username = username;
+        this.hashedPassword = hashedPassword;
+        this.domain = domain;
+        this.email = email;
+        this.phoneNo = phoneNo;
     }
 
     @Override

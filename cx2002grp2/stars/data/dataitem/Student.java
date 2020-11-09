@@ -1,6 +1,7 @@
 package cx2002grp2.stars.data.dataitem;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -18,6 +19,18 @@ public class Student extends User {
 	private int yearOfStudy;
 	private String programme;
 	private Set<Registration> registrationList;
+
+	public Student(User user, String matricNo, Gender gender, String fullName, String nationality, int yearOfStudy, String programme) {
+		super(user);
+
+		this.matricNo = matricNo;
+		this.gender = gender;
+		this.fullName = fullName;
+		this.nationality = nationality;
+		this.yearOfStudy = yearOfStudy;
+		this.programme = programme;
+		this.registrationList = new HashSet<>();
+	}
 
 	/**
 	 * 

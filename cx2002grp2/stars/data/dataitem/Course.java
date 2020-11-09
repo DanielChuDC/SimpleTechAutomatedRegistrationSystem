@@ -1,6 +1,7 @@
 package cx2002grp2.stars.data.dataitem;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -9,10 +10,18 @@ import java.util.Set;
 public class Course extends SingleStringKeyItem {
     
 	private String courseCode;
-	private Set<CourseIndex> indexList;
 	private String courseName;
 	private String school;
 	private double au;
+	private Set<CourseIndex> indexList;
+
+	public Course(String courseCode, String courseName, String school, double au) {
+		this.courseCode = courseCode;
+		this.courseName = courseName;
+		this.school = school;
+		this.au = au;
+		this.indexList = new HashSet<>();
+	}
 
     @Override
 	public String getKey() {
