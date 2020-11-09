@@ -15,6 +15,10 @@ public class User extends SingleStringKeyItem {
     private String email;
     private String phoneNo;
 
+    public User(User another) {
+        // TODO - implement method
+    }
+
     @Override
     public String getKey() {
         return getUsername();

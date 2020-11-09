@@ -50,11 +50,11 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
 
 	/**
 	 * 
-	 * @param courseCode
+	 * @param indexNo
 	 * @param username
 	 */
-	public Registration getByCourseCode(String courseCode, String username) {
-        // TODO - implement method
+	public Registration get(String indexNo, String username) {
+        // TODO - implement RegistrationDB.get
         return null;
 	}
 
@@ -63,9 +63,19 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
 	 * @param indexNo
 	 * @param username
 	 */
-	public Registration getByCourseIndex(String indexNo, String username) {
-        // TODO - implement method
-        return null;
+	public boolean del(String indexNo, String username) {
+		// TODO - implement RegistrationDB.del
+        return false;
+	}
+
+	/**
+	 * 
+	 * @param indexNo
+	 * @param username
+	 */
+	public boolean contains(String indexNo, String username) {
+        // TODO - implement RegistrationDB.contains
+        return false;
 	}
 
 	/**
