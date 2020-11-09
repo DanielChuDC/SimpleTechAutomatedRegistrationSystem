@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CLASSPATH=".:javax/mail.jar:javax/activation.jar:"
+export CLASSPATH="$CLASSPATH.:javax/mail.jar:javax/activation.jar:"
 
 echo Compiling...
 javac App.java

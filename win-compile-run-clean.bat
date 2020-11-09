@@ -1,6 +1,6 @@
 @echo off
 
-set CLASSPATH=".;javax\mail.jar;javax\activation.jar";
+set CLASSPATH="%CLASSPATH%.;javax\mail.jar;javax\activation.jar;";
 echo %CLASSPATH%
 
 echo Compiling...
