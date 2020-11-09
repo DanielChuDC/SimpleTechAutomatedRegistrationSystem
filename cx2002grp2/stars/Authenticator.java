@@ -16,7 +16,6 @@ import cx2002grp2.stars.functions.Function;
 public class Authenticator {
     /**
      * 
-     * @param useDomain
      * @return
      */
     public User login() {
@@ -35,6 +34,7 @@ public class Authenticator {
     /**
      * 
      * @param user
+     * @return
      */
     public List<Function> accessibleFunctions(User user) {
         return new ArrayList<>();

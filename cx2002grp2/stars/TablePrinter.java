@@ -56,7 +56,7 @@ public class TablePrinter {
 	/**
 	 * Print a registration, including:
 	 * <ul>
-	 * <li>Print student's username & full name
+	 * <li>Print student's username and full name
 	 * <li>Print course index number, course name
 	 * <li>Print course schedule in table manner
 	 * <li>Print registration state
@@ -75,7 +75,7 @@ public class TablePrinter {
 	 * <p>
 	 * Each row contains the username, gender and nationality of a student.
 	 * 
-	 * @param student
+	 * @param regs
 	 */
 	public void printStudentInRegList(Iterable<Registration> regs) {
 

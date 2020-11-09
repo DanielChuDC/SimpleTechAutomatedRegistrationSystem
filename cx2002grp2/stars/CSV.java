@@ -624,7 +624,15 @@ public class CSV {
 
         /**
          * Get the printer of the csv file for output.
-         * @return
+         * 
+         * @return the printer binding to the csv file to be written.
+         * @exception RuntimeException If the given file object does not denote an
+         *                             existing, writable regular file and a new regular
+         *                             file of that name cannot be created, or if some
+         *                             other error occurs while opening or creating the
+         *                             file, FileNotFoundException will be thrown from
+         *                             FileInputStream constructor and will be degraded
+         *                             and propegated as RuntimeException
          */
         private PrintStream getPrinter() {
             PrintStream printer;
