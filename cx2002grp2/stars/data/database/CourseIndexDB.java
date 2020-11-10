@@ -2,8 +2,7 @@ package cx2002grp2.stars.data.database;
 
 import java.util.ArrayList;
 
-import cx2002grp2.stars.data.SimpleMapLoader;
-import cx2002grp2.stars.data.converter.CourseIndexConverter;
+import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;;
 
 public class CourseIndexDB extends SingleStringKeyDatabase<CourseIndex> {
@@ -14,10 +13,16 @@ public class CourseIndexDB extends SingleStringKeyDatabase<CourseIndex> {
 
     private CourseIndexDB() {
         loadData();
+
+        CourseDB.getDB().addOnItemDeletedObserver(this::doOnCourseDeleted);
     }
 
     public static CourseIndexDB getDB() {
         return instance;
+    }
+
+    private void doOnCourseDeleted(Course deletedCourse) {
+        deletedCourse.getIndexList().forEach((deletedIndex)->del(deletedIndex));
     }
 
     /**

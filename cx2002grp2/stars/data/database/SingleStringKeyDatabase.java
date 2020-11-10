@@ -1,13 +1,17 @@
 package cx2002grp2.stars.data.database;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import cx2002grp2.stars.data.database.event_handler.OnKeyChangedObserver;
+import cx2002grp2.stars.data.database.event_handler.OnKeyChangedSubject;
 import cx2002grp2.stars.data.dataitem.SingleStringKeyItem;
 
 public abstract class SingleStringKeyDatabase<ItemType extends SingleStringKeyItem> extends AbstractDatabase<ItemType>
-        implements Iterable<ItemType> {
+        implements OnKeyChangedSubject<String, ItemType> {
     private Map<String, ItemType> data = new HashMap<>();
 
     @Override
@@ -17,6 +21,7 @@ public abstract class SingleStringKeyDatabase<ItemType extends SingleStringKeyIt
         }
 
         data.put(item.getKey(), item);
+        signalItemAdded(item);
         return true;
     }
 
@@ -51,7 +56,8 @@ public abstract class SingleStringKeyDatabase<ItemType extends SingleStringKeyIt
      */
     public boolean del(String key) {
         if (contains(key)) {
-            data.remove(key);
+            ItemType deletedItem = data.remove(key);
+            signalItemDeleted(deletedItem);
             return true;
         }
         return false;
@@ -82,9 +88,12 @@ public abstract class SingleStringKeyDatabase<ItemType extends SingleStringKeyIt
         }
 
         ItemType item = get(oldKey);
-        del(oldKey);
+
+        data.remove(oldKey);
         item.setKey(newKey);
-        add(item);
+        data.put(item.getKey(), item);
+
+        signalKeyChanged(oldKey, item);
 
         return true;
     }
@@ -116,5 +125,21 @@ public abstract class SingleStringKeyDatabase<ItemType extends SingleStringKeyIt
             throw new NullPointerException();
         }
         this.data = newData;
+    }
+    
+    private Collection<OnKeyChangedObserver<? super String, ? super ItemType>> onKeyChangedObservers = new HashSet<>();
+
+    @Override
+    public void addOnKeyChangedObserver(OnKeyChangedObserver<? super String, ? super ItemType> observer) {
+        onKeyChangedObservers.add(observer);
+    }
+
+    @Override
+    public void delOnKeyChangedObserver(OnKeyChangedObserver<? super String, ? super ItemType> observer) {
+        onKeyChangedObservers.remove(observer);
+    }
+
+    protected void signalKeyChanged(String newKey, ItemType oldItem) {
+        onKeyChangedObservers.forEach(ob -> ob.doOnKeyChange(newKey, oldItem));
     }
 }

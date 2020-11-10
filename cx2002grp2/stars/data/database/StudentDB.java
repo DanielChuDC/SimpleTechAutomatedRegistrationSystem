@@ -10,7 +10,10 @@ public class StudentDB extends SingleStringKeyDatabase<Student> {
 	private static StudentDB instance = new StudentDB();
 
 	private StudentDB() {
-        loadData();
+		loadData();
+		
+		UserDB.getDB().addOnKeyChangedObserver((oldKey, newUser)->changeKey(oldKey, newUser.getKey()));
+		UserDB.getDB().addOnItemDeletedObserver(this::doOnUserDeleted);
 	}
 
 	public static StudentDB getDB() {
@@ -24,6 +27,16 @@ public class StudentDB extends SingleStringKeyDatabase<Student> {
 	public Student getFromUser(User user) {
         // TODO - implement StudentDB.getFromUser
         return null;
+	}
+	
+	/**
+	 * 
+	 * @param deletedUser
+	 */
+	private void doOnUserDeleted(User deletedUser) {
+		if (this.contains(deletedUser.getKey())) {
+			this.del(deletedUser.getKey());
+		}
 	}
 
 	protected void loadData() {

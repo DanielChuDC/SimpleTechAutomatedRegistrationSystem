@@ -1,16 +1,20 @@
 package cx2002grp2.stars;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import cx2002grp2.stars.data.database.CourseDB;
 import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.database.RegistrationDB;
 import cx2002grp2.stars.data.database.StudentDB;
 import cx2002grp2.stars.data.database.UserDB;
+import cx2002grp2.stars.util.OnExitObserver;
 import cx2002grp2.stars.util.OnExitSubject;
 
 /**
  * MainApp
  */
-public class MainApp extends OnExitSubject {
+public class MainApp implements OnExitSubject {
 
     private static final MainApp app = new MainApp();
 
@@ -64,5 +68,22 @@ public class MainApp extends OnExitSubject {
         app.initialize(args);
         app.run();
         System.out.println("Program end");
+    }
+
+    
+    Set<OnExitObserver> onExitbservers = new HashSet<>();
+
+    @Override
+    public void addOnExitObserver(OnExitObserver observer) {
+        this.onExitbservers.add(observer);
+    }
+
+    @Override
+    public void delOnExitObserver(OnExitObserver observer) {
+        this.onExitbservers.remove(observer);
+    }
+
+    private void signalOnExit() {
+        onExitbservers.forEach(ob->ob.doOnExit());
     }
 }
