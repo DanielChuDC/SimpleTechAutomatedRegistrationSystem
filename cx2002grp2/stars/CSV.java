@@ -65,11 +65,12 @@ public class CSV {
         }
 
         /**
-         * Construct csv reader to read the csv file with given filePath.
+         * Construct csv reader to read the csv file with given filePath and header
+         * setting.
          * <p>
-         * If hasHeader is true, the first line of csv file will be regarded as header
-         * row. Otherwise, the first line of csv file will be treated as normal data
-         * row.
+         * If hasHeader is true, the first line of csv file will be regarded as
+         * header row. Otherwise, the first line of csv file will be treated as normal
+         * data row.
          * 
          * @param filePath  the path to the csv file to be read
          * @param hasHeader whether the csv file has header
@@ -79,11 +80,12 @@ public class CSV {
         }
 
         /**
-         * Construct csv reader to read the csv file with given filePath.
+         * Construct csv reader to read the csv file with given filePath, header
+         * setting, delimeter and escaping character.
          * <p>
-         * If hasHeader is true, the first line of csv file will be regarded as header
-         * row. Otherwise, the first line of csv file will be treated as normal data
-         * row.
+         * If hasHeader is true, the first line of csv file will be regarded as
+         * header row. Otherwise, the first line of csv file will be treated as normal
+         * data row.
          * 
          * @param filePath   the path to the csv file to be read
          * @param hasHeader  whether the csv file has header
@@ -415,11 +417,12 @@ public class CSV {
         }
 
         /**
-         * Construct csv writer to write the csv file with given filePath.
+         * Construct csv writer to write the csv file with given filePath and header
+         * setting.
          * <p>
-         * If hasHeader is true, the first line of csv file will be regarded as header
-         * row. Otherwise, the first line of csv file will be treated as normal data
-         * row.
+         * If hasHeader is true, the first line of csv file will be regarded as
+         * header row. Otherwise, the first line of csv file will be treated as normal
+         * data row.
          * 
          * @param filePath  the path to the csv file to be read
          * @param hasHeader whether the csv file has header
@@ -429,11 +432,12 @@ public class CSV {
         }
 
         /**
-         * Construct csv writer to write the csv file with given filePath.
+         * Construct csv writer to write the csv file with given filePath, header
+         * setting, delimeter and escaping character.
          * <p>
-         * If hasHeader is true, the first line of csv file will be regarded as header
-         * row. Otherwise, the first line of csv file will be treated as normal data
-         * row.
+         * If hasHeader is true, the first line of csv file will be regarded as
+         * header row. Otherwise, the first line of csv file will be treated as normal
+         * data row.
          * 
          * @param filePath   the path to the csv file to be read
          * @param hasHeader  whether the csv file has header
@@ -450,19 +454,19 @@ public class CSV {
         /**
          * Write both header and data into the csv file.
          * <p>
-         * If @param header is null, the new csv file will has no header and hasHeader()
+         * If header is null, the new csv file will has no header and {@link hasHeader()}
          * will return false after writing. Otherwise, the new csv file will has header
-         * and hasHeader() will return true.
+         * and {@link hasHeader()} will return true.
          * <p>
-         * If the @param data is null, the new csv file will has no any data.
+         * If the data is null, the new csv file will has no any data.
          * 
          * @param <StringIterable> The type inner string iterable of the 2D-Iterable.
          * @param header           The header of new csv file
          * @param data             A 2D-Iterable of String that representing the data of
          *                         table to be written.
          */
-        public <StringIterable extends Iterable<String>> void writeBoth(Iterable<String> header,
-                Iterable<StringIterable> data) {
+        public <StringIterable extends Iterable<String>> 
+        void writeBoth(Iterable<String> header, Iterable<StringIterable> data) {
             PrintStream printer = getPrinter();
 
             if (header != null) {
@@ -485,7 +489,7 @@ public class CSV {
          * Write the data in a 2D-Iterable into the csv file and reserve the original
          * header.
          * <p>
-         * If the @param data is null, the new csv file will has no any data.
+         * If the data is null, the new csv file will has no any data.
          * 
          * @param <StringIterable> The type inner string iterable of the 2D-Iterable.
          * @param data             The data to be written into csv file.
@@ -499,9 +503,9 @@ public class CSV {
         /**
          * Write the new header into csv file and reserve the original data.
          * <p>
-         * If @param header is null, the new csv file will has no header and hasHeader()
+         * If header is null, the new csv file will has no header and {@link hasHeader()}
          * will return false after writing. Otherwise, the new csv file will has header
-         * and hasHeader() will return true.
+         * and {@link hasHeader()} will return true.
          * 
          * @param header
          */
