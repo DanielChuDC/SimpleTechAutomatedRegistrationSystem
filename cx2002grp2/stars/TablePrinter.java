@@ -5,31 +5,34 @@ import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
 
 /**
- * TablePrinter
+ * Printer for well structured information.
+ * <p>
+ * The printer may assume that the console has a width of at least 100
+ * characters.
  */
 public class TablePrinter {
 
 	/**
 	 * Print student's basic infomation, including username, matric No, full name,
-	 * programme, years of study.
+	 * programme, years of study in at most 2 lines.
 	 * 
-	 * @param student
+	 * @param student the student to be printed
 	 */
 	public static void printStudentBrief(Student student) {
 
 	}
 
 	/**
-	 * Print student and all its registration, include:
+	 * Print student and all its registration, including:
 	 * <ul>
-	 * <li>Print student's username, full name
-	 * <li>Print total AU
-	 * <li>Print all his registration in table manner
+	 * <li>Print student's username, full name and his total AU in one row.
+	 * <li>If no registrations are available, print hinting message.
+	 * <li>Print all his registration in table manner.
 	 * <li>Registration table needs a header
-	 * <li>Each row of table includes: course code, AU, course index, registration state
+	 * <li>Each row includes: course code, course index, registration state and AU
 	 * </ul>
 	 * 
-	 * @param student
+	 * @param student the student whose information and registrations are printed.
 	 */
 	public static void printStudentAndReg(Student student) {
 
@@ -38,12 +41,11 @@ public class TablePrinter {
 	/**
 	 * Print a index and its schedule, including:
 	 * <ul>
-	 * <li>Print course index number, course name, school
-	 * <li>Print available vaccecy number
-	 * <li>Print number of people in waitlist
+	 * <li>Print school, course code and course name in one row
+	 * <li>Print course index number, available vaccecy number and waitlist length in one row
 	 * <li>Print course schedule in table manner
 	 * <li>The schedule table needs a header
-	 * <li>Each row of table includes: class type, group, day of week, begin and end
+	 * <li>Each row of table includes: class type, group, day of week, begin and end time, remark
 	 * time, venue and remark
 	 * </ul>
 	 * 
@@ -56,10 +58,11 @@ public class TablePrinter {
 	/**
 	 * Print a registration, including:
 	 * <ul>
-	 * <li>Print student's username and full name
-	 * <li>Print course index number, course name
+	 * <li>Print student's username, course code and course index number in one row
+	 * <li>Print registration state, available vaccecy number and waitlist length in one row
 	 * <li>Print course schedule in table manner
-	 * <li>Print registration state
+	 * <li>The schedule table needs a header
+	 * <li>Each row of table includes: class type, group, day of week, begin and end time, remark
 	 * </ul>
 	 * 
 	 * @param registration
