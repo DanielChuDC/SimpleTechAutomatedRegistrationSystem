@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
-import cx2002grp2.stars.data.database.event_handler.OnKeyChangedObserver;
 import cx2002grp2.stars.data.dataitem.SingleKeyItem;
 
 public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends SingleKeyItem<KeyType>>
@@ -58,17 +57,18 @@ public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends Single
 
     @Override
     public ItemType getByKey(KeyType key) {
+        Objects.requireNonNull(key);
+        
         return data.get(key);
     }
 
     @Override
-    public boolean delByKey(KeyType key) {
-        if (hasKey(key)) {
-            ItemType deletedItem = data.remove(key);
-            signalItemDeleted(deletedItem);
-            return true;
-        }
-        return false;
+    public ItemType delByKey(KeyType key) {
+        Objects.requireNonNull(key);
+
+        ItemType deletedItem = data.remove(key);
+
+        return deletedItem;
     }
 
     @Override

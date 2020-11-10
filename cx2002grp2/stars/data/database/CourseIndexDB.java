@@ -12,7 +12,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
 
     private static CourseIndexDB instance = new CourseIndexDB();
 
-    private CourseIndexDB() {
+    protected CourseIndexDB() {
         loadData();
 
         CourseDB.getDB().addOnItemDeletedObserver(this::doOnCourseDeleted);

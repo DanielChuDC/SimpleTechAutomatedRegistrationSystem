@@ -1,9 +1,21 @@
 package cx2002grp2.stars.data.database;
 
-import cx2002grp2.stars.data.database.event_handler.OnItemAddedSubject;
-import cx2002grp2.stars.data.database.event_handler.OnItemDeletedSubject;
 import cx2002grp2.stars.util.OnExitObserver;
 
+/**
+ * Common interface for all the database.
+ * <p>
+ * A database represent a set of data item. The data item can be added into, and
+ * deleted from the database. Checking the size of database and checking if a
+ * data item exists in the database are also supported.
+ * <p>
+ * The database support iterating by impelmenting {@link Iterable}
+ * <p>
+ * TODO - Finish Doc
+ * 
+ * @param <ItemType> The data type of item stored by the database.
+ * @see cx2002grp2.stars.data.dataitem
+ */
 public interface Database<ItemType>
         extends OnExitObserver, OnItemDeletedSubject<ItemType>, OnItemAddedSubject<ItemType>, Iterable<ItemType> {
     /**
@@ -40,7 +52,7 @@ public interface Database<ItemType>
     /**
      * The size of the database.
      * 
-     * @return the number of items in the database (>= 0).
+     * @return the number of items in the database (&gt;= 0).
      */
     public abstract int size();
 }

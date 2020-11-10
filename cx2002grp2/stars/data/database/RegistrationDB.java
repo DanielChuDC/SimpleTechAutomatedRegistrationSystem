@@ -19,7 +19,7 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
         return instance;
     }
 
-    private RegistrationDB() {
+    protected RegistrationDB() {
         loadData();
 
         StudentDB.getDB().addOnItemDeletedObserver(this::doOnStudentDeleted);

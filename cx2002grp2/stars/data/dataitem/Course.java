@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * 
  */
-public class Course extends SingleKeyItem<String> {
+public class Course implements SingleKeyItem<String> {
     
 	private String courseCode;
 	private String courseName;

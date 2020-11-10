@@ -1,4 +1,4 @@
-package cx2002grp2.stars.data.database.event_handler;
+package cx2002grp2.stars.data.database;
 
 @FunctionalInterface
 public interface OnItemAddedObserver<ItemType> {

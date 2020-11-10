@@ -3,7 +3,6 @@ package cx2002grp2.stars.data.database;
 import java.util.Iterator;
 import java.util.Objects;
 
-import cx2002grp2.stars.data.database.event_handler.OnKeyChangedObserver;
 import cx2002grp2.stars.data.dataitem.Student;
 import cx2002grp2.stars.data.dataitem.User;
 
@@ -13,7 +12,7 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 
 	private static StudentDB instance = new StudentDB();
 
-	private StudentDB() {
+	protected StudentDB() {
 		loadData();
 	}
 

@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import cx2002grp2.stars.MainApp;
-import cx2002grp2.stars.data.database.event_handler.OnItemAddedObserver;
-import cx2002grp2.stars.data.database.event_handler.OnItemDeletedObserver;
 
 /**
  * 

@@ -8,7 +8,7 @@ public class UserDB extends AbstractSingleKeyDatabase<String, User> {
 
     private static UserDB instance = new UserDB();
 
-    private UserDB() {
+    protected UserDB() {
         loadData();
     }
 

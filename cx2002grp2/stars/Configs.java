@@ -113,7 +113,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     /**
      * 
      */
-    public static class OneConfig extends SingleKeyItem<String> implements Entry<String, Object> {
+    public static class OneConfig implements SingleKeyItem<String>, Entry<String, Object> {
         private String key;
         private Object value;
 

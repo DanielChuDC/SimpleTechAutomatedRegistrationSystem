@@ -10,7 +10,7 @@ import java.util.TreeSet;
 /**
  * 
  */
-public class CourseIndex extends SingleKeyItem<String> {
+public class CourseIndex implements SingleKeyItem<String> {
     
 	private String indexNo;
 	private Course course;

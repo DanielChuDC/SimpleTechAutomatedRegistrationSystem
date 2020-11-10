@@ -3,7 +3,7 @@ package cx2002grp2.stars.data.dataitem;
 /**
  * User
  */
-public class User extends SingleKeyItem<String> {
+public class User implements SingleKeyItem<String> {
 
     public enum Domain {
         STUDENT, STAFF

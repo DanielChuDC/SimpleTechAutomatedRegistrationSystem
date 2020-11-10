@@ -1,7 +1,7 @@
 package cx2002grp2.stars.data.database;
 
 import cx2002grp2.stars.data.converter.Converter;
-import cx2002grp2.stars.data.converter.CourseConverter;
+import cx2002grp2.stars.data.converter.ConverterFactory;
 import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.SimpleDatabaseLoader;
 
@@ -11,7 +11,7 @@ public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
     private static CourseDB instance = new CourseDB();
 
-    private CourseDB() {
+    protected CourseDB() {
         loadData();
     }
 
@@ -21,7 +21,7 @@ public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
     @Override
     protected void loadData() {
-        Converter<Course> converter = new CourseConverter();
+        Converter<Course> converter = ConverterFactory.forCourse();
         SimpleDatabaseLoader<Course> loader = new SimpleDatabaseLoader<Course>();
 
         loader.load(DB_FILE_PATH, this, converter);
@@ -29,7 +29,7 @@ public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
     @Override
     protected void saveData() {
-        Converter<Course> converter = new CourseConverter();
+        Converter<Course> converter = ConverterFactory.forCourse();
         SimpleDatabaseLoader<Course> loader = new SimpleDatabaseLoader<Course>();
 
         loader.save(this, DB_FILE_PATH, converter);
