@@ -10,13 +10,13 @@ import cx2002grp2.stars.data.database.AbstractDatabase;
 public class SimpleDatabaseLoader<ItemType> {
     /**
      * 
-     * @param inputCsvFilePath
+     * @param inputFilePath
      * @param outputDB
      * @param itemConverter
      */
-    public void load(String inputCsvFilePath, AbstractDatabase<ItemType> outputDB, Converter<ItemType> itemConverter) {
+    public void load(String inputFilePath, AbstractDatabase<ItemType> outputDB, Converter<ItemType> itemConverter) {
 
-        CSV.Reader input = new CSV.Reader(inputCsvFilePath);
+        CSV.Reader input = new CSV.Reader(inputFilePath);
 
         List<List<String>> data = input.readData();
 
@@ -29,11 +29,11 @@ public class SimpleDatabaseLoader<ItemType> {
     /**
      * 
      * @param inputDB
-     * @param outputCsvFilePath
+     * @param outputFilePath
      * @param itemConverter
      */
-    public void save(AbstractDatabase<ItemType> inputDB, String outputCsvFilePath, Converter<ItemType> itemConverter) {
-        CSV.Writer output = new CSV.Writer(outputCsvFilePath);
+    public void save(AbstractDatabase<ItemType> inputDB, String outputFilePath, Converter<ItemType> itemConverter) {
+        CSV.Writer output = new CSV.Writer(outputFilePath);
 
         List<List<String>> data = new ArrayList<>(inputDB.size());
 
