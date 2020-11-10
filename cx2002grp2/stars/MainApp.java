@@ -1,7 +1,7 @@
 package cx2002grp2.stars;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import cx2002grp2.stars.data.database.CourseDB;
 import cx2002grp2.stars.data.database.CourseIndexDB;
@@ -52,26 +52,18 @@ public class MainApp implements OnExitSubject {
 
         try {
             mainBody();
-        } catch (Exception e) {
+        } finally {
             signalOnExit();
-            throw e;
         }
 
-        signalOnExit();
     }
 
     private void mainBody() {
     }
 
-    public static void main(String[] args) {
-        MainApp app = MainApp.getApp();
-        app.initialize(args);
-        app.run();
-        System.out.println("Program end");
-    }
 
     
-    Set<OnExitObserver> onExitbservers = new HashSet<>();
+    Collection<OnExitObserver> onExitbservers = new HashSet<>();
 
     @Override
     public void addOnExitObserver(OnExitObserver observer) {
@@ -85,5 +77,12 @@ public class MainApp implements OnExitSubject {
 
     private void signalOnExit() {
         onExitbservers.forEach(ob->ob.doOnExit());
+    }
+    
+    public static void main(String[] args) {
+        MainApp app = MainApp.getApp();
+        app.initialize(args);
+        app.run();
+        System.out.println("Program end");
     }
 }
