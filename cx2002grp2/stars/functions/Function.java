@@ -11,13 +11,13 @@ import cx2002grp2.stars.data.dataitem.User;
  */
 public abstract class Function {
 
-    static final List<Function> allFunctions = new ArrayList<>();
+    private static final List<Function> allFunctions = new ArrayList<>();
 
-    static Iterable<Function> getAllFunctions() {
+    public static Iterable<Function> getAllFunctions() {
         return allFunctions;
     }
 
-    Function() {
+    public Function() {
         allFunctions.add(this);
     }
 
