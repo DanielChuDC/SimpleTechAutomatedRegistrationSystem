@@ -9,7 +9,6 @@ import java.util.Base64;
 import java.util.List;
 
 import cx2002grp2.stars.data.dataitem.User;
-import cx2002grp2.stars.functions.AbstractFunction;
 import cx2002grp2.stars.functions.Function;
 
 /**
@@ -69,7 +68,7 @@ public class Authenticator {
         // TODO - implement method
         List<Function> result = new ArrayList<>();
 
-        for (Function func: AbstractFunction.allFunctions()) {
+        for (Function func: Function.allFunctions()) {
 
         }
 
