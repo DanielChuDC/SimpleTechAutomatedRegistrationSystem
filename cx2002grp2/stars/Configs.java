@@ -3,13 +3,14 @@ package cx2002grp2.stars;
 import java.time.LocalDateTime;
 import java.util.Map.Entry;
 
-import cx2002grp2.stars.data.database.SingleStringKeyDatabase;
-import cx2002grp2.stars.data.dataitem.SingleStringKeyItem;
+import cx2002grp2.stars.data.database.AbstractSingleKeyDatabase;
+import cx2002grp2.stars.data.dataitem.SingleKeyItem;
+import cx2002grp2.stars.util.EmailNotificationSender;
 
 /**
  * Config
  */
-public class Configs extends SingleStringKeyDatabase<Configs.OneConfig> {
+public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig> {
     
     private static Configs instance = new Configs();
     
@@ -23,7 +24,7 @@ public class Configs extends SingleStringKeyDatabase<Configs.OneConfig> {
      * @return
      */
     public static Object getConfig(String key) {
-        return instance.get(key).getValue();
+        return instance.getByKey(key).getValue();
     }
 
     /**
@@ -32,7 +33,7 @@ public class Configs extends SingleStringKeyDatabase<Configs.OneConfig> {
      * @param val
      */
     public static void setConfig(String key, Object val) {
-        instance.get(key).setValue(val);
+        instance.getByKey(key).setValue(val);
     }
 
     public static LocalDateTime getAccessStartTime() {
@@ -96,6 +97,11 @@ public class Configs extends SingleStringKeyDatabase<Configs.OneConfig> {
         // TODO - implement method
     }
 
+    private static final NotificationSender defaultSender = new EmailNotificationSender();
+    public static NotificationSender getNotificationSender() {
+        return defaultSender;
+    }
+
 	protected void loadData() {
 		// TODO - implement Configs.loadData
 	}
@@ -107,7 +113,7 @@ public class Configs extends SingleStringKeyDatabase<Configs.OneConfig> {
     /**
      * 
      */
-    public static class OneConfig extends SingleStringKeyItem implements Entry<String, Object> {
+    public static class OneConfig extends SingleKeyItem<String> implements Entry<String, Object> {
         private String key;
         private Object value;
 

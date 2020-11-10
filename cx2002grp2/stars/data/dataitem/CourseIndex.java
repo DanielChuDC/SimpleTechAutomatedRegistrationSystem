@@ -1,17 +1,16 @@
 package cx2002grp2.stars.data.dataitem;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
  * 
  */
-public class CourseIndex extends SingleStringKeyItem {
+public class CourseIndex extends SingleKeyItem<String> {
     
 	private String indexNo;
 	private Course course;
@@ -29,12 +28,12 @@ public class CourseIndex extends SingleStringKeyItem {
 
     @Override
 	public String getKey() {
-        return getIndexNo();
+		return this.indexNo;
 	}
 
     @Override
 	public void setKey(String newKey) {
-        setIndexNo(newKey);
+        this.indexNo = newKey;
 	}
 
     /**
@@ -42,7 +41,7 @@ public class CourseIndex extends SingleStringKeyItem {
      * @return
      */
 	public String getIndexNo() {
-		return this.indexNo;
+        return getKey();
 	}
 
 	/**
@@ -50,7 +49,7 @@ public class CourseIndex extends SingleStringKeyItem {
 	 * @param indexNo
 	 */
 	public void setIndexNo(String indexNo) {
-        this.indexNo = indexNo;
+		setKey(indexNo);
 	}
 
 	public Course getCourse() {
@@ -120,7 +119,7 @@ public class CourseIndex extends SingleStringKeyItem {
      * 
      * @return
      */
-	public Set<Registration> getAllRegistration() {
+	public Collection<Registration> getAllRegistration() {
         return Collections.unmodifiableSet(registrationList);
 	}
 
@@ -128,18 +127,18 @@ public class CourseIndex extends SingleStringKeyItem {
      * 
      * @return
      */
-	public Set<Registration> getRegisteredList() {
-        // TODO - implement CourseIndex.getRegisteredList
-        return new HashSet<>();
+	public Collection<Registration> getRegisteredList() {
+		// TODO - implement CourseIndex.getRegisteredList
+		return Collections.emptySet();
 	}
 
     /**
      * 
      * @return
      */
-	public Set<Registration> getWaitList() {
+	public Collection<Registration> getWaitList() {
 		// TODO - implement CourseIndex.getWaitList
-        return new HashSet<>();
+		return Collections.emptySet();
 	}
 
     /**

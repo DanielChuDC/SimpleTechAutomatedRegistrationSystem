@@ -1,9 +1,9 @@
 package cx2002grp2.stars.data.dataitem;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.SortedSet;
 
 import cx2002grp2.stars.data.Gender;
 
@@ -30,6 +30,16 @@ public class Student extends User {
 		this.yearOfStudy = yearOfStudy;
 		this.programme = programme;
 		this.registrationList = new HashSet<>();
+	}
+
+	@Override
+	public Domain getDomain() {
+		return User.Domain.STUDENT;
+	}
+
+	@Override
+	public void setDomain(Domain domain) {
+		throw new UnsupportedOperationException("The domain of a student cannot change.");
 	}
 
 	/**
@@ -132,7 +142,7 @@ public class Student extends User {
      * 
      * @return
      */
-	public Set<Registration> getRegistrationList() {
+	public Collection<Registration> getRegistrationList() {
         return Collections.unmodifiableSet(registrationList);
     }
 

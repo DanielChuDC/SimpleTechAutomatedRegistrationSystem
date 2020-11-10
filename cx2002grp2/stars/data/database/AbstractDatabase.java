@@ -4,25 +4,17 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import cx2002grp2.stars.MainApp;
-import cx2002grp2.stars.util.OnExitObserver;
 import cx2002grp2.stars.data.database.event_handler.OnItemAddedObserver;
-import cx2002grp2.stars.data.database.event_handler.OnItemAddedSubject;
 import cx2002grp2.stars.data.database.event_handler.OnItemDeletedObserver;
-import cx2002grp2.stars.data.database.event_handler.OnItemDeletedSubject;
 
 /**
  * 
  */
 public abstract class AbstractDatabase<ItemType>
-        implements OnExitObserver, OnItemDeletedSubject<ItemType>, OnItemAddedSubject<ItemType>, Iterable<ItemType> {
+        implements Database<ItemType> {
+
     public AbstractDatabase() {
         MainApp.getApp().addOnExitObserver(this);
-
-    }
-
-    @Override
-    public void doOnExit() {
-        saveData();
     }
 
     /**
@@ -35,27 +27,10 @@ public abstract class AbstractDatabase<ItemType>
      */
     protected abstract void saveData();
 
-    /**
-     * 
-     * @param item
-     * @return
-     */
-    public abstract boolean add(ItemType item);
-
-    /**
-     * 
-     * @param item
-     * @return
-     */
-    public abstract boolean del(ItemType item);
-
-    /**
-     * 
-     * @param item
-     * @return
-     */
-    public abstract boolean contains(ItemType item);
-
+    @Override
+    public void doOnExit() {
+        saveData();
+    }
     
     private Collection<OnItemDeletedObserver<? super ItemType>> onItemDeletedObservers = new HashSet<>();
 
@@ -69,6 +44,10 @@ public abstract class AbstractDatabase<ItemType>
         onItemDeletedObservers.remove(observer);
     }
 
+    /**
+     * 
+     * @param deletedItem
+     */
     protected void signalItemDeleted(ItemType deletedItem) {
         onItemDeletedObservers.forEach(ob -> ob.doOnItemDeleted(deletedItem));
     }
@@ -86,6 +65,10 @@ public abstract class AbstractDatabase<ItemType>
         onItemAddedObservers.remove(observer);
     }
 
+    /**
+     * 
+     * @param addedItem
+     */
     protected void signalItemAdded(ItemType addedItem) {
         onItemDeletedObservers.forEach(ob -> ob.doOnItemDeleted(addedItem));
     }

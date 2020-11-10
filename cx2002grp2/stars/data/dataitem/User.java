@@ -3,7 +3,7 @@ package cx2002grp2.stars.data.dataitem;
 /**
  * User
  */
-public class User extends SingleStringKeyItem {
+public class User extends SingleKeyItem<String> {
 
     public enum Domain {
         STUDENT, STAFF
@@ -29,7 +29,7 @@ public class User extends SingleStringKeyItem {
 
     @Override
     public String getKey() {
-        return getUsername();
+        return this.username;
     }
 
     /**
@@ -38,11 +38,11 @@ public class User extends SingleStringKeyItem {
      */
     @Override
     public void setKey(String newKey) {
-        setUsername(newKey);
+        username = newKey;
     }
 
     public String getUsername() {
-        return this.username;
+        return getKey();
     }
 
     /**
@@ -50,7 +50,7 @@ public class User extends SingleStringKeyItem {
      * @param username
      */
     public void setUsername(String username) {
-        this.username = username;
+        setKey(username);
     }
 
     public String getHashedPassword() {

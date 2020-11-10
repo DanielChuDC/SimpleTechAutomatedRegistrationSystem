@@ -1,5 +1,6 @@
 package cx2002grp2.stars.data.dataitem;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +8,7 @@ import java.util.Set;
 /**
  * 
  */
-public class Course extends SingleStringKeyItem {
+public class Course extends SingleKeyItem<String> {
     
 	private String courseCode;
 	private String courseName;
@@ -25,12 +26,12 @@ public class Course extends SingleStringKeyItem {
 
     @Override
 	public String getKey() {
-        return getCourseCode();
+        return this.courseCode;
 	}
 
     @Override
 	public void setKey(String newKey) {
-        setCourseCode(newKey);
+        this.courseCode = newKey;
 	}
 
     /**
@@ -38,7 +39,7 @@ public class Course extends SingleStringKeyItem {
      * @return
      */
 	public String getCourseCode() {
-		return this.courseCode;
+		return getKey();
 	}
 
 	/**
@@ -46,7 +47,7 @@ public class Course extends SingleStringKeyItem {
 	 * @param courseCode
 	 */
 	public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
+		setKey(courseCode);
 	}
 
 	public String getCourseName() {
@@ -93,7 +94,7 @@ public class Course extends SingleStringKeyItem {
      * 
      * @return
      */
-	public Set<CourseIndex> getIndexList() {
+	public Collection<CourseIndex> getIndexList() {
         return Collections.unmodifiableSet(indexList);
 	}
 

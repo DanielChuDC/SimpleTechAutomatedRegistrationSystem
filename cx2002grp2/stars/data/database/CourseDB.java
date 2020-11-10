@@ -1,10 +1,11 @@
 package cx2002grp2.stars.data.database;
 
+import cx2002grp2.stars.data.converter.Converter;
 import cx2002grp2.stars.data.converter.CourseConverter;
 import cx2002grp2.stars.data.dataitem.Course;
-import cx2002grp2.stars.data.SimpleMapLoader;
+import cx2002grp2.stars.data.SimpleDatabaseLoader;
 
-public class CourseDB extends SingleStringKeyDatabase<Course> {
+public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
     private static final String DB_FILE_PATH = "tables/course.csv";
 
@@ -20,18 +21,18 @@ public class CourseDB extends SingleStringKeyDatabase<Course> {
 
     @Override
     protected void loadData() {
-        CourseConverter converter = new CourseConverter();
-        SimpleMapLoader<Course> loader = new SimpleMapLoader<Course>();
+        Converter<Course> converter = new CourseConverter();
+        SimpleDatabaseLoader<Course> loader = new SimpleDatabaseLoader<Course>();
 
-        loader.load(DB_FILE_PATH, this.getDataMap(), converter);
+        loader.load(DB_FILE_PATH, this, converter);
     }
 
     @Override
     protected void saveData() {
-        CourseConverter converter = new CourseConverter();
-        SimpleMapLoader<Course> loader = new SimpleMapLoader<Course>();
+        Converter<Course> converter = new CourseConverter();
+        SimpleDatabaseLoader<Course> loader = new SimpleDatabaseLoader<Course>();
 
-        loader.save(this.getDataMap(), DB_FILE_PATH, converter);
+        loader.save(this, DB_FILE_PATH, converter);
     }
 
 }
