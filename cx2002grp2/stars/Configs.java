@@ -2,6 +2,8 @@ package cx2002grp2.stars;
 
 import java.time.LocalDateTime;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import cx2002grp2.stars.data.database.AbstractSingleKeyDatabase;
 import cx2002grp2.stars.data.dataitem.SingleKeyItem;
@@ -12,7 +14,7 @@ import cx2002grp2.stars.util.EmailNotificationSender;
  */
 public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig> {
     
-    private static Configs instance = new Configs();
+    private static Configs configDB = new Configs();
     
     private Configs() {
         loadData();
@@ -24,7 +26,9 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
      * @return
      */
     public static Object getConfig(String key) {
-        return instance.getByKey(key).getValue();
+        OneConfig config = configDB.getByKey(key);
+        if (config == null) return null;
+        return config.getValue();
     }
 
     /**
@@ -33,7 +37,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
      * @param val
      */
     public static void setConfig(String key, Object val) {
-        instance.getByKey(key).setValue(val);
+        configDB.addItem(new OneConfig(key, val));
     }
 
     public static LocalDateTime getAccessStartTime() {
@@ -100,6 +104,17 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     private static final NotificationSender defaultSender = new EmailNotificationSender();
     public static NotificationSender getNotificationSender() {
         return defaultSender;
+    }
+
+    public static Level getDefualtLogLevel() {
+        // TODO - implement method
+        return Level.ALL;
+    }
+
+    public static Logger getLogger(String loggerName) {
+        Logger logger = Logger.getLogger(loggerName);
+        logger.setLevel(getDefualtLogLevel());
+        return logger;
     }
 
 	protected void loadData() {
