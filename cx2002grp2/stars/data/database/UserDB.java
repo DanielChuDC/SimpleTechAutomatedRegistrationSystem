@@ -1,5 +1,7 @@
 package cx2002grp2.stars.data.database;
 
+import cx2002grp2.stars.data.converter.Converter;
+import cx2002grp2.stars.data.converter.ConverterFactory;
 import cx2002grp2.stars.data.dataitem.User;
 
 public class UserDB extends AbstractSingleKeyDatabase<String, User> {
@@ -7,6 +9,10 @@ public class UserDB extends AbstractSingleKeyDatabase<String, User> {
     private static final String DB_FILE_PATH = "tables/user.csv";
 
     private static UserDB instance = new UserDB();
+
+	private static final Converter<User> converter = ConverterFactory.userConverter();
+
+	private static final SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
 
     protected UserDB() {
         loadData();
@@ -16,12 +22,13 @@ public class UserDB extends AbstractSingleKeyDatabase<String, User> {
         return instance;
     }
 
-    protected void loadData() {
-        // TODO - implement UserDB.loadData
-    }
+	@Override
+	protected void loadData() {
+		loader.load(DB_FILE_PATH, this, converter);
+	}
 
-    protected void saveData() {
-        // TODO - implement UserDB.saveData
-    }
-
+	@Override
+	protected void saveData() {
+		loader.save(this, DB_FILE_PATH, converter);
+	}
 }
