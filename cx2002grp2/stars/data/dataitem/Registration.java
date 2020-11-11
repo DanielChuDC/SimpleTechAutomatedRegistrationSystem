@@ -49,10 +49,15 @@ public class Registration {
 
 	public void setCourseIndex(CourseIndex courseIndex) {
 		if (courseIndex != null &&
-			courseIndex.getCourse().getCourseCode().equals(getCourse().getCourseCode())) {
-			throw new IllegalArgumentException("The new course index must have the same course code with the orginal index.");
+			!courseIndex.getCourse().getCourseCode().equals(getCourse().getCourseCode())) {
+			throw new IllegalArgumentException("The new course index must have the same course code with the original index.");
 		}
 		// TODO - handle relationship about registration
+
+		this.courseIndex.delRegistration(this);
+		
+		this.courseIndex = courseIndex;
+		this.courseIndex.addRegistration(this);
 	}
 
 	public LocalDateTime getRegisterDateTime() {

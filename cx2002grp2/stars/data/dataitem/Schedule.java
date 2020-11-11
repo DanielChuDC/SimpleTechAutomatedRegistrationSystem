@@ -53,6 +53,7 @@ public class Schedule {
 
 		this.courseIndex = courseIndex;
 		this.courseIndex.addSchedule(this);
+		this.courseIndex.
 	}
 
 	public Schedule.ClassType getClassType() {

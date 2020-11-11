@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import cx2002grp2.stars.Configs;
 import cx2002grp2.stars.data.Gender;
+import cx2002grp2.stars.data.dataitem.Registration.Status;
 
 /**
  * Student
@@ -148,11 +150,17 @@ public class Student extends User {
 
 	/**
 	 * 
-	 * @param regitration
+	 * @param registration
 	 */
-	public boolean addRegistration(Registration regitration) {
-        // TODO - implement Student.addRegistration
-        return false;
+	public boolean addRegistration(Registration registration) {
+		// TODO - implement Student.addRegistration
+
+		// add this new registration
+		registration.getCourseIndex()
+			.addRegistration(registration);
+		this.registrationList.add(registration);
+
+        return true;
 	}
 
 	/**
@@ -160,8 +168,18 @@ public class Student extends User {
 	 * @param registration
 	 */
 	public boolean delRegistration(Registration registration) {
-        // TODO - implement Student.delRegistration
-        return false;
+		// TODO - implement Student.delRegistration
+
+		if (!this.registrationList.contains(registration)) {
+			return false;
+		}
+
+		this.registrationList.remove(registration);
+		
+		CourseIndex courseIndex = registration.getCourseIndex();
+		courseIndex.delRegistration(registration);
+
+        return true;
 	}
 
 }
