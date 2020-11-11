@@ -1,7 +1,6 @@
 package cx2002grp2.stars;
 
 import java.time.LocalDateTime;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -128,17 +127,13 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     /**
      * 
      */
-    public static class OneConfig implements SingleKeyItem<String>, Entry<String, Object> {
+    public static class OneConfig implements SingleKeyItem<String> {
         private String key;
         private Object value;
 
         public OneConfig(String key, Object value) {
             this.key = key;
             this.value = value;
-        }
-
-        public OneConfig(Entry<String, ?> other) {
-            this(other.getKey(), other.getValue());
         }
 
         @Override
@@ -151,12 +146,10 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
             this.key = newKey;
         }
 
-        @Override
         public Object getValue() {
             return this.value;
         }
 
-        @Override
         public Object setValue(Object value) {
             Object oldVal = this.value;
             this.value = value;
