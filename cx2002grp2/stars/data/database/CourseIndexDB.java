@@ -26,10 +26,12 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
     }
 
     protected CourseIndexDB() {
+        instance = this;
+
         loadData();
 
         CourseDB.getDB().addOnItemDeletedObserver(this::doOnCourseDeleted);
-        // CourseDB.getDB().addOnItemAddedObserver(this::doOnCourseAdded);
+        CourseDB.getDB().addOnItemAddedObserver(this::doOnCourseAdded);
     }
 
     private void doOnCourseDeleted(Course deletedCourse) {
@@ -113,6 +115,18 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
         CSV.Writer writer = new CSV.Writer(SCHEDULE_DB_FILE_PATH);
 
         writer.writeData(table);
+    }
+
+    public static void main(String[] args) {
+        CourseIndexDB indexDB = CourseIndexDB.getDB();
+
+        int i = 0;
+        for (CourseIndex index: indexDB) {
+            System.out.println(index.getIndexNo());
+            if (i++ > 10) {
+                break;
+            }
+        }
     }
 
 }
