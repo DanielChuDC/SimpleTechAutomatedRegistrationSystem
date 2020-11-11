@@ -9,6 +9,19 @@ import cx2002grp2.stars.data.dataitem.User;
  */
 public interface Function {
     /**
+     * (Shall be) all the {@link Function} instances.
+     * <p>
+     * All the {@link AbstractFunction} instance will be added into
+     * {@link AbstractFunction#allFunctions} when constructor is called.
+     * 
+     * @return A unmodifiable iterable which contains all the {@link Function}
+     *         instances which is a subclass of {@link AbstractFunction}.
+     */
+    public static Iterable<Function> allFunctions() {
+        return AbstractFunction.allFunctions();
+    }
+
+    /**
      * Run the function with the given user.
      * 
      * @param user the user who what to run the function.

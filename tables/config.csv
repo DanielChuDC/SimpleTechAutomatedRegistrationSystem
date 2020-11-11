@@ -4,3 +4,4 @@ access_end_time,2020-12-04T23:59:59
 system_email,do.not.reply@invalid.com
 system_email_passwd,invalid#password
 default_max_au,23
+default_log_level,ALL

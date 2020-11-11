@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
+import cx2002grp2.stars.TablePrinter;
 import cx2002grp2.stars.data.dataitem.User;
 
 /**
@@ -41,7 +42,13 @@ public abstract class AbstractFunction implements Function {
     }
 
     /**
-     * {@inheritDoc}
+     * Run the function with the given user, forcefully apply accessibility checking.
+     * 
+     * @param user the user who what to run the function.
+     * @throws NullPointerException   if the user is null.
+     * @throws AccessControlException if the user has no access to this function,
+     *                                that is, {@link Function#accessible(User user)
+     *                                this.accessible(user)} return false.
      */
     @Override
     public final void run(User user) {
@@ -52,6 +59,15 @@ public abstract class AbstractFunction implements Function {
         }
 
         implementation(user);
+    }
+
+    /**
+     * A quick way to get a {@link TablePrinter}
+     * 
+     * @return a table printer
+     */
+    protected TablePrinter tbPrinter() {
+        return TablePrinter.getPrinter();
     }
 
     /**
