@@ -34,7 +34,6 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 		userDB.addOnItemDeletedObserver(user -> delByKey(user.getUsername()));
 		// When a key in user database changed, change the key for the same thing.
 		userDB.addOnKeyChangedObserver((oldKey, newItem) -> changeKey(oldKey, newItem.getKey()));
-
 	}
 
 	/**
@@ -54,6 +53,8 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	 * user database too.
 	 * 
 	 * @param student the student to be inserted into database.
+	 * @throws NullPointerException     if the student is null, or its username is
+	 *                                  null
 	 * @throws IllegalArgumentException if in the user database, there is a user
 	 *                                  with the same user name as input student,
 	 *                                  but the domain of that user is not
@@ -79,7 +80,14 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 * <p>
+	 * Changing the key of a student will affect a user database too. Therefore, the
+	 * key changing may happen only if the key can change in user database. That is,
+	 * the third case when the key won't change:
+	 * <ol start="3">
+	 * <li>The new key of student conflicts with an existing key in the
+	 * {@link UserDB user database }
+	 * </ol>
 	 */
 	@Override
 	public boolean changeKey(String oldKey, String newKey) {
@@ -87,6 +95,7 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 		Objects.requireNonNull(newKey);
 
 		log.info("Try to change key from " + oldKey + " to " + newKey);
+
 		boolean canChange = UserDB.getDB().changeKey(oldKey, newKey);
 
 		// Fail to change key in the user database means the key in student database
@@ -100,6 +109,13 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 
 	/**
 	 * {@inheritDoc}
+	 * <p>
+	 * Changing the key of a student will affect a user database too. Therefore, the
+	 * key changing may happen only if the key can change in user database. That is,
+	 * the third case when the key won't change:
+	 * <ol start="3">
+	 * <li>The new key of student conflicts with an existing key in the
+	 * {@link UserDB user database }
 	 */
 	@Override
 	public boolean changeKey(Student oldItem, String newKey) {
