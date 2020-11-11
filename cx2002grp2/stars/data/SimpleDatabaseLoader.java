@@ -7,14 +7,21 @@ import cx2002grp2.stars.CSV;
 import cx2002grp2.stars.data.converter.Converter;
 import cx2002grp2.stars.data.database.AbstractDatabase;
 
-public class SimpleDatabaseLoader<ItemType> {
+public class SimpleDatabaseLoader {
+    private static SimpleDatabaseLoader loader = new SimpleDatabaseLoader();
+
+    public static SimpleDatabaseLoader getLoader() {
+        return loader;
+    }
+
     /**
      * 
      * @param inputFilePath
      * @param outputDB
      * @param itemConverter
      */
-    public void load(String inputFilePath, AbstractDatabase<ItemType> outputDB, Converter<ItemType> itemConverter) {
+    public <ItemType> void load(String inputFilePath, AbstractDatabase<ItemType> outputDB,
+            Converter<ItemType> itemConverter) {
 
         CSV.Reader input = new CSV.Reader(inputFilePath);
 
@@ -32,7 +39,8 @@ public class SimpleDatabaseLoader<ItemType> {
      * @param outputFilePath
      * @param itemConverter
      */
-    public void save(AbstractDatabase<ItemType> inputDB, String outputFilePath, Converter<ItemType> itemConverter) {
+    public <ItemType> void save(AbstractDatabase<ItemType> inputDB, String outputFilePath,
+            Converter<ItemType> itemConverter) {
         CSV.Writer output = new CSV.Writer(outputFilePath);
 
         List<List<String>> data = new ArrayList<>(inputDB.size());

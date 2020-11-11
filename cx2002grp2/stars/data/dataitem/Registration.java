@@ -18,6 +18,7 @@ public class Registration {
 	private Status status;
 
 	public Registration(Student student, CourseIndex courseIndex, LocalDateTime registerDateTime, Status status) {
+		// TODO - handle relationship about registration
 		this.student = student;
 		this.course = courseIndex.getCourse();
 		this.courseIndex = courseIndex;
@@ -26,6 +27,7 @@ public class Registration {
 	}
 
 	public Registration(Student student, Course course, LocalDateTime registerDateTime, Status status) {
+		// TODO - handle relationship about registration
 		this.student = student;
 		this.course = course;
 		this.courseIndex = null;
@@ -47,9 +49,10 @@ public class Registration {
 
 	public void setCourseIndex(CourseIndex courseIndex) {
 		if (courseIndex != null &&
-			courseIndex.getCourse().getCourseCode() != course.getCourseCode()) {
-			throw new IllegalArgumentException("The new course index must have the same course code with the orginal index");
+			courseIndex.getCourse().getCourseCode().equals(getCourse().getCourseCode())) {
+			throw new IllegalArgumentException("The new course index must have the same course code with the orginal index.");
 		}
+		// TODO - handle relationship about registration
 	}
 
 	public LocalDateTime getRegisterDateTime() {

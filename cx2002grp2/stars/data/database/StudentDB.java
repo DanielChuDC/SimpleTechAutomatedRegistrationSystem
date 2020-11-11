@@ -30,27 +30,15 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	}
 
 	@Override
-	public boolean addItem(Student student) {
-        Objects.requireNonNull(student);
-		Objects.requireNonNull(student.getKey());
-
-		UserDB userDB = UserDB.getDB();
-		
-		User user = userDB.getByKey(student.getKey());
-
-		if (user != null && user.getDomain() != User.Domain.STUDENT) {
-			throw new IllegalArgumentException("Conflict between databases: the domain of user is not STUDENT.");
-		}
-
-		userDB.addItem(student);
-
-		return super.addItem(student);
+	public Student addItem(Student item) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public boolean delItem(Student item) {
+	public Student delItem(Student item) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
@@ -66,19 +54,31 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	}
 
 	@Override
-	public Iterator<Student> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addOnKeyChangedObserver(OnKeyChangedObserver<? super String, ? super Student> observer) {
+	public void doOnExit() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void delOnKeyChangedObserver(OnKeyChangedObserver<? super String, ? super Student> observer) {
+	public void addOnItemDeletedObserver(OnItemDeletedObserver<? super Student> observer) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void delOnItemDeletedObserver(OnItemDeletedObserver<? super Student> observer) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addOnItemAddedObserver(OnItemAddedObserver<? super Student> observer) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void delOnItemAddedObserver(OnItemAddedObserver<? super Student> observer) {
 		// TODO Auto-generated method stub
 
 	}
@@ -90,9 +90,9 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	}
 
 	@Override
-	public boolean delByKey(String key) {
+	public Student delByKey(String key) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
@@ -115,11 +115,14 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 
 	@Override
 	protected void loadData() {
-		// TODO - implement StudentDB.loadData
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	protected void saveData() {
-		// TODO - implement StudentDB.saveData
+		// TODO Auto-generated method stub
+
 	}
+
 }

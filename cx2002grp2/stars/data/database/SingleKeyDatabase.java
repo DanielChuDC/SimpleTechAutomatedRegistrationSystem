@@ -18,8 +18,7 @@ public interface SingleKeyDatabase<KeyType, ItemType extends SingleKeyItem<KeyTy
      * Delete the item in the database with the given key.
      * 
      * @param key the key value used to identify the item to be deleted.
-     * @return the item being deleted. If such item doesn't exist in the database,
-     *         return null.
+     * @return the deleted item if deletion happens. Ortherwise, return null.
      */
     public ItemType delByKey(KeyType key);
 
@@ -52,12 +51,22 @@ public interface SingleKeyDatabase<KeyType, ItemType extends SingleKeyItem<KeyTy
     public boolean changeKey(KeyType oldKey, KeyType newKey);
 
     /**
-     * 
-     * Change the key value of item with original key value oldKey to newKey.
+     * Change the key value of item to newKey.
+     * <p>
+     * The key of the item won't be changed in two cases:
+     * <ol>
+     * <li>The item does not exist in the database.
+     * <li>The original key value is the same to the new key value, that is,
+     * oldKey.equals(newKey) is true.
+     * </ol>
+     * <p>
+     * If key is changed, all the {@link OnKeyChangedObserver} observering this
+     * database will be notified
      * 
      * @param oldItem the original item.
      * @param newKey  the new key value to be set.
-     * @return If the key value of original value is change.
+     * @return true if the key value of original value is change, otherwise, return
+     *         false.
      */
     public boolean changeKey(ItemType oldItem, KeyType newKey);
 }

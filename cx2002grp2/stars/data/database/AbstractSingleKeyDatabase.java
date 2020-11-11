@@ -18,8 +18,10 @@ public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends Single
     /**
      * {@inheritDoc}
      * 
-     * @return The original item if there is an item has the same key with the
-     *         added item , or null if no replacement happens
+     * @return The original item if there is an item has the same key with the added
+     *         item , or null if no replacement happens
+     * @throws NullPointerException If the inserted item is null, or the value is
+     *                              null.
      */
     @Override
     public ItemType addItem(ItemType item) {
@@ -37,6 +39,10 @@ public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends Single
 
     @Override
     public ItemType delItem(ItemType item) {
+        if (item == null) {
+            return null;
+        }
+
         return delByKey(item.getKey());
     }
 
@@ -57,14 +63,18 @@ public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends Single
 
     @Override
     public ItemType getByKey(KeyType key) {
-        Objects.requireNonNull(key);
-        
+        if (key == null) {
+            return null;
+        }
+
         return data.get(key);
     }
 
     @Override
     public ItemType delByKey(KeyType key) {
-        Objects.requireNonNull(key);
+        if (key == null) {
+            return null;
+        }
 
         ItemType deletedItem = data.remove(key);
 
@@ -73,6 +83,10 @@ public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends Single
 
     @Override
     public boolean hasKey(KeyType key) {
+        if (key == null) {
+            return false;
+        }
+
         return data.containsKey(key);
     }
 

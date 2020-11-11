@@ -36,8 +36,7 @@ public interface Database<ItemType>
      * Delete am item in the database.
      * 
      * @param item the item to be deleted.
-     * @return the deleted item if the deletion happens, or null if the item to be
-     *         deleted doesn't exist in the database.
+     * @return the deleted item if the deletion happens. Other wise, return null.
      */
     public abstract ItemType delItem(ItemType item);
 

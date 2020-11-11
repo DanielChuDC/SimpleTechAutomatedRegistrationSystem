@@ -12,15 +12,15 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
 
     private static CourseIndexDB instance = new CourseIndexDB();
 
+    public static CourseIndexDB getDB() {
+        return instance;
+    }
+
     protected CourseIndexDB() {
         loadData();
 
         CourseDB.getDB().addOnItemDeletedObserver(this::doOnCourseDeleted);
         CourseDB.getDB().addOnItemAddedObserver(this::doOnCourseAdded);
-    }
-
-    public static CourseIndexDB getDB() {
-        return instance;
     }
 
     private void doOnCourseDeleted(Course deletedCourse) {

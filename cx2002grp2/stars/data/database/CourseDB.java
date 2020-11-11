@@ -11,6 +11,10 @@ public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
     private static CourseDB instance = new CourseDB();
 
+    private Converter<Course> converter = ConverterFactory.forCourse();
+
+    private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
+
     protected CourseDB() {
         loadData();
     }
@@ -21,17 +25,11 @@ public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
     @Override
     protected void loadData() {
-        Converter<Course> converter = ConverterFactory.forCourse();
-        SimpleDatabaseLoader<Course> loader = new SimpleDatabaseLoader<Course>();
-
         loader.load(DB_FILE_PATH, this, converter);
     }
 
     @Override
     protected void saveData() {
-        Converter<Course> converter = ConverterFactory.forCourse();
-        SimpleDatabaseLoader<Course> loader = new SimpleDatabaseLoader<Course>();
-
         loader.save(this, DB_FILE_PATH, converter);
     }
 
