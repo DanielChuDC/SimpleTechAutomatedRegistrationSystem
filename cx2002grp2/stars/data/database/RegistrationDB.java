@@ -45,15 +45,15 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
     }
 
     @Override
-    public boolean addItem(Registration registration) {
+    public Registration addItem(Registration registration) {
         // TODO - implement RegistrationDB.add
-        return false;
+        return null;
     }
 
     @Override
-    public boolean delItem(Registration registration) {
+    public Registration delItem(Registration registration) {
         // TODO - implement RegistrationDB.del
-        return false;
+        return null;
     }
 
     @Override

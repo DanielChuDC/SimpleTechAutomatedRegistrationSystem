@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Registration {
 
 	public enum Status {
-		REGISTERED, WAITLIST
+		REGISTERED, WAITLIST, INVALID
 	}
 
 	private Student student;

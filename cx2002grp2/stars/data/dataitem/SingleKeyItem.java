@@ -33,7 +33,8 @@ public interface SingleKeyItem<KeyType> {
      * @param <KeyType>
      * @return
      */
-    public static <KeyType extends Comparable<KeyType>> Comparator<SingleKeyItem<KeyType>> getComparatorByKey() {
+    public static <KeyType extends Comparable<KeyType>>
+    Comparator<? extends SingleKeyItem<KeyType>> getComparatorByKey() {
         return (item1, item2) -> item1.getKey().compareTo(item2.getKey());
     }
 
@@ -42,8 +43,8 @@ public interface SingleKeyItem<KeyType> {
      * @param <KeyType>
      * @return
      */
-    public static <KeyType extends Comparable<KeyType>> Comparator<SingleKeyItem<KeyType>> getComparatorByKey(
-            Comparator<KeyType> keyComparator) {
+    public static <KeyType>
+    Comparator<? extends SingleKeyItem<KeyType>> getComparatorByKey(Comparator<? super KeyType> keyComparator) {
         return (item1, item2) -> keyComparator.compare(item1.getKey(), item2.getKey());
     }
 }
