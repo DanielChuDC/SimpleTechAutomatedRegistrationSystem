@@ -1,5 +1,7 @@
 package cx2002grp2.stars;
 
+import java.util.Collection;
+
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
@@ -11,8 +13,13 @@ import cx2002grp2.stars.data.dataitem.Student;
  * characters.
  */
 public class TablePrinter {
-	private static TablePrinter defaultPrinter;
+	private static TablePrinter defaultPrinter = new TablePrinter();
 
+	/**
+	 * A factory method to produce a printer.
+	 * 
+	 * @return a instance of TablePrinter.
+	 */
 	public static TablePrinter getPrinter() {
 		return defaultPrinter;
 	}
@@ -34,7 +41,7 @@ public class TablePrinter {
 	 * <p>
 	 * including:
 	 * <ul>
-	 * <li>Print student's username, full name and his total AU in one row.
+	 * <li>Print student's username, full name and total registered AU in one row.
 	 * <li>If no registrations are available, print hinting message.
 	 * <li>Print all his registration in table manner.
 	 * <li>Registration table needs a header
@@ -55,10 +62,11 @@ public class TablePrinter {
 	 * <li>Print school, course code and course name in one row
 	 * <li>Print course index number, available vaccecy number and waitlist length
 	 * in one row
+	 * <li>If no schedule are available, print hinting message.
 	 * <li>Print course schedule in table manner
 	 * <li>The schedule table needs a header
-	 * <li>Each row of table includes: class type, group, day of week, begin and end
-	 * time, venue and remark.
+	 * <li>Each row of table includes: row number (starts from 1), class type,
+	 * group, day of week, begin and end time, venue and remark.
 	 * </ul>
 	 * 
 	 * @param index the index whose information and schedule information are
@@ -76,10 +84,11 @@ public class TablePrinter {
 	 * <li>Print student's username, course code and course index number in one row
 	 * <li>Print registration state, available vaccecy number and waitlist length in
 	 * one row
+	 * <li>If no schedule are available, print hinting message.
 	 * <li>Print course schedule in table manner
 	 * <li>The schedule table needs a header
-	 * <li>Each row of table includes: class type, group, day of week, begin and end
-	 * time, venue and remark.
+	 * <li>Each row of table includes: row number (starts from 1), class type,
+	 * group, day of week, begin and end time, venue and remark.
 	 * </ul>
 	 * 
 	 * @param registration the index whose information are printed.
@@ -97,7 +106,7 @@ public class TablePrinter {
 	 * 
 	 * @param regs the registration list whose item's studenta are to be printed.
 	 */
-	public void printStudentInRegList(Iterable<Registration> regs) {
+	public void printStudentInRegList(Collection<Registration> regs) {
 
 	}
 
