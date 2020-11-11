@@ -43,10 +43,16 @@ public class Schedule {
 
 	/**
 	 * 
-	 * @param courseIndex
+	 * @param courseIndex the new courseIndex to be set
 	 */
 	public void setCourseIndex(CourseIndex courseIndex) {
-        // TODO - implement Schedule.setCourseIndex
+		// TODO - implement Schedule.setCourseIndex
+		
+		if (this.courseIndex != null)
+			this.courseIndex.delSchedule(this);
+
+		this.courseIndex = courseIndex;
+		this.courseIndex.addSchedule(this);
 	}
 
 	public Schedule.ClassType getClassType() {
