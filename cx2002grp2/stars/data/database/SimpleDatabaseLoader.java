@@ -28,6 +28,9 @@ class SimpleDatabaseLoader {
 
         for (List<String> row : data) {
             ItemType item = itemConverter.fromStringList(row);
+            if (item == null) {
+                continue;
+            }
             outputDB.addItem(item);
         }
     }
@@ -46,6 +49,9 @@ class SimpleDatabaseLoader {
 
         for (ItemType item : inputDB) {
             List<String> row = itemConverter.toStringList(item);
+            if (row == null) {
+                continue;
+            }
             data.add(row);
         }
 
