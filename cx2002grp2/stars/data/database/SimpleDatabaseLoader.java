@@ -1,13 +1,12 @@
-package cx2002grp2.stars.data;
+package cx2002grp2.stars.data.database;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cx2002grp2.stars.CSV;
 import cx2002grp2.stars.data.converter.Converter;
-import cx2002grp2.stars.data.database.AbstractDatabase;
 
-public class SimpleDatabaseLoader {
+class SimpleDatabaseLoader {
     private static SimpleDatabaseLoader loader = new SimpleDatabaseLoader();
 
     public static SimpleDatabaseLoader getLoader() {

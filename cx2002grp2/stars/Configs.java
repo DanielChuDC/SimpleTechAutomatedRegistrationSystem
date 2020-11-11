@@ -2,6 +2,7 @@ package cx2002grp2.stars;
 
 import java.time.LocalDateTime;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import cx2002grp2.stars.data.database.AbstractSingleKeyDatabase;
@@ -17,6 +18,10 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     
     private Configs() {
         loadData();
+    }
+
+    public static void init() {
+
     }
 
     /**
@@ -68,7 +73,13 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
 	public static String getSystemEmailAddr() {
         // TODO - implement Configs.getSystemEmailAddr
         return "";
-	}
+    }
+    
+    public static boolean isStudentAccessTime() {
+        LocalDateTime now = LocalDateTime.now();
+        return now.compareTo(getAccessStartTime()) >= 0 &&
+               now.compareTo(getAccessEndTime()) < 0;
+    }
 
 	/**
 	 * 

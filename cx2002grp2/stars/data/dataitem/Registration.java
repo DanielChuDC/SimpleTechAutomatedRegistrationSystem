@@ -16,6 +16,7 @@ public class Registration {
 	private CourseIndex courseIndex;
 	private LocalDateTime registerDateTime;
 	private Status status;
+	private boolean isDropped = false;
 
 	public Registration(Student student, CourseIndex courseIndex, LocalDateTime registerDateTime, Status status) {
 		// TODO - handle relationship about registration
@@ -77,5 +78,20 @@ public class Registration {
 	 */
 	public void setStatus(Registration.Status status) {
 		this.status = status;
+	}
+
+	/**
+	 * 
+	 */
+	public void drop() {
+		// TODO - remove the relationship
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDropped() {
+		return isDropped;
 	}
 }

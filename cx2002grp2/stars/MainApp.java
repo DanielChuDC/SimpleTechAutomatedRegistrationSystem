@@ -38,6 +38,7 @@ public class MainApp implements OnExitSubject {
         RegistrationDB.getDB();
         StudentDB.getDB();
         UserDB.getDB();
+        Configs.init();
 
         initialized = true;
     }
