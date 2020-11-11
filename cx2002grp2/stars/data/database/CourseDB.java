@@ -3,7 +3,6 @@ package cx2002grp2.stars.data.database;
 import cx2002grp2.stars.data.converter.Converter;
 import cx2002grp2.stars.data.converter.ConverterFactory;
 import cx2002grp2.stars.data.dataitem.Course;
-import cx2002grp2.stars.data.SimpleDatabaseLoader;
 
 public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
