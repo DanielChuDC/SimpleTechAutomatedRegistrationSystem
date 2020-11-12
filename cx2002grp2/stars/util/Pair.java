@@ -1,5 +1,6 @@
 package cx2002grp2.stars.util;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -59,8 +60,8 @@ public class Pair<T1, T2> {
     }
 
     /**
-     * {@inheritDoc}
-     * Two pairs are equal only if val1().equals(val1()) and val2().equals(val2()).
+     * {@inheritDoc} Two pairs are equal only if val1().equals(val1()) and
+     * val2().equals(val2()).
      */
     @Override
     public boolean equals(Object o) {
@@ -84,5 +85,27 @@ public class Pair<T1, T2> {
     @Override
     public int hashCode() {
         return hashCodeBuf;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + val1() + ", " + val2() + "}";
+    }
+
+    /**
+     * Generate a comparator such that compare the in lexicological manner.
+     * <p>
+     * That is, the comparator will compare the first element ({@link val1()})
+     * first. If they are not equal, return the compare result. Otherwise, then
+     * compare result of the second element ({@link val2()}) will be returned.
+     */
+    public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> Comparator<Pair<T1, T2>> pairComparator() {
+        return (pair1, pair2) -> {
+            int result1 = pair1.val1().compareTo(pair2.val1());
+            if (result1 != 0) {
+                return result1;
+            }
+            return pair1.val2().compareTo(pair2.val2());
+        };
     }
 }
