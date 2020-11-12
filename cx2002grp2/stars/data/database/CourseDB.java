@@ -23,7 +23,7 @@ public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
     
     /**
      * Get instance of database, for Singleton pattern.
-     * @return 
+     * @return the singleton course database.
      */
     public static CourseDB getDB() {
         return instance;

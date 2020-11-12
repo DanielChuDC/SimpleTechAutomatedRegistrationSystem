@@ -42,6 +42,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
 
     /**
      * Get instance of database, for Singleton pattern.
+     * @return the singleton course index database.
      */
     public static CourseIndexDB getDB() {
         return instance;

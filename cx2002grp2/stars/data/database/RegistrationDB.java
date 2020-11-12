@@ -44,13 +44,14 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
 
     /**
      * Get instance of database, for Singleton pattern.
+     * @return the singleton registration database.
      */
     public static RegistrationDB getDB() {
         return instance;
     }
 
     /**
-     * Converter for converting course item from and into string list.
+     * Converter for converting registration item from and into string list.
      */
     private Converter<Registration> converter = ConverterFactory.registrationConverter();
 
