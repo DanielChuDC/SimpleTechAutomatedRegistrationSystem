@@ -16,6 +16,9 @@ public class CourseIndexConverter implements Converter<CourseIndex> {
 
     @Override
     public List<String> toStringList(CourseIndex item) {
+        if (item.getCourse() == null) {
+            return null;
+        }
         String[] row = new String[ROW_SIZE];
 
         row[INDEX_POS] = item.getIndexNo();

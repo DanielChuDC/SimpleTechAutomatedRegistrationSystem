@@ -1,6 +1,5 @@
 package cx2002grp2.stars.data.converter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

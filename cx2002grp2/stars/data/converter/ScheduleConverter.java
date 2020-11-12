@@ -30,6 +30,10 @@ public class ScheduleConverter implements Converter<Schedule> {
 
     @Override
     public List<String> toStringList(Schedule item) {
+        if (item.getCourseIndex() == null) {
+            return null;
+        }
+        
         String[] row = new String[ROW_SIZE];
 
         row[INDEX_POS] = item.getCourseIndex().getIndexNo();
