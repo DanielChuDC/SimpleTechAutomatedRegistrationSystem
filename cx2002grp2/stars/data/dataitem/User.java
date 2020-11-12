@@ -13,6 +13,9 @@ package cx2002grp2.stars.data.dataitem;
  */
 public class User implements SingleKeyItem<String> {
 
+    /**
+     * this enumeration represents the login domain of user.
+     */
     public enum Domain {
         STUDENT, STAFF
     }
@@ -40,46 +43,56 @@ public class User implements SingleKeyItem<String> {
         return this.username;
     }
 
-    /**
-     * 
-     * @param newKey
-     */
     @Override
     public void setKey(String newKey) {
         username = newKey;
     }
 
+    /**
+     * get username of this user.
+     * 
+     * @return username of this user
+     */
     public String getUsername() {
         return getKey();
     }
 
     /**
+     * set username of this user.
      * 
-     * @param username
+     * @param username username of this user
      */
     public void setUsername(String username) {
         setKey(username);
     }
 
+    /**
+     * get hashed password of this user.
+     * @return hashed password of this user
+     */
     public String getHashedPassword() {
         return this.hashedPassword;
     }
 
     /**
-     * 
-     * @param newPassed
+     * set hashed password of this user.
+     * @param newPassed hashed password of this user
      */
     public void setHashedPassword(String newPassed) {
         this.hashedPassword = newPassed;
     }
 
+    /**
+     * get domain of this user.
+     * @return domain of this user
+     */
     public User.Domain getDomain() {
         return this.domain;
     }
 
     /**
-     * 
-     * @param domain
+     * set domain of this user.
+     * @param domain domain of this user
      */
     public void setDomain(Domain domain) {
         this.domain = domain;
@@ -87,32 +100,32 @@ public class User implements SingleKeyItem<String> {
 
     
     /**
-     * 
-     * @return
+     * get email of this user.
+     * @return email of this user
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * 
-     * @param email
+     * set email of this user.
+     * @param email email of this user
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
 	/**
-	 * 
-	 * @return
+	 * get phone no of this user.
+	 * @return phone no of this user
 	 */
     public String getPhoneNo() {
         return phoneNo;
     }
 
     /**
-     * 
-     * @param phoneNo
+     * set phone no of this user.
+     * @param phoneNo phone no of this user
      */
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
