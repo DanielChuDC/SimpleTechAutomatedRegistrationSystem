@@ -151,7 +151,7 @@ public class CSV {
          *         delimiter and parsing escape character
          */
         public Writer toWriter() {
-            return new Writer(csvFile.getName(), hasHeader, delimiter, escapeChar);
+            return new Writer(csvFile.getAbsolutePath(), hasHeader, delimiter, escapeChar);
         }
 
         /**
@@ -518,7 +518,7 @@ public class CSV {
          *         delimiter and parsing escape character.
          */
         public Reader toReader() {
-            return new Reader(csvFile.getName(), hasHeader, delimiter, escapeChar);
+            return new Reader(csvFile.getAbsolutePath(), hasHeader, delimiter, escapeChar);
         }
 
         /**
