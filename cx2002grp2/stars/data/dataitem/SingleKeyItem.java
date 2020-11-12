@@ -3,6 +3,12 @@ package cx2002grp2.stars.data.dataitem;
 import cx2002grp2.stars.data.database.SingleKeyDatabase;
 import java.util.Comparator;
 
+/**
+ * An item that can be identified with one key value.
+ * <p>
+ * In our project, only {@link Registration} is not a single key item, because
+ * it must be identify with both the student and the course index/course code.
+ */
 public interface SingleKeyItem<KeyType> {
     /**
      * The method used to get the key value of an item.
@@ -33,8 +39,7 @@ public interface SingleKeyItem<KeyType> {
      * @param <KeyType>
      * @return
      */
-    public static <KeyType extends Comparable<KeyType>>
-    Comparator<? extends SingleKeyItem<KeyType>> getComparatorByKey() {
+    public static <KeyType extends Comparable<KeyType>> Comparator<? extends SingleKeyItem<KeyType>> getComparatorByKey() {
         return (item1, item2) -> item1.getKey().compareTo(item2.getKey());
     }
 
@@ -43,8 +48,8 @@ public interface SingleKeyItem<KeyType> {
      * @param <KeyType>
      * @return
      */
-    public static <KeyType>
-    Comparator<? extends SingleKeyItem<KeyType>> getComparatorByKey(Comparator<? super KeyType> keyComparator) {
+    public static <KeyType> Comparator<? extends SingleKeyItem<KeyType>> getComparatorByKey(
+            Comparator<? super KeyType> keyComparator) {
         return (item1, item2) -> keyComparator.compare(item1.getKey(), item2.getKey());
     }
 }
