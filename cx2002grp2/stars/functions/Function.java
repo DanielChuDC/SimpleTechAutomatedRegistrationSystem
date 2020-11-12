@@ -1,7 +1,5 @@
 package cx2002grp2.stars.functions;
 
-import java.security.AccessControlException;
-
 import cx2002grp2.stars.data.dataitem.User;
 
 /**
@@ -9,10 +7,9 @@ import cx2002grp2.stars.data.dataitem.User;
  */
 public interface Function {
     /**
-     * (Shall be) all the {@link Function} instances.
+     * All the {@link Function} instances.
      * <p>
-     * All the {@link AbstractFunction} instance will be added into
-     * {@link AbstractFunction#allFunctions} when constructor is called.
+     * More exactly, return all the {@link AbstractFunction} instance.
      * 
      * @return A unmodifiable iterable which contains all the {@link Function}
      *         instances which is a subclass of {@link AbstractFunction}.
@@ -25,10 +22,6 @@ public interface Function {
      * Run the function with the given user.
      * 
      * @param user the user who what to run the function.
-     * @throws NullPointerException   if the user is null.
-     * @throws AccessControlException if the user has no access to this function,
-     *                                that is, {@link Function#accessible(User user)
-     *                                this.accessible(user)} return false.
      */
     public void run(User user);
 

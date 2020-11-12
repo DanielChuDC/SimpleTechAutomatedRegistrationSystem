@@ -11,7 +11,7 @@ public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
     private static CourseDB instance = new CourseDB();
 
-    private Converter<Course> converter = ConverterFactory.forCourse();
+    private Converter<Course> converter = ConverterFactory.courseConverter();
 
     private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
 

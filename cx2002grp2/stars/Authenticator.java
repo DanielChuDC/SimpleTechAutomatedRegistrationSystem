@@ -40,9 +40,9 @@ public class Authenticator {
      */
     public User login() {
         // TODO - implement method
-        
+
         User.Domain[] allDomain = User.Domain.values();
-        
+
         return null;
     }
 
@@ -68,7 +68,7 @@ public class Authenticator {
         // TODO - implement method
         List<Function> result = new ArrayList<>();
 
-        for (Function func: Function.allFunctions()) {
+        for (Function func : Function.allFunctions()) {
 
         }
 
@@ -76,18 +76,44 @@ public class Authenticator {
     }
 
     /**
-     * Hashing function used to hash a password.
+     * Create an account with the given username and password.
+     * 
+     * @param username the username of new account.
+     * @param password the password of new account.
+     * @return a new user with the given username and password.
+     * @throws IllegalArgumentException If the username already exists in the
+     *                                  user database.
+     */
+    public User createAccount(String username, String password) {
+        // TODO - implement method
+        return null;
+    }
+
+    /**
+     * Change the password of a user to the given password.
+     * 
+     * @param user     the user whose password need to be changed.
+     * @param password the new password in plain text.
+     * @return whether the password is changed successfully.
+     */
+    public boolean changePassword(User user, String password) {
+        // TODO - implement method
+        return false;
+    }
+
+    /**
+     * Hashing function used to hash string.
      * <p>
-     * SHA-256 is used to hash the password and the result is encoded into Base64
+     * SHA-256 is used to hash the string and the result is encoded into Base64
      * string.
      * 
-     * @param password the password to be hashed.
+     * @param plainText the plain text to be hashed.
      * @return
      */
-    private String hashPasswprd(char[] password) {
+    private String hash(String plainText) {
 
         // Convert the string into bytes
-        byte[] bytesToHash = String.valueOf(password).getBytes(StandardCharsets.UTF_8);
+        byte[] bytesToHash = plainText.getBytes(StandardCharsets.UTF_8);
 
         // Do hashing
         byte[] hashedBytes = digester.digest(bytesToHash);

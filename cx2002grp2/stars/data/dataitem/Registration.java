@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Registration {
 
 	public enum Status {
-		REGISTERED, WAITLIST
+		REGISTERED, WAITLIST, INVALID
 	}
 
 	private Student student;
@@ -17,6 +17,7 @@ public class Registration {
 	private CourseIndex courseIndex;
 	private LocalDateTime registerDateTime;
 	private Status status;
+	private boolean isDropped = false;
 
 
 	public Registration(Student student, Course course, LocalDateTime registerDateTime, Status status) {
@@ -89,5 +90,20 @@ public class Registration {
 	 */
 	public void setStatus(Registration.Status status) {
 		this.status = status;
+	}
+
+	/**
+	 * 
+	 */
+	public void drop() {
+		// TODO - remove the relationship
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDropped() {
+		return isDropped;
 	}
 }

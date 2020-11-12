@@ -21,10 +21,11 @@ public abstract class AbstractFunction implements Function {
     private static final Collection<Function> allFunctions = new ArrayList<>();
 
     /**
-     * (Shall be) all the {@link Function} instances.
+     * All the {@link AbstractFunction} instances.
      * <p>
      * All the {@link AbstractFunction} instance will be added into
-     * {@link AbstractFunction#allFunctions} when constructor is called.
+     * {@link AbstractFunction#allFunctions} when constructor is called, and
+     * {@link AbstractFunction#allFunctions} will be ruturn by this method
      * 
      * @return A unmodifiable iterable which contains all the {@link Function}
      *         instances which is a subclass of {@link AbstractFunction}.
@@ -42,7 +43,8 @@ public abstract class AbstractFunction implements Function {
     }
 
     /**
-     * Run the function with the given user, forcefully apply accessibility checking.
+     * Run the function with the given user, forcefully apply accessibility
+     * checking.
      * 
      * @param user the user who what to run the function.
      * @throws NullPointerException   if the user is null.
