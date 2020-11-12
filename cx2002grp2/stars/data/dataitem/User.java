@@ -131,5 +131,8 @@ public class User implements SingleKeyItem<String> {
         this.phoneNo = phoneNo;
     }
 
-
+    @Override
+    public String toString() {
+        return getUsername();
+    }
 }

@@ -29,16 +29,16 @@ public class CourseIndex implements SingleKeyItem<String> {
 	private List<Schedule> scheduleList;
 	private SortedSet<Registration> registrationList;
 
-	private static final Registration dummyRegistration =
-		new Registration(null, null, LocalDateTime.MIN, Status.WAITLIST);
+	private static final Registration splitterRegistration = Registration.makeDropped(LocalDateTime.MIN, Status.WAITLIST);
 
 	public CourseIndex(String indexNo, Course course, int maxVacancy) {
 		this.indexNo = indexNo;
-		this.course = course;
 		this.maxVacancy = maxVacancy;
 		this.scheduleList = new ArrayList<>();
-		// TODO - set comparator for registrationList
 		this.registrationList = new TreeSet<>(new RegistrationComparator());
+		
+		setCourse(course);
+
 	}
 
     @Override
@@ -83,6 +83,10 @@ public class CourseIndex implements SingleKeyItem<String> {
 	 */
 	public void setCourse(Course course) {
 		// TODO - implement CourseIndex.setCourse
+		if (this.course == course) {
+			return;
+		}
+
 		if (this.getCourse() != null) {
 			this.course.delIndex(this);
 		}
@@ -138,6 +142,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 		}
 
 		this.scheduleList.add(schedule);
+		
 		schedule.setCourseIndex(this);
 
 		return true;
@@ -184,7 +189,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 		// 	}
 		// }
 
-		return this.registrationList.headSet(dummyRegistration);
+		return this.registrationList.headSet(splitterRegistration);
 	}
 
     /**
@@ -193,7 +198,7 @@ public class CourseIndex implements SingleKeyItem<String> {
      */
 	public SortedSet<Registration> getWaitList() {
 		// TODO - implement CourseIndex.getWaitList
-		return this.registrationList.tailSet(dummyRegistration);
+		return this.registrationList.tailSet(splitterRegistration);
 	}
 
     /**
@@ -243,4 +248,8 @@ public class CourseIndex implements SingleKeyItem<String> {
         return true;
 	}
 	
+	@Override
+	public String toString() {
+		return getIndexNo();
+	}
 }

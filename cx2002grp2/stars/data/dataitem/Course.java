@@ -145,4 +145,8 @@ public class Course implements SingleKeyItem<String> {
         return true;
 	}
 
+	@Override
+	public String toString() {
+		return getCourseCode();
+	}
 }

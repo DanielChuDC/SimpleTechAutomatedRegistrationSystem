@@ -36,6 +36,7 @@ public interface SingleKeyItem<KeyType> {
 
     /**
      * get the comparator of corresponding SingleKeyItem.
+     * 
      * @param <KeyType> the type of compared SingleKeyItem
      * @return the comparator of corresponding SingleKeyItem
      */
@@ -46,7 +47,7 @@ public interface SingleKeyItem<KeyType> {
     /**
      * get self-defined comparator of corresponding SingleKeyItem.
      * 
-     * @param <KeyType> the type of compared SingleKeyItem
+     * @param <KeyType>     the type of compared SingleKeyItem
      * @param keyComparator the self-defined comparator of compared SingleKeyItem
      * @return the comparator of corresponding SingleKeyItem
      */
