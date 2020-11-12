@@ -231,11 +231,11 @@ public class CSV {
         private List<String> parseLine(String line) {
             ArrayList<String> ret = new ArrayList<String>();
             int i = 0;
-            do {
+            while (true) {
                 i = nextNonBlank(line, i);
                 if (i >= line.length()) {
                     ret.add("");
-                    return ret;
+                    break;
                 }
 
                 ReadFieldResult result;
@@ -254,7 +254,7 @@ public class CSV {
                 }
                 ret.add(result.str);
                 ++i;
-            } while (i < line.length());
+            }
 
             return ret;
         }
