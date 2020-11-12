@@ -1,7 +1,15 @@
 package cx2002grp2.stars.data.dataitem;
 
 /**
- * User
+ * A class saving information of a user.
+ * <p>
+ * This class contains information of a user: username, hashed password, domain,
+ * email, phone No.
+ * <p>
+ * All of attributes can be get and set through methods.
+ * <p>
+ * When an attribute is changed, related information in other class will also
+ * change.
  */
 public class User implements SingleKeyItem<String> {
 
