@@ -3,7 +3,7 @@ package cx2002grp2.stars.data.converter;
 import java.util.List;
 
 /**
- * Commmon interface for all the data item converter.
+ * Common interface for all the data item converter.
  * <p>
  * A converter support converting a data item from and into a list of String, so
  * that the data can be easily read from or written into CSV file row by row.
