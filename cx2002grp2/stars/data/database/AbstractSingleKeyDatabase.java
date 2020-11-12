@@ -10,6 +10,24 @@ import java.util.Objects;
 
 import cx2002grp2.stars.data.dataitem.SingleKeyItem;
 
+/**
+ * A common implementation for the {@link SingleKeyDatabase}.
+ * <p>
+ * The following functions are implemented in addition to what implemented in
+ * {@link AbstractDatabase AbstractDatabase&lt;ItemType&gt;}:
+ * <ul>
+ * <li>Adding item.
+ * <li>Deleting item, through either item itself or its key.
+ * <li>Checking if the item exist, through either item itself or its key.
+ * <li>Changing key.
+ * <li>Get size of database
+ * <li>Support iteration
+ * <li>Implement interface {@link OnKeyChangedSubject
+ * OnKeyChangedSubject&lt;KeyType, ItemType&gt;}} and the corresponding
+ * signaling method
+ * {@link AbstractSingleKeyDatabase#signalKeyChanged(Object, SingleKeyItem)}
+ * </ul>
+ */
 public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends SingleKeyItem<KeyType>>
         extends AbstractDatabase<ItemType> implements SingleKeyDatabase<KeyType, ItemType> {
 

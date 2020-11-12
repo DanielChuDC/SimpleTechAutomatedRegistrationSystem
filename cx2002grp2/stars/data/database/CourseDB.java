@@ -4,6 +4,9 @@ import cx2002grp2.stars.data.converter.Converter;
 import cx2002grp2.stars.data.converter.ConverterFactory;
 import cx2002grp2.stars.data.dataitem.Course;
 
+/**
+ * Database storing course
+ */
 public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
     private static final String DB_FILE_PATH = "tables/course.csv";

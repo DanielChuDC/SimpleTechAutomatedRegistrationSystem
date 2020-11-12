@@ -19,8 +19,9 @@ import cx2002grp2.stars.util.OnExitObserver;
  * {@link OnItemAddedSubject OnItemAddedSubject&lt;ItemType&gt;}.
  * 
  * @param <ItemType> The data type of item stored by the database.
- * @see cx2002grp2.stars.data.dataitem
+ * @see AbstractDatabase
  * @see SingleKeyDatabase
+ * @see cx2002grp2.stars.data.dataitem
  */
 public interface Database<ItemType>
         extends OnExitObserver, OnItemDeletedSubject<ItemType>, OnItemAddedSubject<ItemType>, Iterable<ItemType> {

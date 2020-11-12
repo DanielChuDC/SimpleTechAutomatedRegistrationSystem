@@ -18,6 +18,7 @@ import cx2002grp2.stars.data.dataitem.SingleKeyItem;
  * <p>
  * Key change event is supported by the database through interface
  * {@link OnKeyChangedSubject OnKeyChangedSubject&lt;KeyType, ItemType&gt;}
+ * @see AbstractSingleKeyDatabase
  */
 public interface SingleKeyDatabase<KeyType, ItemType extends SingleKeyItem<KeyType>>
         extends Database<ItemType>, OnKeyChangedSubject<KeyType, ItemType> {

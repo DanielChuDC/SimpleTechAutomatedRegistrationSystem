@@ -19,6 +19,7 @@ import cx2002grp2.stars.MainApp;
  * OnItemDeletedSubject&lt;ItemType&gt;} and the corresponding signaling method
  * {@link AbstractDatabase#signalItemDeleted(Object)}
  * </ul>
+ * @see AbstractSingleKeyDatabase
  */
 public abstract class AbstractDatabase<ItemType> implements Database<ItemType> {
 
