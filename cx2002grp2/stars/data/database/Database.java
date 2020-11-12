@@ -10,13 +10,13 @@ import cx2002grp2.stars.util.OnExitObserver;
  * data item exists in the database are also supported.
  * <p>
  * The database support iterating by implementing {@link Iterable
- * Iterable<ItemType>}.
+ * Iterable&lt;ItemType&gt;}.
  * <p>
  * To handle the data synchronization issue among databases, observer pattern are
  * used. All the database can be observed for some events. Two basic event are
  * item addition and item deletion, which are specified through
- * {@link OnItemDeletedSubject OnItemDeletedSubject<ItemType>} and
- * {@link OnItemAddedSubject OnItemAddedSubject<ItemType>}.
+ * {@link OnItemDeletedSubject OnItemDeletedSubject&lt;ItemType&gt;} and
+ * {@link OnItemAddedSubject OnItemAddedSubject&lt;ItemType&gt;}.
  * 
  * @param <ItemType> The data type of item stored by the database.
  * @see cx2002grp2.stars.data.dataitem
