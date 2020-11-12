@@ -201,6 +201,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
             List<String> configRow = new ArrayList<>(2);
             configRow.add(config.getKey());
             configRow.add(config.getValue().toString());
+            configTable.add(configRow);
         }
 
         CSV.Writer writer = new CSV.Writer(DB_FILE_PATH);
