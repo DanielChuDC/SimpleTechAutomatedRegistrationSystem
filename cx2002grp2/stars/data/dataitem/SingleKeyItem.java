@@ -27,7 +27,7 @@ public interface SingleKeyItem<KeyType> {
      * This method is supposed to be called by database class object only. All the
      * other objects should use the
      * {@link SingleKeyDatabase#changeKey(Object, Object)
-     * SingleKeyDatabase.changeKey} methods in the databse class to change the key
+     * SingleKeyDatabase.changeKey} methods in the database class to change the key
      * value of an item.
      * 
      * @param newKey the new key used to replace the old key.
@@ -35,18 +35,20 @@ public interface SingleKeyItem<KeyType> {
     public void setKey(KeyType newKey);
 
     /**
-     * 
-     * @param <KeyType>
-     * @return
+     * get the comparator of corresponding SingleKeyItem.
+     * @param <KeyType> the type of compared SingleKeyItem
+     * @return the comparator of corresponding SingleKeyItem
      */
     public static <KeyType extends Comparable<KeyType>> Comparator<? extends SingleKeyItem<KeyType>> getComparatorByKey() {
         return (item1, item2) -> item1.getKey().compareTo(item2.getKey());
     }
 
     /**
+     * get self-defined comparator of corresponding SingleKeyItem.
      * 
-     * @param <KeyType>
-     * @return
+     * @param <KeyType> the type of compared SingleKeyItem
+     * @param keyComparator the self-defined comparator of compared SingleKeyItem
+     * @return the comparator of corresponding SingleKeyItem
      */
     public static <KeyType> Comparator<? extends SingleKeyItem<KeyType>> getComparatorByKey(
             Comparator<? super KeyType> keyComparator) {

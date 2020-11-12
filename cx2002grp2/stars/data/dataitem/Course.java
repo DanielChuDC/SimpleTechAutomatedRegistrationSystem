@@ -6,7 +6,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
+ * A class saving information of a course.
+ * <p>
+ * This class contains information of a course: course code, course name,
+ * school, AU, list of course index.
+ * <p>
+ * All of attributes can be get and set through methods.
+ * <p>
+ * When an attribute is changed, related information in other class will also
+ * change.
  */
 public class Course implements SingleKeyItem<String> {
     
@@ -35,83 +43,106 @@ public class Course implements SingleKeyItem<String> {
 	}
 
     /**
-     * 
-     * @return
+     * get course code of this course.
+     * @return course code of this course
      */
 	public String getCourseCode() {
 		return getKey();
 	}
 
 	/**
-	 * 
-	 * @param courseCode
+	 * set course code of this course.
+	 * @param courseCode course code of this course
 	 */
 	public void setCourseCode(String courseCode) {
 		setKey(courseCode);
 	}
 
+	/**
+	 * get course name of this course.
+	 * @return course name of this course
+	 */
 	public String getCourseName() {
 		return this.courseName;
 	}
 
 	/**
-	 * 
-	 * @param courseName
+	 * set course name of this course.
+	 * @param courseName course name of this course
 	 */
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
     }
     
     /**
-     * 
-     * @return
+     * get school of this course.
+     * @return school of this course
      */
 	public String getSchool() {
 		return this.school;
 	}
 
 	/**
-	 * 
-	 * @param school
+	 * set school of this course.
+	 * @param school school of this course
 	 */
 	public void setSchool(String school) {
 		this.school = school;
 	}
 
+	/**
+	 * get AU of this course.
+	 * @return AU of this course
+	 */
 	public double getAu() {
 		return this.au;
 	}
 
 	/**
-	 * 
-	 * @param au
+	 * set AU of this course.
+	 * @param au AU of this course
 	 */
 	public void setAu(double au) {
 		this.au = au;
 	}
 
     /**
-     * 
-     * @return
+     * get list of course index of this course.
+     * @return list of course index of this course
      */
 	public Collection<CourseIndex> getIndexList() {
         return Collections.unmodifiableSet(indexList);
 	}
 
 	/**
-	 * 
-	 * @param courseIndex
+	 * add a course index into this course's list of course index.
+	 * <p>
+	 * update related course index.
+	 * @param courseIndex a course index to be added into the list of course index
 	 */
 	public boolean addIndex(CourseIndex courseIndex) {
-        return false;
+		if (this.indexList.contains(courseIndex)) {
+			return false;
+		}
+
+		this.indexList.add(courseIndex);
+		courseIndex.setCourse(this);
+        return true;
 	}
 
 	/**
-	 * 
-	 * @param courseIndex
+	 * delete a course index from this course's list of course index.
+	 * <p>
+	 * update related course index. 
+	 * @param courseIndex a course index to be deleted from this course's list of course index.
 	 */
 	public boolean delIndex(CourseIndex courseIndex) {
-        return false;
+		if (!this.indexList.contains(courseIndex))
+			return false;
+
+		this.indexList.remove(courseIndex);
+		courseIndex.setCourse(null);
+        return true;
 	}
 
 }

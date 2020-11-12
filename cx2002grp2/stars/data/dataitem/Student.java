@@ -5,10 +5,19 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import cx2002grp2.stars.Configs;
 import cx2002grp2.stars.data.Gender;
+import cx2002grp2.stars.data.dataitem.Registration.Status;
 
 /**
- * Student
+ * A class saving information of a student.
+ * <p>
+ * This class contains information of a class schedule: matricNo, gender, full name, 
+ * nationality, year of study, programme, list of registration.
+ * <p>
+ * All of attributes can be get and set through methods.
+ * <p>
+ * When an attribute is changed, related information in other class will also change.
  */
 public class Student extends User {
     
@@ -43,125 +52,148 @@ public class Student extends User {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * get MatricNo of this student.
+	 * @return MatricNo of this student
 	 */
 	public String getMatricNo() {
 		return this.matricNo;
 	}
 
 	/**
-	 * 
-	 * @param matricNo
+	 * set MatricNo of this student.
+	 * @param matricNo MatricNo of this student
 	 */
 	public void setMatricNo(String matricNo) {
 		this.matricNo = matricNo;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * get gender of this student.
+	 * @return gender of this student
 	 */
 	public Gender getGender() {
 		return this.gender;
 	}
 
 	/**
-	 * 
-	 * @param gender
+	 * set gender of this student.
+	 * @param gender gender of this student
 	 */
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * get full name of this student.
+	 * @return full name of this student
 	 */
 	public String getFullName() {
 		return this.fullName;
 	}
 
 	/**
-	 * 
-	 * @param fullName
+	 * set full name of this student.
+	 * @param fullName full name of this student
 	 */
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * get nationality of this student.
+	 * @return nationality of this student
 	 */
 	public String getNationality() {
 		return this.nationality;
 	}
 
 	/**
-	 * 
-	 * @param nationality
+	 * set nationality of this student.
+	 * @param nationality nationality of this student
 	 */
 	public void setNationality(String nationality) {
 		this.nationality = nationality;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * get year of study of this student.
+	 * @return year of study of this student
 	 */
 	public int getYearOfStudy() {
 		return yearOfStudy;
 	}
 
 	/**
-	 * 
-	 * @param yearOfStudy
+	 * set year of study of this student.
+	 * @param yearOfStudy year of study of this student
 	 */
 	public void setYearOfStudy(int yearOfStudy) {
 		this.yearOfStudy = yearOfStudy;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * get programme of this student.
+	 * @return programme of this student
 	 */
 	public String getProgramme() {
 		return programme;
 	}
 
 	/**
-	 * 
-	 * @param programme
+	 * set programme of this student.
+	 * @param programme programme of this student
 	 */
 	public void setProgramme(String programme) {
 		this.programme = programme;
 	}
 
     /**
-     * 
-     * @return
+     * get a collection of registration. 
+     * @return a collection of registration
      */
 	public Collection<Registration> getRegistrationList() {
         return Collections.unmodifiableSet(registrationList);
     }
 
 	/**
-	 * 
-	 * @param regitration
+	 * add a registration into registration list.
+	 * <p>
+	 * update related registration.
+	 * @param registration a registration to be added into registration list.
 	 */
-	public boolean addRegistration(Registration regitration) {
-        // TODO - implement Student.addRegistration
-        return false;
+	public boolean addRegistration(Registration registration) {
+		// TODO - implement Student.addRegistration
+
+		if (this.registrationList.contains(registration))
+			return false;
+
+		// add this new registration
+		this.registrationList.add(registration);
+
+        return true;
 	}
 
 	/**
-	 * 
-	 * @param registration
+	 * delete a registration from registration list.
+	 * <p>
+	 * delete related registration.
+	 * @param registration a registration to be deleted from registration list
 	 */
 	public boolean delRegistration(Registration registration) {
-        // TODO - implement Student.delRegistration
-        return false;
+		// TODO - implement Student.delRegistration
+
+		if (!this.registrationList.contains(registration)) {
+			return false;
+		}
+
+		this.registrationList.remove(registration);
+
+		if (!registration.isDropped()) {
+			registration.drop();
+		}
+		
+
+        return true;
 	}
 
 }
