@@ -1,6 +1,7 @@
 package cx2002grp2.stars.data.dataitem;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * 
@@ -17,22 +18,22 @@ public class Registration {
 	private LocalDateTime registerDateTime;
 	private Status status;
 
-	public Registration(Student student, CourseIndex courseIndex, LocalDateTime registerDateTime, Status status) {
-		// TODO - handle relationship about registration
-		this.student = student;
-		this.course = courseIndex.getCourse();
-		this.courseIndex = courseIndex;
-		this.registerDateTime = registerDateTime;
-		this.status = status;
-	}
 
 	public Registration(Student student, Course course, LocalDateTime registerDateTime, Status status) {
+		Objects.requireNonNull(student);
 		// TODO - handle relationship about registration
 		this.student = student;
 		this.course = course;
 		this.courseIndex = null;
 		this.registerDateTime = registerDateTime;
 		this.status = status;
+	}
+
+	public Registration(Student student, CourseIndex courseIndex, LocalDateTime registerDateTime, Status status) {
+		// TODO - handle relationship about registration
+		this(student, courseIndex.getCourse(), registerDateTime, status);
+
+		this.setCourseIndex(courseIndex);
 	}
 
 	public Student getStudent() {
@@ -54,10 +55,16 @@ public class Registration {
 		}
 		// TODO - handle relationship about registration
 
-		this.courseIndex.delRegistration(this);
+		if (this.getCourseIndex() == courseIndex) {
+			return;
+		}
+
+		if (this.getCourseIndex() != null) {
+			this.getCourseIndex().delRegistration(this);
+		}
 		
 		this.courseIndex = courseIndex;
-		this.courseIndex.addRegistration(this);
+		this.getCourseIndex().delRegistration(this);
 	}
 
 	public LocalDateTime getRegisterDateTime() {

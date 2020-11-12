@@ -155,9 +155,10 @@ public class Student extends User {
 	public boolean addRegistration(Registration registration) {
 		// TODO - implement Student.addRegistration
 
+		if (this.registrationList.contains(registration))
+			return false;
+
 		// add this new registration
-		registration.getCourseIndex()
-			.addRegistration(registration);
 		this.registrationList.add(registration);
 
         return true;
@@ -176,8 +177,7 @@ public class Student extends User {
 
 		this.registrationList.remove(registration);
 		
-		CourseIndex courseIndex = registration.getCourseIndex();
-		courseIndex.delRegistration(registration);
+		
 
         return true;
 	}
