@@ -11,31 +11,80 @@ import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Schedule;
 
+/**
+ * Database storing {@link CourseIndex}.
+ * <p>
+ * The database is implemented with Singleton pattern.
+ * <p>
+ * The following data syncing process will be handled automatically:
+ * <ul>
+ * <li>When a course is added, all the course indexes under the added course
+ * will be added into this database.
+ * <li>When a course is deleted, all the course indexes under the deleted course
+ * will deleted from this database.
+ * </ul>
+ */
 public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex> {
 
+    /**
+     * database file that course index database is storing
+     */
     private static final String COURSE_INDEX_DB_FILE_PATH = "tables/course_index.csv";
+    /**
+     * database file that course schedule database is storing
+     */
     private static final String SCHEDULE_DB_FILE_PATH = "tables/schedule.csv";
 
+    /**
+     * A unique instance of database, for Singleton pattern.
+     */
     private static CourseIndexDB instance = new CourseIndexDB();
-    Converter<CourseIndex> converter = ConverterFactory.courseIndexConverter();
-    Converter<Schedule> scheConverter = ConverterFactory.scheduleConverter();
-    SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
 
+    /**
+     * Get instance of database, for Singleton pattern.
+     */
     public static CourseIndexDB getDB() {
         return instance;
     }
 
+    /**
+     * Converter for converting course index item from and into string list.
+     */
+    private Converter<CourseIndex> converter = ConverterFactory.courseIndexConverter();
+    /**
+     * Converter for converting course schedule item from and into string list.
+     */
+    private Converter<Schedule> scheduleConverter = ConverterFactory.scheduleConverter();
+    /**
+     * Loader used to load database from and into file.
+     */
+    private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
+
+    /**
+     * Construct a database with data loaded and setup syncing process.
+     */
     protected CourseIndexDB() {
         loadData();
 
-        CourseDB.getDB().addOnItemDeletedObserver(this::doOnCourseDeleted);
+        // When a course is added, all the course indexes under the added course will be
+        // added into this database.
         CourseDB.getDB().addOnItemAddedObserver(this::doOnCourseAdded);
+
+        // When a course is deleted, all the course indexes under the deleted course
+        // will deleted from this database.
+        CourseDB.getDB().addOnItemDeletedObserver(this::doOnCourseDeleted);
     }
 
+    /**
+     * Delete all the indexes under the deleted course from this database.
+     */
     private void doOnCourseDeleted(Course deletedCourse) {
         deletedCourse.getIndexList().forEach(deletedIndex -> delItem(deletedIndex));
     }
 
+    /**
+     * added all the indexes under the added course from this database.
+     */
     private void doOnCourseAdded(Course addedCourse) {
         addedCourse.getIndexList().forEach(addedIndex -> addItem(addedIndex));
     }
@@ -60,8 +109,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
      * 
      * @param courseCode a course code of course
      * @return a collection of all the indexes under the given course code. If the
-     *         no course can be found in the database with the given course code,
-     *         return null.
+     *         no course can be found with the given course code, return null.
      */
     public Collection<CourseIndex> getIndexOfCourse(String courseCode) {
         Course course = CourseDB.getDB().getByKey(courseCode);
@@ -80,6 +128,8 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
     protected void loadData() {
         loader.load(COURSE_INDEX_DB_FILE_PATH, this, converter);
 
+        // set the instance to this so that the convert won't get a null from getDB()
+        // when loading schedule.
         instance = this;
 
         CSV.Reader reader = new CSV.Reader(SCHEDULE_DB_FILE_PATH);
@@ -90,7 +140,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
             // converter will set the course index field for schedule, which means the
             // relationship between schedule and course index shall be build automatically.
             // Therefore, no further relationship handling.
-            scheConverter.fromStringList(row);
+            scheduleConverter.fromStringList(row);
         }
     }
 
@@ -103,11 +153,11 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
     protected void saveData() {
         loader.save(this, COURSE_INDEX_DB_FILE_PATH, converter);
 
-        List<List<String>> table = new ArrayList<>(size() * 2);
+        List<List<String>> table = new ArrayList<>();
 
         for (CourseIndex index : this) {
-            for (Schedule sche : index.getScheduleList()) {
-                List<String> row = scheConverter.toStringList(sche);
+            for (Schedule schedule : index.getScheduleList()) {
+                List<String> row = scheduleConverter.toStringList(schedule);
                 table.add(row);
             }
         }
@@ -116,17 +166,4 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
 
         writer.writeData(table);
     }
-
-    public static void main(String[] args) {
-        CourseIndexDB indexDB = CourseIndexDB.getDB();
-
-        int i = 0;
-        for (CourseIndex index: indexDB) {
-            System.out.println(index.getIndexNo());
-            if (i++ > 10) {
-                break;
-            }
-        }
-    }
-
 }

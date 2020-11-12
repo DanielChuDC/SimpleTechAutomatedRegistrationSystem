@@ -2,10 +2,10 @@ package cx2002grp2.stars.data.database;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Objects;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import cx2002grp2.stars.data.converter.Converter;
 import cx2002grp2.stars.data.converter.ConverterFactory;
@@ -15,31 +15,83 @@ import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
 import cx2002grp2.stars.util.Pair;
 
+/**
+ * Database storing {@link Registration}.
+ * <p>
+ * The database is implemented with Singleton pattern.
+ * <p>
+ * The following data syncing process will be handled automatically:
+ * <ul>
+ * <li>When a {@link CourseIndex} is deleted from {@link CourseIndexDB}, all the
+ * registration under the deleted {@link CourseIndex} will deleted from this
+ * database.
+ * <li>When a {@link Student} is deleted from {@link StudentDB}, all the
+ * registration under the deleted {@link Student} index will deleted from this
+ * database.
+ * </ul>
+ */
 public class RegistrationDB extends AbstractDatabase<Registration> {
 
+    /**
+     * database file that registration database is storing
+     */
     private static final String DB_FILE_PATH = "tables/registration.csv";
 
+    /**
+     * A unique instance of database, for Singleton pattern.
+     */
     private static RegistrationDB instance = new RegistrationDB();
 
-    private Converter<Registration> converter = ConverterFactory.registrationConverter();
-
-    private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
-
-    private Map<Pair<String, String>, Registration> regMap = new HashMap<>();
-
+    /**
+     * Get instance of database, for Singleton pattern.
+     */
     public static RegistrationDB getDB() {
         return instance;
     }
 
+    /**
+     * Converter for converting course item from and into string list.
+     */
+    private Converter<Registration> converter = ConverterFactory.registrationConverter();
+
+    /**
+     * Loader used to load database from and into file.
+     */
+    private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
+
+    /**
+     * A map used to mapping from a student username and course code to a data item.
+     */
+    private SortedMap<Pair<String, String>, Registration> regMap = new TreeMap<>(Pair.pairComparator());
+
+    /**
+     * Construct a database with data loaded and setup syncing process.
+     */
     protected RegistrationDB() {
         loadData();
 
+        // When a CourseIndex is deleted from CourseIndexDB, all the registration under
+        // the deleted CourseIndex will deleted from this database.
         StudentDB.getDB().addOnItemDeletedObserver(this::doOnStudentDeleted);
-        StudentDB.getDB().addOnKeyChangedObserver(this::doOnStudentKeyChanged);
+        // When a Student is deleted from StudentDB, all the registration under the
+        // deleted Student index will deleted from this database.
         CourseIndexDB.getDB().addOnItemDeletedObserver(this::doOnIndexDeleted);
+
+        // The key stored in this database need to be synchronized with the key stored
+        // in the StudentDB and CourseDB
+        StudentDB.getDB().addOnKeyChangedObserver(this::doOnStudentKeyChanged);
         CourseDB.getDB().addOnKeyChangedObserver(this::doOnCourseCodeKeyChanged);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @return The original item in database if there is an item has the same
+     *         student username and course code with the added item , or null if no
+     *         replacement happens
+     * @throws NullPointerException If the inserted registration, student username
+     *                              or course code is null.
+     */
     @Override
     public Registration addItem(Registration reg) {
         Pair<String, String> keyPair = makeKey(reg);
@@ -91,9 +143,12 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
     }
 
     /**
+     * Get a registration with the student username and course index.
      * 
-     * @param indexNo
-     * @param username
+     * @param indexNo  the course index of registration to be got.
+     * @param username the student username of registration to be got.
+     * @return a registration with given student username and course index. If such
+     *         registration does not exist, return null.
      */
     public Registration getByIndex(String indexNo, String username) {
         CourseIndex index = CourseIndexDB.getDB().getByKey(indexNo);
@@ -102,27 +157,39 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
             return null;
         }
 
-        return getByCourseCode(index.getCourse().getCourseCode(), username);
+        Registration ret = getByCourseCode(index.getCourse().getCourseCode(), username);
+
+        if (ret == null || ret.getCourseIndex() == null || !ret.getCourseIndex().getKey().equals(indexNo)) {
+            return null;
+        }
+
+        return ret;
     }
 
     /**
+     * Get a registration with the student username and course code.
      * 
-     * @param courseCode
-     * @param username
+     * @param courseCode the course code of registration to be got.
+     * @param username   the student username of registration to be got.
+     * @return a registration with given student username and course code. If such
+     *         registration does not exist, return null.
      */
     public Registration getByCourseCode(String courseCode, String username) {
         if (courseCode == null || username == null) {
             return null;
         }
 
-        Pair<String, String> keyPair = new Pair<>(username, courseCode);
+        Pair<String, String> keyPair = new Pair<>(courseCode, username);
 
         return regMap.get(keyPair);
     }
 
     /**
+     * Get a collection of registration that under given index.
      * 
-     * @param index
+     * @param index the index used to get the registration.
+     * @return a collection of registration that under given course index. If the
+     *         index cannot be found in the database system, return null.
      */
     public Collection<Registration> getRegOfIndex(String index) {
         CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(index);
@@ -133,8 +200,11 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
     }
 
     /**
+     * Get a collection of registration under the student of given username.
      * 
-     * @param username
+     * @param username the username used to get the registration.
+     * @return a collection of registration under the given username. If the
+     *         username cannot be found in the database system, return null.
      */
     public Collection<Registration> getRegOfStudent(String username) {
         Student student = StudentDB.getDB().getByKey(username);
@@ -142,6 +212,27 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
             return null;
         }
         return student.getRegistrationList();
+    }
+
+    /**
+     * Get a collection of registration under the given course code.
+     * 
+     * @param courseCode the course code used to get the registration.
+     * @return a collection of registration under the given course code
+     */
+    public Collection<Registration> getRegOfCourseCode(String courseCode) {
+        Course course = CourseDB.getDB().getByKey(courseCode);
+
+        if (course == null) {
+            return null;
+        }
+
+        Pair<String, String> lowerBound = new Pair<>(courseCode, "");
+        Pair<String, String> upperBound = new Pair<>(courseCode, "\u7fff");
+
+        Collection<Registration> ret = regMap.subMap(lowerBound, upperBound).values();
+
+        return Collections.unmodifiableCollection(ret);
     }
 
     @Override
@@ -159,34 +250,66 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
         loader.save(this, DB_FILE_PATH, converter);
     }
 
+    /**
+     * Delete all the registration under the deleted student.
+     * 
+     * @param deletedStudent the deleted student.
+     */
     private void doOnStudentDeleted(Student deletedStudent) {
         deletedStudent.getRegistrationList().forEach(reg -> delItem(reg));
     }
 
+    /**
+     * Delete all the registration under the deleted index.
+     * 
+     * @param deletedIndex the deleted index.
+     */
     private void doOnIndexDeleted(CourseIndex deletedIndex) {
         deletedIndex.getAllRegistration().forEach(reg -> delItem(reg));
     }
 
+    /**
+     * Sync the key when the key of the student change.
+     * 
+     * @param oldStudent the old key of student
+     * @param newStudent the new student with the new key.
+     */
     private void doOnStudentKeyChanged(String oldStudent, Student newStudent) {
         for (Registration reg : newStudent.getRegistrationList()) {
             Pair<String, String> newKeyPair = makeKey(reg);
-            Pair<String, String> oldKeyPair = new Pair<>(oldStudent, newKeyPair.val2());
+            Pair<String, String> oldKeyPair = new Pair<>(newKeyPair.val1(), oldStudent);
 
             changeKey(oldKeyPair, newKeyPair);
         }
     }
 
+    /**
+     * Sync the key when the key of the course change.
+     * 
+     * @param oldCourseCode the old key of course
+     * @param newCourse     the new course with the new key.
+     */
     private void doOnCourseCodeKeyChanged(String oldCourseCode, Course newCourse) {
         for (CourseIndex index : newCourse.getIndexList()) {
             for (Registration reg : index.getAllRegistration()) {
                 Pair<String, String> newKeyPair = makeKey(reg);
-                Pair<String, String> oldKeyPair = new Pair<>(newKeyPair.val1(), oldCourseCode);
+                Pair<String, String> oldKeyPair = new Pair<>(oldCourseCode, newKeyPair.val2());
 
                 changeKey(oldKeyPair, newKeyPair);
             }
         }
     }
 
+    /**
+     * Make a key pair from a given registration.
+     * 
+     * @param reg the given registration.
+     * @return the key pair that can be used to identify a registration.
+     * @throws NullPointerException if registration is null, its course is null, its
+     *                              student is null, the key of its course is null,
+     *                              or the key of its student is null.
+     * @see Pair
+     */
     private Pair<String, String> makeKey(Registration reg) {
         String studKey = reg.getStudent().getKey();
         String courseKey = reg.getCourse().getKey();
@@ -194,25 +317,33 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
         Objects.requireNonNull(studKey);
         Objects.requireNonNull(courseKey);
 
-        return new Pair<>(studKey, courseKey);
+        return new Pair<>(courseKey, studKey);
     }
 
+    /**
+     * Change the key of the map an element to a new one.
+     * 
+     * @param oldKeyPair the old key.
+     * @param newKeyPair the new key.
+     * @return whether the key is changed.
+     */
     private boolean changeKey(Pair<String, String> oldKeyPair, Pair<String, String> newKeyPair) {
-        Registration changed = regMap.remove(oldKeyPair);
+        if (regMap.containsKey(newKeyPair)) {
+            throw new IllegalArgumentException("New Key " + newKeyPair + " conflicts with an existing key.");
+        }
 
-        if (changed == null) {
+        Registration changedReg = regMap.remove(oldKeyPair);
+
+        if (changedReg == null) {
             return false;
         }
 
-        regMap.put(newKeyPair, changed);
+        regMap.put(newKeyPair, changedReg);
 
         return true;
     }
 
     public static void main(String[] args) {
-        for (Registration reg: RegistrationDB.getDB()) {
-            System.out.println(reg.getCourse().getCourseCode());
-        }
     }
 
 }
