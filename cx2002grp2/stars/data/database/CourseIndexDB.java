@@ -9,7 +9,7 @@ import cx2002grp2.stars.data.converter.Converter;
 import cx2002grp2.stars.data.converter.ConverterFactory;
 import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
-import cx2002grp2.stars.data.dataitem.Schedule;;
+import cx2002grp2.stars.data.dataitem.Schedule;
 
 public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex> {
 

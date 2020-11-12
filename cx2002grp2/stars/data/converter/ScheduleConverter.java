@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -54,7 +55,7 @@ public class ScheduleConverter implements Converter<Schedule> {
         CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(indexNo);
 
         ClassType classType = ClassType.valueOf(strings.get(TYPE_POS));
-        
+
         DayOfWeek dayOfWeek = DayOfWeek.valueOf(strings.get(DAY_POS));
 
         String group = strings.get(GROUP_POS);
@@ -67,7 +68,7 @@ public class ScheduleConverter implements Converter<Schedule> {
         Set<Integer> teachingWeeks = new TreeSet<>();
 
         if (!teachWkStr.isBlank()) {
-            for (String wkStr: teachWkStr.split(",")) {
+            for (String wkStr : teachWkStr.split(",")) {
                 teachingWeeks.add(Integer.valueOf(wkStr));
             }
         }
@@ -75,4 +76,6 @@ public class ScheduleConverter implements Converter<Schedule> {
         return new Schedule(courseIndex, classType, group, dayOfWeek, venue, remark, beginTime, endTime);
     }
 
+    public static void main(String[] args) {
+    }
 }
