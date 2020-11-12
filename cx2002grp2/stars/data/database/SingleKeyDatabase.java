@@ -20,7 +20,7 @@ import cx2002grp2.stars.data.dataitem.SingleKeyItem;
  * {@link OnKeyChangedSubject OnKeyChangedSubject&lt;KeyType, ItemType&gt;}
  * @see AbstractSingleKeyDatabase
  */
-public interface SingleKeyDatabase<KeyType, ItemType extends SingleKeyItem<KeyType>>
+public interface SingleKeyDatabase<KeyType extends Comparable<KeyType>, ItemType extends SingleKeyItem<KeyType>>
         extends Database<ItemType>, OnKeyChangedSubject<KeyType, ItemType> {
 
     /**

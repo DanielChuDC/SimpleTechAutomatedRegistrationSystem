@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import cx2002grp2.stars.MainApp;
+import cx2002grp2.stars.util.OnExitObserver;
 
 /**
  * A common implementation for all database.
@@ -21,7 +22,7 @@ import cx2002grp2.stars.MainApp;
  * </ul>
  * @see AbstractSingleKeyDatabase
  */
-public abstract class AbstractDatabase<ItemType> implements Database<ItemType> {
+public abstract class AbstractDatabase<ItemType> implements Database<ItemType>, OnExitObserver {
 
     /**
      * Construct a database observing on the exiting event of MainApp.

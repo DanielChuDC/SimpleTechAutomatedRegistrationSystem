@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 import cx2002grp2.stars.data.dataitem.SingleKeyItem;
 
@@ -28,18 +29,21 @@ import cx2002grp2.stars.data.dataitem.SingleKeyItem;
  * {@link AbstractSingleKeyDatabase#signalKeyChanged(Object, SingleKeyItem)}
  * </ul>
  */
-public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends SingleKeyItem<KeyType>>
+public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyType>, ItemType extends SingleKeyItem<KeyType>>
         extends AbstractDatabase<ItemType> implements SingleKeyDatabase<KeyType, ItemType> {
 
-    private Map<KeyType, ItemType> data = new HashMap<>();
+    /**
+     * A map used to mapping from a key to a data item.
+     */
+    private Map<KeyType, ItemType> data = new TreeMap<>();
 
     /**
      * {@inheritDoc}
      * 
-     * @return The original item if there is an item has the same key with the added
-     *         item , or null if no replacement happens
-     * @throws NullPointerException If the inserted item is null, or the value is
-     *                              null.
+     * @return The original item in database if there is an item has the same key
+     *         with the added item , or null if no replacement happens
+     * @throws NullPointerException If the inserted item is null, or its key value
+     *                              is null.
      */
     @Override
     public ItemType addItem(ItemType item) {
@@ -66,6 +70,9 @@ public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends Single
 
     @Override
     public boolean hasItem(ItemType item) {
+        if (item == null) {
+            return false;
+        }
         return hasKey(item.getKey());
     }
 
