@@ -9,12 +9,18 @@ import cx2002grp2.stars.util.OnExitObserver;
  * deleted from the database. Checking the size of database and checking if a
  * data item exists in the database are also supported.
  * <p>
- * The database support iterating by impelmenting {@link Iterable}
+ * The database support iterating by implementing {@link Iterable
+ * Iterable<ItemType>}.
  * <p>
- * TODO - Finish Doc
+ * To handle the data synchronization issue among databases, observer pattern are
+ * used. All the database can be observed for some events. Two basic event are
+ * item addition and item deletion, which are specified through
+ * {@link OnItemDeletedSubject OnItemDeletedSubject<ItemType>} and
+ * {@link OnItemAddedSubject OnItemAddedSubject<ItemType>}.
  * 
  * @param <ItemType> The data type of item stored by the database.
  * @see cx2002grp2.stars.data.dataitem
+ * @see SingleKeyDatabase
  */
 public interface Database<ItemType>
         extends OnExitObserver, OnItemDeletedSubject<ItemType>, OnItemAddedSubject<ItemType>, Iterable<ItemType> {
@@ -27,8 +33,8 @@ public interface Database<ItemType>
      * @throws NullPointerException     If the inserted item is null, or any
      *                                  required information of the item (like key)
      *                                  is null.
-     * @throws IllegalArgumentException If the inserted item is consided illegal by
-     *                                  the database for some reason
+     * @throws IllegalArgumentException If the inserted item is considered illegal
+     *                                  by the database for some reason
      */
     public abstract ItemType addItem(ItemType item);
 
