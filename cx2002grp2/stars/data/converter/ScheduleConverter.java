@@ -13,17 +13,51 @@ import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Schedule;
 import cx2002grp2.stars.data.dataitem.Schedule.ClassType;
 
+/**
+ * Concrete implementation for {@link Converter converter} of {@link Schedule
+ * Schedule}
+ */
 public class ScheduleConverter implements Converter<Schedule> {
 
+    /**
+     * Size of row of the table storing the schedule.
+     */
     private static final int ROW_SIZE = 9;
+    /**
+     * Position of course index field in one row of table.
+     */
     private static final int INDEX_POS = 0;
+    /**
+     * Position of class type field in one row of table.
+     */
     private static final int TYPE_POS = 1;
+    /**
+     * Position of class group field in one row of table.
+     */
     private static final int GROUP_POS = 2;
+    /**
+     * Position of day of week field in one row of table.
+     */
     private static final int DAY_POS = 3;
+    /**
+     * Position of class venue field in one row of table.
+     */
     private static final int VENUE_POS = 6;
+    /**
+     * Position of remark field in one row of table.
+     */
     private static final int REMARK_POS = 8;
+    /**
+     * Position of class begin time field in one row of table.
+     */
     private static final int BEGIN_POS = 4;
+    /**
+     * Position of class end time field in one row of table.
+     */
     private static final int END_POS = 5;
+    /**
+     * Position of class weeks field in one row of table.
+     */
     private static final int WEEKS_POS = 7;
 
     @Override
@@ -31,7 +65,7 @@ public class ScheduleConverter implements Converter<Schedule> {
         if (item.getCourseIndex() == null) {
             return null;
         }
-        
+
         String[] row = new String[ROW_SIZE];
 
         row[INDEX_POS] = item.getCourseIndex().getIndexNo();
