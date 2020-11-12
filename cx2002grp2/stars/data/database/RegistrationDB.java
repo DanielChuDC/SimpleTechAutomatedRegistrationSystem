@@ -2,18 +2,30 @@ package cx2002grp2.stars.data.database;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 
+import cx2002grp2.stars.data.converter.Converter;
+import cx2002grp2.stars.data.converter.ConverterFactory;
 import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
+import cx2002grp2.stars.util.Pair;
 
 public class RegistrationDB extends AbstractDatabase<Registration> {
 
     private static final String DB_FILE_PATH = "tables/registration.csv";
 
     private static RegistrationDB instance = new RegistrationDB();
+
+    private Converter<Registration> converter = ConverterFactory.registrationConverter();
+
+    private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
+
+    private Map<Pair<String, String>, Registration> regMap = new HashMap<>();
 
     public static RegistrationDB getDB() {
         return instance;
@@ -28,44 +40,54 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
         CourseDB.getDB().addOnKeyChangedObserver(this::doOnCourseCodeKeyChanged);
     }
 
-    private void doOnStudentDeleted(Student deletedStudent) {
-        deletedStudent.getRegistrationList().forEach(reg->delItem(reg));
-    }
+    @Override
+    public Registration addItem(Registration reg) {
+        Pair<String, String> keyPair = makeKey(reg);
 
-    private void doOnIndexDeleted(CourseIndex deletedIndex) {
-        deletedIndex.getAllRegistration().forEach(reg->delItem(reg));
-    }
+        Registration ret = regMap.put(keyPair, reg);
 
-    private void doOnStudentKeyChanged(String oldKey, Student newStudent) {
-        // impelement methods
-    }
+        if (ret != null) {
+            signalItemAdded(ret);
+        }
 
-    private void doOnCourseCodeKeyChanged(String oldCourseCode, Course newCourse) {
-        // impelement methods
+        return ret;
     }
 
     @Override
-    public Registration addItem(Registration registration) {
-        // TODO - implement RegistrationDB.add
-        return null;
+    public Registration delItem(Registration reg) {
+        Pair<String, String> keyPair;
+
+        try {
+            keyPair = makeKey(reg);
+        } catch (NullPointerException e) {
+            return null;
+        }
+
+        Registration ret = regMap.remove(keyPair);
+
+        if (ret != null) {
+            signalItemDeleted(ret);
+        }
+
+        return ret;
     }
 
     @Override
-    public Registration delItem(Registration registration) {
-        // TODO - implement RegistrationDB.del
-        return null;
-    }
+    public boolean hasItem(Registration reg) {
+        Pair<String, String> keyPair;
 
-    @Override
-    public boolean hasItem(Registration registration) {
-        // TODO - implement RegistrationDB.contains
-        return false;
+        try {
+            keyPair = makeKey(reg);
+        } catch (NullPointerException e) {
+            return false;
+        }
+
+        return regMap.containsKey(keyPair);
     }
 
     @Override
     public int size() {
-        // TODO - implement method
-        return 0;
+        return regMap.size();
     }
 
     /**
@@ -74,8 +96,13 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
      * @param username
      */
     public Registration getByIndex(String indexNo, String username) {
-        // TODO - implement RegistrationDB.get
-        return null;
+        CourseIndex index = CourseIndexDB.getDB().getByKey(indexNo);
+
+        if (index == null || index.getCourse() == null) {
+            return null;
+        }
+
+        return getByCourseCode(index.getCourse().getCourseCode(), username);
     }
 
     /**
@@ -84,8 +111,13 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
      * @param username
      */
     public Registration getByCourseCode(String courseCode, String username) {
-        // TODO - implement RegistrationDB.get
-        return null;
+        if (courseCode == null || username == null) {
+            return null;
+        }
+
+        Pair<String, String> keyPair = new Pair<>(username, courseCode);
+
+        return regMap.get(keyPair);
     }
 
     /**
@@ -93,8 +125,11 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
      * @param index
      */
     public Collection<Registration> getRegOfIndex(String index) {
-        // TODO - implement RegistrationDB.getRegOfIndex
-        return Collections.emptyList();
+        CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(index);
+        if (courseIndex == null) {
+            return null;
+        }
+        return courseIndex.getAllRegistration();
     }
 
     /**
@@ -102,23 +137,82 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
      * @param username
      */
     public Collection<Registration> getRegOfStudent(String username) {
-        // TODO - implement RegistrationDB.getRegOfStudent
-        return Collections.emptyList();
+        Student student = StudentDB.getDB().getByKey(username);
+        if (student == null) {
+            return null;
+        }
+        return student.getRegistrationList();
     }
 
     @Override
     public Iterator<Registration> iterator() {
-        // TODO Auto-generated method stub
-        return Collections.emptyIterator();
+        return Collections.unmodifiableCollection(regMap.values()).iterator();
     }
 
     @Override
     protected void loadData() {
-        // TODO - implement RegistrationDB.loadData
+        loader.load(DB_FILE_PATH, this, converter);
     }
 
     @Override
     protected void saveData() {
-        // TODO - implement RegistrationDB.saveData
+        loader.save(this, DB_FILE_PATH, converter);
     }
+
+    private void doOnStudentDeleted(Student deletedStudent) {
+        deletedStudent.getRegistrationList().forEach(reg -> delItem(reg));
+    }
+
+    private void doOnIndexDeleted(CourseIndex deletedIndex) {
+        deletedIndex.getAllRegistration().forEach(reg -> delItem(reg));
+    }
+
+    private void doOnStudentKeyChanged(String oldStudent, Student newStudent) {
+        for (Registration reg : newStudent.getRegistrationList()) {
+            Pair<String, String> newKeyPair = makeKey(reg);
+            Pair<String, String> oldKeyPair = new Pair<>(oldStudent, newKeyPair.val2());
+
+            changeKey(oldKeyPair, newKeyPair);
+        }
+    }
+
+    private void doOnCourseCodeKeyChanged(String oldCourseCode, Course newCourse) {
+        for (CourseIndex index : newCourse.getIndexList()) {
+            for (Registration reg : index.getAllRegistration()) {
+                Pair<String, String> newKeyPair = makeKey(reg);
+                Pair<String, String> oldKeyPair = new Pair<>(newKeyPair.val1(), oldCourseCode);
+
+                changeKey(oldKeyPair, newKeyPair);
+            }
+        }
+    }
+
+    private Pair<String, String> makeKey(Registration reg) {
+        String studKey = reg.getStudent().getKey();
+        String courseKey = reg.getCourse().getKey();
+
+        Objects.requireNonNull(studKey);
+        Objects.requireNonNull(courseKey);
+
+        return new Pair<>(studKey, courseKey);
+    }
+
+    private boolean changeKey(Pair<String, String> oldKeyPair, Pair<String, String> newKeyPair) {
+        Registration changed = regMap.remove(oldKeyPair);
+
+        if (changed == null) {
+            return false;
+        }
+
+        regMap.put(newKeyPair, changed);
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        for (Registration reg: RegistrationDB.getDB()) {
+            System.out.println(reg.getCourse().getCourseCode());
+        }
+    }
+
 }

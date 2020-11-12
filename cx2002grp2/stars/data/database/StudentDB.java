@@ -1,6 +1,5 @@
 package cx2002grp2.stars.data.database;
 
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -115,6 +114,7 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	 * the third case when the key won't change:
 	 * <ol start="3">
 	 * <li>The new key of student conflicts with an existing key in the
+	 * </ol>
 	 * {@link UserDB user database }
 	 */
 	@Override

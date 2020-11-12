@@ -10,9 +10,9 @@ public class UserDB extends AbstractSingleKeyDatabase<String, User> {
 
     private static UserDB instance = new UserDB();
 
-	private static final Converter<User> converter = ConverterFactory.userConverter();
+	private Converter<User> converter = ConverterFactory.userConverter();
 
-	private static final SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
+	private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
 
     protected UserDB() {
         loadData();

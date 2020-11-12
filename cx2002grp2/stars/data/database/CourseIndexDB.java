@@ -26,8 +26,6 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
     }
 
     protected CourseIndexDB() {
-        instance = this;
-
         loadData();
 
         CourseDB.getDB().addOnItemDeletedObserver(this::doOnCourseDeleted);
@@ -81,6 +79,8 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
     @Override
     protected void loadData() {
         loader.load(COURSE_INDEX_DB_FILE_PATH, this, converter);
+
+        instance = this;
 
         CSV.Reader reader = new CSV.Reader(SCHEDULE_DB_FILE_PATH);
 

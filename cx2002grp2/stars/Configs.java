@@ -16,7 +16,7 @@ import cx2002grp2.stars.util.EmailNotificationSender;
  */
 public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig> {
 
-    private static final String DB_FILE_PATH = "tables/configs.csv";
+    private static final String DB_FILE_PATH = "tables/config.csv";
 
     private static Configs configDB = new Configs();
 
