@@ -5,24 +5,45 @@ import cx2002grp2.stars.data.converter.ConverterFactory;
 import cx2002grp2.stars.data.dataitem.Course;
 
 /**
- * Database storing course
+ * Database storing {@link Course}.
+ * <p>
+ * The database is implemented with Singleton pattern.
  */
 public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
 
+    /**
+     * database file that course database is storing
+     */
     private static final String DB_FILE_PATH = "tables/course.csv";
 
+    /**
+     * A unique instance of database, for Singleton pattern.
+     */
     private static CourseDB instance = new CourseDB();
-
-    private Converter<Course> converter = ConverterFactory.courseConverter();
-
-    private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
-
-    protected CourseDB() {
-        loadData();
-    }
-
+    
+    /**
+     * Get instance of database, for Singleton pattern.
+     * @return 
+     */
     public static CourseDB getDB() {
         return instance;
+    }
+
+    /**
+     * Converter for converting course item from and into string list.
+     */
+    private Converter<Course> converter = ConverterFactory.courseConverter();
+
+    /**
+     * Loader used to load database from and into file.
+     */
+    private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
+
+    /**
+     * Construct a database with data loaded.
+     */
+    protected CourseDB() {
+        loadData();
     }
 
     @Override
