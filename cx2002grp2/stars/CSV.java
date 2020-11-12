@@ -248,7 +248,13 @@ public class CSV {
                             "The " + (ret.size() + 1) + "-th field is not ended with delimiter (" + delimiter + "), "
                                     + "\"" + line.charAt(i) + "\" is found instead.");
                 }
+
                 ret.add(result.str);
+                
+                if (i >= line.length()) {
+                    break;
+                }
+                
                 ++i;
             }
 
