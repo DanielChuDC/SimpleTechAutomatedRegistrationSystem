@@ -51,7 +51,7 @@ class SimpleDatabaseLoader {
     /**
      * Save the data of the given database into the given file.
      * 
-     * @param <ItemType>    the data type of data item to be handle
+     * @param <ItemType>     the data type of data item to be handle
      * @param inputDB        the database to be saved.
      * @param outputFilePath the path to the output database file.
      * @param itemConverter  the converter used to convert data items into the

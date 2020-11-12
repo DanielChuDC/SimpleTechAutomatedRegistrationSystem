@@ -12,18 +12,30 @@ import cx2002grp2.stars.data.dataitem.SingleKeyItem;
 import cx2002grp2.stars.util.EmailNotificationSender;
 
 /**
- * Config
+ * A collection of the global configuration.
+ * <p>
+ * All the configuration is backed by a config database.
  */
 public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig> {
 
+    /**
+     * database file that course database is storing.
+     */
     private static final String DB_FILE_PATH = "tables/config.csv";
 
+    /**
+     * the configuration database.
+     */
     private static Configs configDB = new Configs();
 
+    /**
+     * construct a configuration database with data loaded.
+     */
     private Configs() {
         loadData();
     }
 
+    // Keys of configuration stored in the config file.
     private static final String ACCESS_START_TIME_KEY = "access_start_time";
     private static final String ACCESS_END_TIME_KEY = "access_end_time";
     private static final String SYSTEM_EMAIL_KEY = "system_email";
@@ -31,26 +43,32 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     private static final String MAX_AU_KEY = "default_max_au";
     private static final String DEFAULT_LOG_LEVEL_KEY = "default_log_level";
 
+    // Buffered values.
     private static LocalDateTime accessEndTimeBuf;
     private static LocalDateTime accessStartTimeBuf;
     private static String systemEmailAddrBuf;
     private static String systemEmailPasswdBuf;
     private static int maxAuBuf;
-    private static Level defualtLogLevelBuf;
+    private static Level defaultLogLevelBuf;
 
+    /**
+     * initialize all the buffered value.
+     */
     public static void init() {
         accessStartTimeBuf = (LocalDateTime) getConfig(ACCESS_START_TIME_KEY);
         accessEndTimeBuf = (LocalDateTime) getConfig(ACCESS_END_TIME_KEY);
         systemEmailAddrBuf = (String) getConfig(SYSTEM_EMAIL_KEY);
         systemEmailPasswdBuf = (String) getConfig(SYSTEM_EMAIL_PASSWD_KEY);
         maxAuBuf = (Integer) getConfig(MAX_AU_KEY);
-        defualtLogLevelBuf = (Level) getConfig(DEFAULT_LOG_LEVEL_KEY);
+        defaultLogLevelBuf = (Level) getConfig(DEFAULT_LOG_LEVEL_KEY);
     }
 
     /**
+     * Get the configuration with the given key.
      * 
-     * @param key
-     * @return
+     * @param key the key value of the given configuration.
+     * @return the value of the corresponding configuration. The key cannot be found
+     *         in the config database, return null.
      */
     public static Object getConfig(String key) {
         OneConfig config = configDB.getByKey(key);
@@ -60,21 +78,30 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     }
 
     /**
+     * Set the configuration with the given key and value.
      * 
-     * @param key
-     * @param val
+     * @param key the key of the given configuration.
+     * @param val the value to be set in the corresponding configuration.
      */
     public static void setConfig(String key, Object val) {
         configDB.addItem(new OneConfig(key, val));
     }
+
+    /**
+     * Get the access start time
+     * 
+     * @return the access start time
+     */
 
     public static LocalDateTime getAccessStartTime() {
         return accessStartTimeBuf;
     }
 
     /**
+     * Set the access start time
      * 
-     * @param time
+     * @param time the new access start time.
+     * @throws NullPointerException if the new value is null.
      */
     public static void setAccessStartTime(LocalDateTime time) {
         Objects.requireNonNull(time);
@@ -83,13 +110,20 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         setConfig(ACCESS_START_TIME_KEY, time);
     }
 
+    /**
+     * Get the access end time
+     * 
+     * @return the access end time
+     */
     public static LocalDateTime getAccessEndTime() {
         return accessEndTimeBuf;
     }
 
     /**
+     * Set the access end time
      * 
-     * @param time
+     * @param time the new access end time.
+     * @throws NullPointerException if the new value is null.
      */
     public static void setAccessEndTime(LocalDateTime time) {
         Objects.requireNonNull(time);
@@ -98,19 +132,26 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         setConfig(ACCESS_END_TIME_KEY, time);
     }
 
-
     public static boolean isStudentAccessTime() {
         LocalDateTime now = LocalDateTime.now();
         return now.compareTo(getAccessStartTime()) >= 0 && now.compareTo(getAccessEndTime()) < 0;
     }
+
+    /**
+     * Get the system email address
+     * 
+     * @return the system email address
+     */
 
     public static String getSystemEmailAddr() {
         return systemEmailAddrBuf;
     }
 
     /**
+     * Set the system email address
      * 
-     * @param newEmail
+     * @param newEmail the new system email address.
+     * @throws NullPointerException if the new value is null.
      */
     public static void setSystemEmailAddr(String newEmail) {
         Objects.requireNonNull(newEmail);
@@ -119,13 +160,20 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         setConfig(SYSTEM_EMAIL_KEY, newEmail);
     }
 
+    /**
+     * Get the system email password
+     * 
+     * @return the system email password
+     */
     public static String getSystemEmailPasswd() {
         return systemEmailPasswdBuf;
     }
 
     /**
+     * Set the system email password
      * 
-     * @param newPasswd
+     * @param newPasswd the new system email password.
+     * @throws NullPointerException if the new value is null.
      */
     public static void setSystemEmailPasswd(String newPasswd) {
         Objects.requireNonNull(newPasswd);
@@ -134,28 +182,45 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         setConfig(SYSTEM_EMAIL_PASSWD_KEY, newPasswd);
     }
 
+    /**
+     * Get the maximum allowed AU
+     * 
+     * @return the maximum allowed AU
+     */
+
     public static int getMaxAu() {
         return maxAuBuf;
     }
 
+    /**
+     * Set the maximum allowed AU
+     * 
+     * @param newAu the new maximum allowed AU.
+     */
     public static void setMaxAu(int newAu) {
         maxAuBuf = newAu;
         setConfig(MAX_AU_KEY, Integer.valueOf(newAu));
     }
 
+    /**
+     * The default notification sender.
+     */
     private static final NotificationSender defaultSender = new EmailNotificationSender();
 
+    /**
+     * Get a notification sender used system-wise.
+     */
     public static NotificationSender getNotificationSender() {
         return defaultSender;
     }
 
-    public static Level getDefualtLogLevel() {
-        return defualtLogLevelBuf;
+    public static Level getDefaultLogLevel() {
+        return defaultLogLevelBuf;
     }
 
     public static Logger getLogger(String loggerName) {
         Logger logger = Logger.getLogger(loggerName);
-        logger.setLevel(getDefualtLogLevel());
+        logger.setLevel(getDefaultLogLevel());
         return logger;
     }
 
@@ -210,12 +275,24 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     }
 
     /**
-     * 
+     * Represent single record of configuration.
      */
     public static class OneConfig implements SingleKeyItem<String> {
+        /**
+         * Key value of configuration
+         */
         private String key;
+        /**
+         * Value of configuration
+         */
         private Object value;
 
+        /**
+         * Construct a configuration with the given key and value.
+         * 
+         * @param key key of configuration
+         * @param value value of configuration
+         */
         public OneConfig(String key, Object value) {
             this.key = key;
             this.value = value;
@@ -231,10 +308,18 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
             this.key = newKey;
         }
 
+        /**
+         * Get the value of configuration
+         * @return the value of configuration
+         */
         public Object getValue() {
             return this.value;
         }
 
+        /**
+         * Set the value of configuration
+         * @param value the new value of configuration
+         */
         public Object setValue(Object value) {
             Object oldVal = this.value;
             this.value = value;
