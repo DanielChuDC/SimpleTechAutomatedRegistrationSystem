@@ -52,13 +52,11 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	 * user database too.
 	 * 
 	 * @param student the student to be inserted into database.
-	 * @throws NullPointerException     if the student is null, or its username is
-	 *                                  null
 	 * @throws IllegalArgumentException if in the user database, there is a user
 	 *                                  with the same user name as input student,
 	 *                                  but the domain of that user is not
 	 *                                  {@link User.Domain#STUDENT}, the incoming
-	 *                                  student is considered as an illegal argumant
+	 *                                  student is considered as an illegal argument
 	 */
 	@Override
 	public Student addItem(Student student) {

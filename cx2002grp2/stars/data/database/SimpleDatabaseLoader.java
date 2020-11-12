@@ -19,7 +19,7 @@ class SimpleDatabaseLoader {
      * @param outputDB
      * @param itemConverter
      */
-    public <ItemType> void load(String inputFilePath, AbstractDatabase<ItemType> outputDB,
+    public <ItemType> void load(String inputFilePath, Database<ItemType> outputDB,
             Converter<ItemType> itemConverter) {
 
         CSV.Reader input = new CSV.Reader(inputFilePath);
@@ -41,7 +41,7 @@ class SimpleDatabaseLoader {
      * @param outputFilePath
      * @param itemConverter
      */
-    public <ItemType> void save(AbstractDatabase<ItemType> inputDB, String outputFilePath,
+    public <ItemType> void save(Database<ItemType> inputDB, String outputFilePath,
             Converter<ItemType> itemConverter) {
         CSV.Writer output = new CSV.Writer(outputFilePath);
 
