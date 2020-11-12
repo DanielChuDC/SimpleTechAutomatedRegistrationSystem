@@ -320,10 +320,8 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
          * Set the value of configuration
          * @param value the new value of configuration
          */
-        public Object setValue(Object value) {
-            Object oldVal = this.value;
+        public void setValue(Object value) {
             this.value = value;
-            return oldVal;
         }
     }
 }
