@@ -11,7 +11,7 @@ package cx2002grp2.stars.data.database;
  * Iterable&lt;ItemType&gt;}.
  * <p>
  * To handle the data synchronization issue among databases, observer pattern
- * are used. All the database can be observed for some events. Two basic event
+ * are used. All the database can be observed for some events. Two basic events
  * are item addition and item deletion, which are specified through
  * {@link OnItemDeletedSubject OnItemDeletedSubject&lt;ItemType&gt;} and
  * {@link OnItemAddedSubject OnItemAddedSubject&lt;ItemType&gt;}.
@@ -26,7 +26,7 @@ public interface Database<ItemType>
     /**
      * Add a new item into the database or replace an existing item in the database.
      * <p>
-     * If an item is deleted, the database shall inform all
+     * If an item is added, the database shall inform all
      * {@link OnItemAddedObserver} that are observing on it by calling
      * {@link OnItemAddedObserver#doOnItemAdded(Object)}
      * 
@@ -37,7 +37,7 @@ public interface Database<ItemType>
     public abstract ItemType addItem(ItemType item);
 
     /**
-     * Delete am item in the database.
+     * Delete an item in the database.
      * <p>
      * If an item is deleted, the database shall inform all
      * {@link OnItemDeletedObserver} that are observing on it by calling

@@ -23,7 +23,7 @@ import cx2002grp2.stars.data.dataitem.SingleKeyItem;
  * <li>Get size of database
  * <li>Support iteration
  * <li>Implement interface {@link OnKeyChangedSubject
- * OnKeyChangedSubject&lt;KeyType, ItemType&gt;}} and the corresponding
+ * OnKeyChangedSubject&lt;KeyType, ItemType&gt;} and the corresponding
  * signaling method
  * {@link AbstractSingleKeyDatabase#signalKeyChanged(Comparable, SingleKeyItem)}
  * </ul>
@@ -146,6 +146,9 @@ public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyTy
         return changeKey(oldItem.getKey(), newKey);
     }
 
+    /**
+     * A collection of observer that are observing on this database for the key changing events.
+     */
     private Collection<OnKeyChangedObserver<? super KeyType, ? super ItemType>> onKeyChangedObservers = new HashSet<>();
 
     @Override
