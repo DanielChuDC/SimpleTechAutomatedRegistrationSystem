@@ -10,15 +10,16 @@ import cx2002grp2.stars.data.Gender;
 /**
  * A class saving information of a student.
  * <p>
- * This class contains information of a class schedule: matricNo, gender, full name, 
- * nationality, year of study, programme, list of registration.
+ * This class contains information of a class schedule: matricNo, gender, full
+ * name, nationality, year of study, programme, list of registration.
  * <p>
  * All of attributes can be get and set through methods.
  * <p>
- * When an attribute is changed, related information in other class will also change.
+ * When an attribute is changed, related information in other class will also
+ * change.
  */
 public class Student extends User {
-    
+
 	private String matricNo;
 	private Gender gender;
 	private String fullName;
@@ -27,7 +28,8 @@ public class Student extends User {
 	private String programme;
 	private Set<Registration> registrationList;
 
-	public Student(User user, String matricNo, Gender gender, String fullName, String nationality, int yearOfStudy, String programme) {
+	public Student(User user, String matricNo, Gender gender, String fullName, String nationality, int yearOfStudy,
+			String programme) {
 		super(user);
 
 		this.matricNo = matricNo;
@@ -51,6 +53,7 @@ public class Student extends User {
 
 	/**
 	 * get MatricNo of this student.
+	 * 
 	 * @return MatricNo of this student
 	 */
 	public String getMatricNo() {
@@ -59,6 +62,7 @@ public class Student extends User {
 
 	/**
 	 * set MatricNo of this student.
+	 * 
 	 * @param matricNo MatricNo of this student
 	 */
 	public void setMatricNo(String matricNo) {
@@ -67,6 +71,7 @@ public class Student extends User {
 
 	/**
 	 * get gender of this student.
+	 * 
 	 * @return gender of this student
 	 */
 	public Gender getGender() {
@@ -75,6 +80,7 @@ public class Student extends User {
 
 	/**
 	 * set gender of this student.
+	 * 
 	 * @param gender gender of this student
 	 */
 	public void setGender(Gender gender) {
@@ -83,6 +89,7 @@ public class Student extends User {
 
 	/**
 	 * get full name of this student.
+	 * 
 	 * @return full name of this student
 	 */
 	public String getFullName() {
@@ -91,6 +98,7 @@ public class Student extends User {
 
 	/**
 	 * set full name of this student.
+	 * 
 	 * @param fullName full name of this student
 	 */
 	public void setFullName(String fullName) {
@@ -99,6 +107,7 @@ public class Student extends User {
 
 	/**
 	 * get nationality of this student.
+	 * 
 	 * @return nationality of this student
 	 */
 	public String getNationality() {
@@ -107,6 +116,7 @@ public class Student extends User {
 
 	/**
 	 * set nationality of this student.
+	 * 
 	 * @param nationality nationality of this student
 	 */
 	public void setNationality(String nationality) {
@@ -115,6 +125,7 @@ public class Student extends User {
 
 	/**
 	 * get year of study of this student.
+	 * 
 	 * @return year of study of this student
 	 */
 	public int getYearOfStudy() {
@@ -123,6 +134,7 @@ public class Student extends User {
 
 	/**
 	 * set year of study of this student.
+	 * 
 	 * @param yearOfStudy year of study of this student
 	 */
 	public void setYearOfStudy(int yearOfStudy) {
@@ -131,6 +143,7 @@ public class Student extends User {
 
 	/**
 	 * get programme of this student.
+	 * 
 	 * @return programme of this student
 	 */
 	public String getProgramme() {
@@ -139,59 +152,56 @@ public class Student extends User {
 
 	/**
 	 * set programme of this student.
+	 * 
 	 * @param programme programme of this student
 	 */
 	public void setProgramme(String programme) {
 		this.programme = programme;
 	}
 
-    /**
-     * get a collection of registration. 
-     * @return a collection of registration
-     */
+	/**
+	 * get a collection of registration.
+	 * 
+	 * @return a collection of registration
+	 */
 	public Collection<Registration> getRegistrationList() {
-        return Collections.unmodifiableSet(registrationList);
-    }
+		return Collections.unmodifiableSet(registrationList);
+	}
 
 	/**
 	 * add a registration into registration list.
 	 * <p>
 	 * update related registration.
+	 * 
 	 * @param registration a registration to be added into registration list.
 	 */
 	public boolean addRegistration(Registration registration) {
-		// TODO - implement Student.addRegistration
-
 		if (this.registrationList.contains(registration))
 			return false;
 
 		// add this new registration
 		this.registrationList.add(registration);
 
-        return true;
+		return true;
 	}
 
 	/**
 	 * delete a registration from registration list.
 	 * <p>
 	 * delete related registration.
+	 * 
 	 * @param registration a registration to be deleted from registration list
 	 */
 	public boolean delRegistration(Registration registration) {
-		// TODO - implement Student.delRegistration
-
 		if (!this.registrationList.contains(registration)) {
 			return false;
 		}
 
 		this.registrationList.remove(registration);
 
-		if (!registration.isDropped()) {
-			registration.drop();
-		}
-		
+		registration.drop();
 
-        return true;
+		return true;
 	}
 
 }

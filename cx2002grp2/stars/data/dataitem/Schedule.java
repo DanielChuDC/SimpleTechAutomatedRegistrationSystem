@@ -64,8 +64,6 @@ public class Schedule {
 	 * @param courseIndex the new courseIndex to be set
 	 */
 	public void setCourseIndex(CourseIndex courseIndex) {
-		// TODO - implement Schedule.setCourseIndex
-
 		if (courseIndex == this.courseIndex)
 			return;
 
@@ -73,7 +71,7 @@ public class Schedule {
 			this.courseIndex.delSchedule(this);
 
 		this.courseIndex = courseIndex;
-		
+
 		if (this.courseIndex != null)
 			this.courseIndex.addSchedule(this);
 	}

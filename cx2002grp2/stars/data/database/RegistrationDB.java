@@ -44,6 +44,7 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
 
     /**
      * Get instance of database, for Singleton pattern.
+     * 
      * @return the singleton registration database.
      */
     public static RegistrationDB getDB() {
@@ -219,7 +220,8 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
      * Get a collection of registration under the given course code.
      * 
      * @param courseCode the course code used to get the registration.
-     * @return a collection of registration under the given course code
+     * @return a collection of registration under the given course code.If the
+     *         course cannot be found in the database system, return null.
      */
     public Collection<Registration> getRegOfCourseCode(String courseCode) {
         Course course = CourseDB.getDB().getByKey(courseCode);

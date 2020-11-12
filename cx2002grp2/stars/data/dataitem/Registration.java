@@ -32,9 +32,6 @@ public class Registration {
 	private Status status;
 	private boolean isDropped = false;
 
-	private Registration() {
-	}
-
 	/**
 	 * Make a dropped registration with the given register data time and register
 	 * status.
@@ -44,13 +41,17 @@ public class Registration {
 	 */
 	public static Registration makeDropped(LocalDateTime registerDateTime, Status status) {
 		Registration droppedReg = new Registration();
-		droppedReg.student = null;
-		droppedReg.course = null;
-		droppedReg.courseIndex = null;
 		droppedReg.status = status;
 		droppedReg.registerDateTime = registerDateTime;
 		droppedReg.isDropped = true;
 		return droppedReg;
+	}
+
+	/**
+	 * Private default constructor reserved for
+	 * {@link Registration#makeDropped(LocalDateTime, Status)}
+	 */
+	private Registration() {
 	}
 
 	public Registration(Student student, Course course, LocalDateTime registerDateTime, Status status) {
@@ -113,7 +114,6 @@ public class Registration {
 			throw new IllegalArgumentException(
 					"The new course index must have the same course code with the original index.");
 		}
-		// TODO - handle relationship about registration
 
 		if (this.getCourseIndex() == courseIndex) {
 			return;
@@ -124,6 +124,7 @@ public class Registration {
 		}
 
 		this.courseIndex = courseIndex;
+
 		if (this.courseIndex != null)
 			this.getCourseIndex().addRegistration(this);
 	}
@@ -171,7 +172,10 @@ public class Registration {
 	 * null, safely remove this registration.
 	 */
 	public void drop() {
-		// TODO - remove the relationship
+		if (this.isDropped) {
+			return;
+		}
+
 		this.isDropped = true;
 
 		this.courseIndex.delRegistration(this);

@@ -17,7 +17,7 @@ import java.util.Set;
  * change.
  */
 public class Course implements SingleKeyItem<String> {
-    
+
 	private String courseCode;
 	private String courseName;
 	private String school;
@@ -32,26 +32,28 @@ public class Course implements SingleKeyItem<String> {
 		this.indexList = new HashSet<>();
 	}
 
-    @Override
+	@Override
 	public String getKey() {
-        return this.courseCode;
+		return this.courseCode;
 	}
 
-    @Override
+	@Override
 	public void setKey(String newKey) {
-        this.courseCode = newKey;
+		this.courseCode = newKey;
 	}
 
-    /**
-     * get course code of this course.
-     * @return course code of this course
-     */
+	/**
+	 * get course code of this course.
+	 * 
+	 * @return course code of this course
+	 */
 	public String getCourseCode() {
 		return getKey();
 	}
 
 	/**
 	 * set course code of this course.
+	 * 
 	 * @param courseCode course code of this course
 	 */
 	public void setCourseCode(String courseCode) {
@@ -60,6 +62,7 @@ public class Course implements SingleKeyItem<String> {
 
 	/**
 	 * get course name of this course.
+	 * 
 	 * @return course name of this course
 	 */
 	public String getCourseName() {
@@ -68,22 +71,25 @@ public class Course implements SingleKeyItem<String> {
 
 	/**
 	 * set course name of this course.
+	 * 
 	 * @param courseName course name of this course
 	 */
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
-    }
-    
-    /**
-     * get school of this course.
-     * @return school of this course
-     */
+	}
+
+	/**
+	 * get school of this course.
+	 * 
+	 * @return school of this course
+	 */
 	public String getSchool() {
 		return this.school;
 	}
 
 	/**
 	 * set school of this course.
+	 * 
 	 * @param school school of this course
 	 */
 	public void setSchool(String school) {
@@ -92,6 +98,7 @@ public class Course implements SingleKeyItem<String> {
 
 	/**
 	 * get AU of this course.
+	 * 
 	 * @return AU of this course
 	 */
 	public double getAu() {
@@ -100,24 +107,27 @@ public class Course implements SingleKeyItem<String> {
 
 	/**
 	 * set AU of this course.
+	 * 
 	 * @param au AU of this course
 	 */
 	public void setAu(double au) {
 		this.au = au;
 	}
 
-    /**
-     * get list of course index of this course.
-     * @return list of course index of this course
-     */
+	/**
+	 * get list of course index of this course.
+	 * 
+	 * @return list of course index of this course
+	 */
 	public Collection<CourseIndex> getIndexList() {
-        return Collections.unmodifiableSet(indexList);
+		return Collections.unmodifiableSet(indexList);
 	}
 
 	/**
 	 * add a course index into this course's list of course index.
 	 * <p>
 	 * update related course index.
+	 * 
 	 * @param courseIndex a course index to be added into the list of course index
 	 */
 	public boolean addIndex(CourseIndex courseIndex) {
@@ -127,14 +137,16 @@ public class Course implements SingleKeyItem<String> {
 
 		this.indexList.add(courseIndex);
 		courseIndex.setCourse(this);
-        return true;
+		return true;
 	}
 
 	/**
 	 * delete a course index from this course's list of course index.
 	 * <p>
-	 * update related course index. 
-	 * @param courseIndex a course index to be deleted from this course's list of course index.
+	 * update related course index.
+	 * 
+	 * @param courseIndex a course index to be deleted from this course's list of
+	 *                    course index.
 	 */
 	public boolean delIndex(CourseIndex courseIndex) {
 		if (!this.indexList.contains(courseIndex))
@@ -142,7 +154,7 @@ public class Course implements SingleKeyItem<String> {
 
 		this.indexList.remove(courseIndex);
 		courseIndex.setCourse(null);
-        return true;
+		return true;
 	}
 
 	@Override
