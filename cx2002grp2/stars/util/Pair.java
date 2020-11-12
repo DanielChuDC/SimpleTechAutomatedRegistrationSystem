@@ -96,8 +96,12 @@ public class Pair<T1, T2> {
      * Generate a comparator such that compare the in lexicological manner.
      * <p>
      * That is, the comparator will compare the first element ({@link val1()})
-     * first. If they are not equal, return the compare result. Otherwise, then
+     * first. If they are not equal, return the compare result. Otherwise, the
      * compare result of the second element ({@link val2()}) will be returned.
+     * 
+     * @param <T1> comparable data type of the first value in the pair
+     * @param <T2> comparable data type of the second value in the pair
+     * @return a comparator that will compare two pair in lexicological manner.
      */
     public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> Comparator<Pair<T1, T2>> pairComparator() {
         return (pair1, pair2) -> {

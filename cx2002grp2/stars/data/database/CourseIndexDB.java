@@ -78,6 +78,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
 
     /**
      * Delete all the indexes under the deleted course from this database.
+     * @param deletedCourse deleted course
      */
     private void doOnCourseDeleted(Course deletedCourse) {
         deletedCourse.getIndexList().forEach(deletedIndex -> delItem(deletedIndex));
@@ -85,6 +86,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
 
     /**
      * added all the indexes under the added course from this database.
+     * @param addedCourse added course
      */
     private void doOnCourseAdded(Course addedCourse) {
         addedCourse.getIndexList().forEach(addedIndex -> addItem(addedIndex));

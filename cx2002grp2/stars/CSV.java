@@ -509,7 +509,7 @@ public class CSV {
          * {@link hasHeader()} will return false after writing. Otherwise, the new csv
          * file will has header and {@link hasHeader()} will return true.
          * 
-         * @param header
+         * @param header the header to be written into database.
          */
         public void writeHeader(Iterable<String> header) {
             Reader reader = this.toReader();

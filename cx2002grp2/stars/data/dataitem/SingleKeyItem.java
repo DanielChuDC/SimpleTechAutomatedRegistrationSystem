@@ -26,7 +26,7 @@ public interface SingleKeyItem<KeyType> {
      * <p>
      * This method is supposed to be called by database class object only. All the
      * other objects should use the
-     * {@link SingleKeyDatabase#changeKey(Object, Object)
+     * {@link SingleKeyDatabase#changeKey(Comparable, Comparable)
      * SingleKeyDatabase.changeKey} methods in the database class to change the key
      * value of an item.
      * 

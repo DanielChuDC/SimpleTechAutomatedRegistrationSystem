@@ -25,7 +25,7 @@ import cx2002grp2.stars.data.dataitem.SingleKeyItem;
  * <li>Implement interface {@link OnKeyChangedSubject
  * OnKeyChangedSubject&lt;KeyType, ItemType&gt;}} and the corresponding
  * signaling method
- * {@link AbstractSingleKeyDatabase#signalKeyChanged(Object, SingleKeyItem)}
+ * {@link AbstractSingleKeyDatabase#signalKeyChanged(Comparable, SingleKeyItem)}
  * </ul>
  */
 public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyType>, ItemType extends SingleKeyItem<KeyType>>
@@ -146,22 +146,6 @@ public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyTy
         return changeKey(oldItem.getKey(), newKey);
     }
 
-    /**
-     * 
-     * @return
-     */
-    protected Map<KeyType, ItemType> getDataMap() {
-        return this.data;
-    }
-
-    /**
-     * 
-     * @param newData
-     */
-    protected void setDataMap(Map<KeyType, ItemType> newData) {
-        this.data = newData;
-    }
-
     private Collection<OnKeyChangedObserver<? super KeyType, ? super ItemType>> onKeyChangedObservers = new HashSet<>();
 
     @Override
@@ -175,9 +159,10 @@ public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyTy
     }
 
     /**
+     * Signal to all the observer of key changing event.
      * 
-     * @param oldKey
-     * @param newItem
+     * @param oldKey  the original key.
+     * @param newItem the item with the new key value after change.
      */
     protected void signalKeyChanged(KeyType oldKey, ItemType newItem) {
         onKeyChangedObservers.forEach(ob -> ob.doOnKeyChange(oldKey, newItem));

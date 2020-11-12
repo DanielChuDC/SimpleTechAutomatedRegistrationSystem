@@ -21,10 +21,10 @@ import cx2002grp2.stars.data.dataitem.User;
  * <li>When a student is deleted, the corresponding user will be deleted from
  * user database.
  * <li>If the client try to change the username of a student to another username
- * that conflicts with an existing username in {@UserDB user database}, the
+ * that conflicts with an existing username in {@link UserDB user database}, the
  * attempt of changing will be rejected.
  * <li>If the client try to add a student that is found to be not a student in
- * the {@UserDB user database}, in another word, the domain of the user found is
+ * the {@link UserDB user database}, in another word, the domain of the user found is
  * not {@link User.Domain#STUDENT}, then exception will be thrown.
  * </ul>
  * 
@@ -92,7 +92,7 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	 * {@inheritDoc}
 	 * <p>
 	 * When a student is added into the database, the student will be added into the
-	 * {@UserDB user database} simultaneously.
+	 * {@link UserDB user database} simultaneously.
 	 * 
 	 * @param student the student to be inserted into database.
 	 * @throws IllegalArgumentException if in the user database, there is a user
@@ -127,7 +127,7 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	 * @param student the student to be deleted into database.
 	 */
 	@Override
-	public Student delByKey(String key) {
+	public Student delByKey(String student) {
 		Student deleted = super.delByKey(key);
 
 		UserDB.getDB().delItem(deleted);
@@ -144,7 +144,7 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	 * @param student the student to be deleted into database.
 	 */
 	@Override
-	public Student delItem(Student item) {
+	public Student delItem(Student student) {
 		if (item == null) {
 			return null;
 		}
