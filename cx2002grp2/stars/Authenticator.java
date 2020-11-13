@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Scanner;
 
 import cx2002grp2.stars.data.database.UserDB;
 import cx2002grp2.stars.data.dataitem.User;
@@ -36,28 +37,35 @@ public class Authenticator {
     }
 
     /**
-     * @param username username given
-     * @param password password given
+     * 
+     * 
      * @return user with correct credentials or null if wrong
-     * @throws IllegalArgumentException If the username does not exist in database or if password is wrong
+     * 
      */
-    public User login(String username, String password) {
+    public User login() {
         // TODO - implement method
 
         User.Domain[] allDomain = User.Domain.values();
-
-        // get user from database using the username
-        User user = UserDB.getDB().getByKey(username);
-        if (user == null) {
-            throw new IllegalArgumentException("Account with that username does not exist");
+        boolean validDomain = false;
+        Scanner in = new Scanner(System.in);
+        User.Domain domain;
+        User user;
+        
+        // input username, password and domain
+        while (validDomain == false) {
+            System.out.println("Enter domain - 1 for STUDENT, 2 for STAFF");
+            int domainNo = in.nextInt();
+            if (domainNo == 1) domain = allDomain[0];
+            else if (domainNo == 2) domain = allDomain[1];
+            else {
+                System.out.println("Invalid domain choice. Login again.");
+                continue;
+            }
+            
+            validDomain = true;
         }
 
-        // hash given password and check if hash is same
-        String encoded = hash(password);
-
-        if (encoded != user.getHashedPassword()) {
-            throw new IllegalArgumentException("Wrong password");
-        }
+        user = login(domain);
 
         return user;
     }
@@ -70,9 +78,35 @@ public class Authenticator {
     public User login(User.Domain useDomain) {
         // TODO - implement method
 
+        boolean login = false;
+        Scanner in = new Scanner(System.in);
         Console console = System.console();
+        User user;
+        
+        // input username, password and domain
+        while (login == false) {
+            // read username
+            System.out.println("Enter username: ");
+            String username = in.nextLine();
 
-        return null;
+            // read password - must not echo characters
+            char[] passwordEntry = console.readPassword("Enter password: ");
+            String password = String.valueOf(passwordEntry);
+            
+            
+            // get user from database using the username
+            // if user does not exist in db, or if hashed password not the same, 
+            // or if domain does not match, login again
+            user = UserDB.getDB().getByKey(username);
+            String encoded = hash(password);
+            if (user == null || encoded != user.getHashedPassword() || user.getDomain != useDomain) {
+                System.out.println("Invalid username or password. Login again.");
+                continue;
+            }
+            login = true;
+        }
+
+        return user;
     }
 
     /**
