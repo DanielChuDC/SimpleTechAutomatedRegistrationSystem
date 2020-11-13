@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cx2002grp2.stars.data.Gender;
+import cx2002grp2.stars.data.dataitem.Registration.Status;
 
 /**
  * A class saving information of a student.
