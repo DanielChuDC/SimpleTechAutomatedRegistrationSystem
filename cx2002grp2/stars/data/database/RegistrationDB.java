@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import cx2002grp2.stars.data.converter.Converter;
 import cx2002grp2.stars.data.converter.ConverterFactory;
@@ -13,6 +14,7 @@ import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
+import cx2002grp2.stars.data.dataitem.Registration.Status;
 import cx2002grp2.stars.util.Pair;
 
 /**
@@ -28,6 +30,7 @@ import cx2002grp2.stars.util.Pair;
  * <li>When a {@link Student} is deleted from {@link StudentDB}, all the
  * registration under the deleted {@link Student} index will deleted from this
  * database.
+ * <li>When a registration is deleted, it will be dropped automatically.
  * </ul>
  */
 public class RegistrationDB extends AbstractDatabase<Registration> {
@@ -107,6 +110,11 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
         return ret;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * When a registration is deleted, it will be dropped automatically.
+     */
     @Override
     public Registration delItem(Registration reg) {
         Pair<String, String> keyPair;
@@ -121,6 +129,7 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
 
         if (ret != null) {
             signalItemDeleted(ret);
+            ret.drop();
         }
 
         return ret;
@@ -218,12 +227,15 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
 
     /**
      * Get a collection of registration under the given course code.
+     * <p>
+     * The method supports filtering out the registration that 
      * 
      * @param courseCode the course code used to get the registration.
+     * @param onlyRegistered only return the registration with status {@link Registration.Status#REGISTERED}
      * @return a collection of registration under the given course code.If the
      *         course cannot be found in the database system, return null.
      */
-    public Collection<Registration> getRegOfCourseCode(String courseCode) {
+    public Collection<Registration> getRegOfCourseCode(String courseCode, boolean onlyRegistered) {
         Course course = CourseDB.getDB().getByKey(courseCode);
 
         if (course == null) {
@@ -234,6 +246,11 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
         Pair<String, String> upperBound = new Pair<>(courseCode, "\u7fff");
 
         Collection<Registration> ret = regMap.subMap(lowerBound, upperBound).values();
+
+        if (onlyRegistered) {
+            ret = ret.stream().filter(reg -> !reg.isDropped() && reg.getStatus() == Status.REGISTERED)
+                    .collect(Collectors.toUnmodifiableList());
+        }
 
         return Collections.unmodifiableCollection(ret);
     }
@@ -345,8 +362,4 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
 
         return true;
     }
-
-    public static void main(String[] args) {
-    }
-
 }

@@ -22,6 +22,8 @@ import cx2002grp2.stars.data.dataitem.Schedule;
  * will be added into this database.
  * <li>When a course is deleted, all the course indexes under the deleted course
  * will deleted from this database.
+ * <li>When a course index is deleted form the database, the relationship
+ * between the deleted course index and its course will be cut.
  * </ul>
  */
 public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex> {
@@ -42,6 +44,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
 
     /**
      * Get instance of database, for Singleton pattern.
+     * 
      * @return the singleton course index database.
      */
     public static CourseIndexDB getDB() {
@@ -78,6 +81,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
 
     /**
      * Delete all the indexes under the deleted course from this database.
+     * 
      * @param deletedCourse deleted course
      */
     private void doOnCourseDeleted(Course deletedCourse) {
@@ -86,6 +90,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
 
     /**
      * added all the indexes under the added course from this database.
+     * 
      * @param addedCourse added course
      */
     private void doOnCourseAdded(Course addedCourse) {
@@ -105,6 +110,35 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
         }
 
         return super.addItem(item);
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * When a course index is deleted form the database, the relationship between
+     * the deleted course index and its course will be cut.
+     */
+    @Override
+    public CourseIndex delByKey(String key) {
+        CourseIndex deleted = super.delByKey(key);
+        if (deleted != null) {
+            deleted.setCourse(null);
+        }
+        return deleted;
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * When a course index is deleted form the database, the relationship between
+     * the deleted course index and its course will be cut.
+     */
+    @Override
+    public CourseIndex delItem(CourseIndex item) {
+        if (item == null) {
+            return null;
+        }
+        return delByKey(item.getKey());
     }
 
     /**
