@@ -86,7 +86,9 @@ public class Authenticator {
 
         // push into result accessible functions
         for (Function func : Function.allFunctions()) {
-
+            if (func.accessible(user)) {
+                result.add(func);
+            };
         }
 
         return result;
