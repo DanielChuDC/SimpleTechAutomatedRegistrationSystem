@@ -7,7 +7,7 @@ import java.util.Objects;
  * A class saving information of a registration.
  * <p>
  * This class contains information of a registration: student, course, course
- * index, registrtion date and time, registration status.
+ * index, registration date and time, registration status.
  * <p>
  * All of attributes can be get and set through methods.
  * <p>
@@ -18,6 +18,9 @@ import java.util.Objects;
  */
 public class Registration {
 
+	/**
+	 * Enum representing the registration status
+	 */
 	public enum Status {
 		REGISTERED, WAITLIST
 	}
@@ -29,9 +32,34 @@ public class Registration {
 	private Status status;
 	private boolean isDropped = false;
 
-	private Registration(Student student, Course course, LocalDateTime registerDateTime, Status status) {
+	/**
+	 * Make a dropped registration with the given register data time and register
+	 * status.
+	 * 
+	 * @param registerDateTime the register data time of the dropped registration.
+	 * @param status           the register status of the dropped registration.
+	 * @return a dropped registration with the given register timestamp and
+	 *         registration status
+	 */
+	public static Registration makeDropped(LocalDateTime registerDateTime, Status status) {
+		Registration droppedReg = new Registration();
+		droppedReg.status = status;
+		droppedReg.registerDateTime = registerDateTime;
+		droppedReg.isDropped = true;
+		return droppedReg;
+	}
+
+	/**
+	 * Private default constructor reserved for
+	 * {@link Registration#makeDropped(LocalDateTime, Status)}
+	 */
+	private Registration() {
+	}
+
+	public Registration(Student student, Course course, LocalDateTime registerDateTime, Status status) {
 		Objects.requireNonNull(student);
-		// TODO - handle relationship about registration
+		Objects.requireNonNull(course);
+
 		this.student = student;
 		this.course = course;
 		this.courseIndex = null;
@@ -42,7 +70,6 @@ public class Registration {
 	}
 
 	public Registration(Student student, CourseIndex courseIndex, LocalDateTime registerDateTime, Status status) {
-		// TODO - handle relationship about registration
 		this(student, courseIndex.getCourse(), registerDateTime, status);
 
 		this.setCourseIndex(courseIndex);
@@ -89,7 +116,6 @@ public class Registration {
 			throw new IllegalArgumentException(
 					"The new course index must have the same course code with the original index.");
 		}
-		// TODO - handle relationship about registration
 
 		if (this.getCourseIndex() == courseIndex) {
 			return;
@@ -100,12 +126,14 @@ public class Registration {
 		}
 
 		this.courseIndex = courseIndex;
+
 		if (this.courseIndex != null)
 			this.getCourseIndex().addRegistration(this);
 	}
 
 	/**
 	 * get register datetime of this registration.
+	 * 
 	 * @return register datetime of this registration
 	 */
 	public LocalDateTime getRegisterDateTime() {
@@ -114,6 +142,7 @@ public class Registration {
 
 	/**
 	 * set register datetime of this registration
+	 * 
 	 * @param registerDateTime register datetime of this registration
 	 */
 	public void setRegisterDateTime(LocalDateTime registerDateTime) {
@@ -122,6 +151,7 @@ public class Registration {
 
 	/**
 	 * get status of this registration
+	 * 
 	 * @return status of this registration
 	 */
 	public Registration.Status getStatus() {
@@ -130,6 +160,7 @@ public class Registration {
 
 	/**
 	 * set status of this registration
+	 * 
 	 * @param status status of this registration
 	 */
 	public void setStatus(Registration.Status status) {
@@ -139,11 +170,14 @@ public class Registration {
 	/**
 	 * safely delete this registration.
 	 * <p>
-	 * drop all relationships this registration involves, 
-	 * then set all attributes to null, safely remove this registration. 
+	 * drop all relationships this registration involves, then set all attributes to
+	 * null, safely remove this registration.
 	 */
 	public void drop() {
-		// TODO - remove the relationship
+		if (this.isDropped) {
+			return;
+		}
+
 		this.isDropped = true;
 
 		this.courseIndex.delRegistration(this);
@@ -158,9 +192,15 @@ public class Registration {
 
 	/**
 	 * check whether this registration is dropped.
+	 * 
 	 * @return true if this registration is dropped
 	 */
 	public boolean isDropped() {
 		return isDropped;
+	}
+
+	@Override
+	public String toString() {
+		return "{" + student + ", " + courseIndex + "}";
 	}
 }

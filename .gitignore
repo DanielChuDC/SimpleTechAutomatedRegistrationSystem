@@ -11,6 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
+*.jar
 *.war
 *.nar
 *.ear
@@ -27,3 +28,9 @@ hs_err_pid*
 
 # vscode
 .vscode
+
+# local backup file
+_backup*
+
+# generated documentation html
+doc-html*

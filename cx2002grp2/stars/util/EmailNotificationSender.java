@@ -30,6 +30,7 @@ public class EmailNotificationSender implements NotificationSender {
      * @param content        the content of email.
      */
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject, String content) {
+        // TODO - refine the implementation
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");

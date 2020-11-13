@@ -8,12 +8,14 @@ import java.util.TreeSet;
 /**
  * A class saving information of a specific class schedule.
  * <p>
- * This class contains information of a class schedule: CourseIndex, classType, tutorial group, 
- * day of week, venue, remark, beginTime and endTime, teaching weeks.
+ * This class contains information of a class schedule: CourseIndex, classType,
+ * tutorial group, day of week, venue, remark, beginTime and endTime, teaching
+ * weeks.
  * <p>
  * All of attributes can be get and set through methods.
  * <p>
- * When an attribute is changed, related information in other class will also change.
+ * When an attribute is changed, related information in other class will also
+ * change.
  */
 public class Schedule {
 
@@ -33,7 +35,6 @@ public class Schedule {
 
 	public Schedule(CourseIndex courseIndex, ClassType classType, String group, DayOfWeek dayOfWeek, String venue,
 			String remark, LocalTime beginTime, LocalTime endTime) {
-		this.courseIndex = courseIndex;
 		this.classType = classType;
 		this.group = group;
 		this.dayOfWeek = dayOfWeek;
@@ -42,6 +43,8 @@ public class Schedule {
 		this.beginTime = beginTime;
 		this.endTime = endTime;
 		this.teachingWeeks = new TreeSet<>();
+
+		this.setCourseIndex(courseIndex);
 	}
 
 	/**
@@ -55,13 +58,12 @@ public class Schedule {
 
 	/**
 	 * set new CourseIndex of this {@link Schedule}.
-	 * <p> 
+	 * <p>
 	 * update related courseIndex.
+	 * 
 	 * @param courseIndex the new courseIndex to be set
 	 */
 	public void setCourseIndex(CourseIndex courseIndex) {
-		// TODO - implement Schedule.setCourseIndex
-
 		if (courseIndex == this.courseIndex)
 			return;
 
@@ -69,6 +71,7 @@ public class Schedule {
 			this.courseIndex.delSchedule(this);
 
 		this.courseIndex = courseIndex;
+
 		if (this.courseIndex != null)
 			this.courseIndex.addSchedule(this);
 	}

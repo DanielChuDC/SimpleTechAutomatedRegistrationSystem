@@ -64,20 +64,20 @@ public class MainApp implements OnExitSubject {
 
 
     
-    Collection<OnExitObserver> onExitbservers = new HashSet<>();
+    Collection<OnExitObserver> onExitObservers = new HashSet<>();
 
     @Override
     public void addOnExitObserver(OnExitObserver observer) {
-        this.onExitbservers.add(observer);
+        this.onExitObservers.add(observer);
     }
 
     @Override
     public void delOnExitObserver(OnExitObserver observer) {
-        this.onExitbservers.remove(observer);
+        this.onExitObservers.remove(observer);
     }
 
     private void signalOnExit() {
-        onExitbservers.forEach(ob->ob.doOnExit());
+        onExitObservers.forEach(ob->ob.doOnExit());
     }
     
     public static void main(String[] args) {
