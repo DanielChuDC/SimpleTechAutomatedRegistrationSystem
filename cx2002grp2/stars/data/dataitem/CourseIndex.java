@@ -131,6 +131,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	 * <p>
 	 * update related Schedule. 
 	 * @param schedule a Schedule to be added into this CourseIndex
+	 * @return false if this schedule already exists in the course index, else true 
 	 */
 	public boolean addSchedule(Schedule schedule) {
 		// TODO - implement CourseIndex.addSchedule
@@ -149,6 +150,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	 * <p>
 	 * delete related Schedule.
 	 * @param schedule a Schedule to be deleted from this CourseIndex
+	 * @return false if this schedule doesn't exist in the course index, else true 
 	 */
 	public boolean delSchedule(Schedule schedule) {
 		// TODO - implement CourseIndex.delSchedule
@@ -211,6 +213,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	 * <p>
 	 * update related registration. 
 	 * @param registration a registration to be added into this CourseIndex
+	 * @return false if this registration already exists in the course index, else true 
 	 */
 	public boolean addRegistration(Registration registration) {
 		// TODO - implement CourseIndex.addRegistration
@@ -228,6 +231,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	 * <p>
 	 * delete related registration.
 	 * @param registration a registration to be deleted from this CourseIndex
+	 * @return false if this registration doesn't exist in the course index, else true 
 	 */
 	public boolean delRegistration(Registration registration) {
 		// TODO - implement CourseIndex.delRegistration
