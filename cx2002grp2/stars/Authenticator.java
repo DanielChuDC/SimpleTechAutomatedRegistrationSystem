@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import cx2002grp2.stars.data.database.UserDB;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.functions.Function;
 
@@ -35,15 +36,30 @@ public class Authenticator {
     }
 
     /**
-     * 
-     * @return
+     * @param username username given
+     * @param password password given
+     * @return user with correct credentials or null if wrong
+     * @throws IllegalArgumentException If the username does not exist in database or if password is wrong
      */
-    public User login() {
+    public User login(String username, String password) {
         // TODO - implement method
 
         User.Domain[] allDomain = User.Domain.values();
 
-        return null;
+        // get user from database using the username
+        User user = UserDB.getDB().getByKey(username);
+        if (user == null) {
+            throw new IllegalArgumentException("Account with that username does not exist");
+        }
+
+        // hash given password and check if hash is same
+        String encoded = hash(password);
+
+        if (encoded != user.getHashedPassword()) {
+            throw new IllegalArgumentException("Wrong password");
+        }
+
+        return user;
     }
 
     /**
@@ -68,6 +84,7 @@ public class Authenticator {
         // TODO - implement method
         List<Function> result = new ArrayList<>();
 
+        // push into result accessible functions
         for (Function func : Function.allFunctions()) {
 
         }
@@ -84,9 +101,22 @@ public class Authenticator {
      * @throws IllegalArgumentException If the username already exists in the
      *                                  user database.
      */
-    public User createAccount(String username, String password) {
+    public User createAccount(String username, String password, User.Domain domain, String email, String phoneNo) {
         // TODO - implement method
-        return null;
+
+        // Check if username already exist
+        User user_exist = UserDB.getDB().getByKey(username);
+        if (user_exist != null) {
+            throw new IllegalArgumentException("Account with that username already exists");
+        }
+
+        // Encode password using hash function
+        String encoded = hash(password);
+
+        // Create new user
+        User user = new User(username, password, domain, email, phoneNo);
+
+        return user;
     }
 
     /**
@@ -98,6 +128,17 @@ public class Authenticator {
      */
     public boolean changePassword(User user, String password) {
         // TODO - implement method
+
+        // Encode password using hash function
+        String encoded = hash(password);
+
+        // Check if user exists, if no return false
+        if (user.getKey()!=null) {
+            // Set new password for user
+            user.setHashedPassword(encoded);
+            return true;
+        }
+
         return false;
     }
 
