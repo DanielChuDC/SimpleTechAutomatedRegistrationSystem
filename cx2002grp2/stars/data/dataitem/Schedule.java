@@ -2,6 +2,7 @@ package cx2002grp2.stars.data.dataitem;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -204,10 +205,39 @@ public class Schedule {
 
 	/**
 	 * get set of teaching weeks of this Schedule.
+	 * <p>
+	 * The method will return the reference to teaching week set. Modifying the set
+	 * returned will affect the teaching week stored in the schedule.
 	 * 
 	 * @return set of teaching weeks of this Schedule
 	 */
 	public Set<Integer> teachingWeeks() {
 		return this.teachingWeeks;
+	}
+
+	/**
+	 * Get a compare of the schedule by comparing the class type, day of week and
+	 * begin time lexicologically.
+	 * <p>
+	 * That is, the class type will be compare first. If the result is not equal,
+	 * return the result. Otherwise, the day of week will be compared. If the result
+	 * is not equal, return the result. Otherwise, the begin time will be compared,
+	 * and the result will be return anyway.
+	 * 
+	 * @return a compare of the schedule by comparing the class type, day of week
+	 *         and begin time lexicologically.
+	 */
+	public static Comparator<Schedule> getComparator() {
+		return (schedule1, schedule2) -> {
+			int result = schedule1.getClassType().compareTo(schedule2.getClassType());
+			if (result != 0) {
+				return result;
+			}
+			result = schedule1.getDayOfWeek().compareTo(schedule2.getDayOfWeek());
+			if (result != 0) {
+				return result;
+			}
+			return schedule1.getBeginTime().compareTo(schedule2.getBeginTime());
+		};
 	}
 }

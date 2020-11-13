@@ -137,6 +137,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	 * @return list of Schedule of this CourseIndex
 	 */
 	public List<Schedule> getScheduleList() {
+		scheduleList.sort(Schedule.getComparator());
 		return Collections.unmodifiableList(scheduleList);
 	}
 
