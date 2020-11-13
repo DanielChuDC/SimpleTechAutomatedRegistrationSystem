@@ -129,6 +129,7 @@ public class Course implements SingleKeyItem<String> {
 	 * update related course index.
 	 * 
 	 * @param courseIndex a course index to be added into the list of course index
+	 * @return false if this course index already exists in the course, else true
 	 */
 	public boolean addIndex(CourseIndex courseIndex) {
 		if (this.indexList.contains(courseIndex)) {
@@ -147,6 +148,7 @@ public class Course implements SingleKeyItem<String> {
 	 * 
 	 * @param courseIndex a course index to be deleted from this course's list of
 	 *                    course index.
+	 * @return false if this course index doesn't exist in the course, else true
 	 */
 	public boolean delIndex(CourseIndex courseIndex) {
 		if (!this.indexList.contains(courseIndex))
