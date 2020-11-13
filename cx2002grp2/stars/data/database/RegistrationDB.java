@@ -228,10 +228,12 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
     /**
      * Get a collection of registration under the given course code.
      * <p>
-     * The method supports filtering out the registration that 
+     * The method supports filtering out the registration that are not in status
+     * {@link Registration.Status#REGISTERED}
      * 
-     * @param courseCode the course code used to get the registration.
-     * @param onlyRegistered only return the registration with status {@link Registration.Status#REGISTERED}
+     * @param courseCode     the course code used to get the registration.
+     * @param onlyRegistered only return the registration with status
+     *                       {@link Registration.Status#REGISTERED}
      * @return a collection of registration under the given course code.If the
      *         course cannot be found in the database system, return null.
      */
