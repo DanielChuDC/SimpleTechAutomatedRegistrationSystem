@@ -208,7 +208,8 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     private static final NotificationSender defaultSender = new EmailNotificationSender();
 
     /**
-     * Get a notification sender used system-wise.
+     * Get a notification sender to be used system-wise.
+     * @return a notification sender to be used system-wise.
      */
     public static NotificationSender getNotificationSender() {
         return defaultSender;

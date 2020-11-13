@@ -38,6 +38,8 @@ public class Registration {
 	 * 
 	 * @param registerDateTime the register data time of the dropped registration.
 	 * @param status           the register status of the dropped registration.
+	 * @return a dropped registration with the given register timestamp and
+	 *         registration status
 	 */
 	public static Registration makeDropped(LocalDateTime registerDateTime, Status status) {
 		Registration droppedReg = new Registration();
