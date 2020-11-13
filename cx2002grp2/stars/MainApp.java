@@ -1,10 +1,8 @@
 package cx2002grp2.stars;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -111,8 +109,11 @@ public class MainApp implements OnExitSubject {
      * The main function body.
      */
     private void mainBody() {
-        System.out.println("====================================\n" + "        Welcome to MySTARS.         \n"
-                + "====================================\n");
+        System.out.println(
+            "====================================\n" + 
+            "        Welcome to MySTARS.         \n" +
+            "====================================\n"
+        );
 
         Authenticator auth = Authenticator.getInstance();
         Scanner stdin = new Scanner(System.in);
@@ -140,7 +141,7 @@ public class MainApp implements OnExitSubject {
             while (true) {
                 // Print available function list.
                 System.out.printf(FUNC_LIST_FMT, "No.", "Function");
-                System.out.printf(FUNC_LIST_FMT, 0, "Terminate Program"); // Terminating function is always available.
+                System.out.printf(FUNC_LIST_FMT, 0, "Logout"); // Logout function is always available.
                 for (int i = 0; i < funcList.size(); ++i) {
                     System.out.printf(FUNC_LIST_FMT, i + 1, funcList.get(i).name());
                 }
@@ -161,7 +162,7 @@ public class MainApp implements OnExitSubject {
 
                     if (selection < 0 || selection > funcList.size()) {
                         if (funcList.isEmpty()) {
-                            System.out.println("You can only enter 0 and terminate the program.");
+                            System.out.println("You can only enter 0 and logout.");
                         } else {
                             System.out.println("Please enter an integer between 0 and " + funcList.size());
                         }
@@ -170,7 +171,7 @@ public class MainApp implements OnExitSubject {
                     }
                 }
 
-                // User selected to terminate the program. Break the main loop.
+                // User selected to logout. Break the main loop.
                 if (selection == 0) {
                     break;
                 }
