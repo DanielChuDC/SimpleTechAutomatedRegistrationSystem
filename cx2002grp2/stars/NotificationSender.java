@@ -9,4 +9,5 @@ public interface NotificationSender {
      * @param msg
      */
     void sendNotification(User targetUser, String msg);
+    void sendWaitlistNotification(Registration reg, String msg);
 }
