@@ -27,3 +27,9 @@ hs_err_pid*
 
 # vscode
 .vscode
+
+# local backup
+_backup*
+
+# html documentation
+doc-html
