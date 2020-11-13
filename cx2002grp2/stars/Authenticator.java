@@ -43,7 +43,7 @@ public class Authenticator {
      * 
      */
     public User login() {
-        // TODO - implement method
+        // TODO - check registration time - if outside of time, display approriate error message
 
         User.Domain[] allDomain = User.Domain.values();
         boolean validDomain = false;
@@ -76,7 +76,7 @@ public class Authenticator {
      * @return
      */
     public User login(User.Domain useDomain) {
-        // TODO - implement method
+        // TODO - check registration time - if outside of time, display approriate error message
 
         boolean login = false;
         Scanner in = new Scanner(System.in);
@@ -138,7 +138,6 @@ public class Authenticator {
      *                                  user database.
      */
     public User createAccount(String username, String password, User.Domain domain, String email, String phoneNo) {
-        // TODO - implement method
 
         // Check if username already exist
         User user_exist = UserDB.getDB().getByKey(username);
@@ -163,7 +162,6 @@ public class Authenticator {
      * @return whether the password is changed successfully.
      */
     public boolean changePassword(User user, String password) {
-        // TODO - implement method
 
         // Encode password using hash function
         String encoded = hash(password);
