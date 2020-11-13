@@ -222,6 +222,18 @@ public class Schedule {
 
 	/**
 	 * Get teaching week expressed with string in simplified format.
+	 * <p>
+	 * For consecutive teaching weeks range (e.g. 1,2,3,4), the teaching week will
+	 * be presented in "1~4". If the teaching week range is not consecutive, commas
+	 * will be used to separate them.
+	 * <p>
+	 * Examples:
+	 * <ul>
+	 * <li>teaching weeks 1,2,3,4,5,6,7,8,9,10 ==> "1~10"
+	 * <li>teaching weeks 1,2,3,4,5,9,13 ==> "1~5,9,13"
+	 * <li>special case 1: 1,3,5,7,9,11,13 ==> "All Odd Weeks"
+	 * <li>special case 2: 2,4,6,8,10,12 ==> "All Even Weeks"
+	 * </ul>
 	 * 
 	 * @return a string representing the teaching week in simplified format.
 	 */
@@ -233,7 +245,7 @@ public class Schedule {
 		if (wkList.equals(ALL_ODD_WEEKS)) {
 			return "All Odd Weeks";
 		}
-		
+
 		if (wkList.equals(ALL_EVEN_WEEKS)) {
 			return "All Even Weeks";
 		}
@@ -249,10 +261,10 @@ public class Schedule {
 				if (!isFirst) {
 					ret.append(",");
 				}
-				if (consecutiveBeg == i-1) {
+				if (consecutiveBeg == i - 1) {
 					ret.append(wkList.get(consecutiveBeg));
 				} else {
-					ret.append(wkList.get(consecutiveBeg)).append('~').append(wkList.get(i-1));
+					ret.append(wkList.get(consecutiveBeg)).append('~').append(wkList.get(i - 1));
 				}
 				isFirst = false;
 				consecutiveBeg = i;
@@ -261,6 +273,7 @@ public class Schedule {
 
 		return ret.toString();
 	}
+
 	/**
 	 * Get a compare of the schedule by comparing the class type, day of week and
 	 * begin time lexicologically.
