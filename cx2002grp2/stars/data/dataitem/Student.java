@@ -206,4 +206,13 @@ public class Student extends User {
 		return true;
 	}
 
+	public double getRegisteredAU() {
+		double registeredAU = 0;
+        for (Registration reg : this.registrationList) {
+			if (reg.getStatus() == Status.REGISTERED)
+				registeredAU += reg.getCourse().getAu();
+		}
+
+		return registeredAU;
+    }
 }
