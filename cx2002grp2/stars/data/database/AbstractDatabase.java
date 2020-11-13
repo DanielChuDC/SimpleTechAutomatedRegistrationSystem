@@ -2,6 +2,8 @@ package cx2002grp2.stars.data.database;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Random;
 
 import cx2002grp2.stars.MainApp;
 import cx2002grp2.stars.util.OnExitObserver;
@@ -49,6 +51,17 @@ public abstract class AbstractDatabase<ItemType> implements Database<ItemType>, 
     @Override
     public void doOnExit() {
         saveData();
+    }
+
+    public ItemType pickOne() {
+        Random r = new Random();
+        Iterator<ItemType> iter = iterator();
+
+        for (int i = r.nextInt(size()); i > 0; --i) {
+            iter.next();
+        }
+
+        return iter.next();
     }
 
     /**
