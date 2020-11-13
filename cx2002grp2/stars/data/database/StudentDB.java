@@ -124,11 +124,11 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	 * When a student is deleted from database, the correspond user will be deleted
 	 * from the user database simultaneously.
 	 * 
-	 * @param student the student to be deleted into database.
+	 * @param studentUsername the student to be deleted from database.
 	 */
 	@Override
-	public Student delByKey(String student) {
-		Student deleted = super.delByKey(key);
+	public Student delByKey(String studentUsername) {
+		Student deleted = super.delByKey(studentUsername);
 
 		UserDB.getDB().delItem(deleted);
 
@@ -145,10 +145,10 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	 */
 	@Override
 	public Student delItem(Student student) {
-		if (item == null) {
+		if (student == null) {
 			return null;
 		}
-		return delByKey(item.getKey());
+		return delByKey(student.getKey());
 	}
 
 	/**
