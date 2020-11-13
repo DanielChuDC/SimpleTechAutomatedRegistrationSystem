@@ -2,7 +2,9 @@ package cx2002grp2.stars.data.dataitem;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -215,6 +217,50 @@ public class Schedule {
 		return this.teachingWeeks;
 	}
 
+	private static final List<Integer> ALL_ODD_WEEKS = List.of(1, 3, 5, 7, 9, 11, 13);
+	private static final List<Integer> ALL_EVEN_WEEKS = List.of(2, 4, 6, 8, 10, 12);
+
+	/**
+	 * Get teaching week expressed with string in simplified format.
+	 * 
+	 * @return a string representing the teaching week in simplified format.
+	 */
+	public String teachWkStr() {
+		List<Integer> wkList = new ArrayList<>(teachingWeeks);
+		wkList.sort(Integer::compare);
+
+		// Checking special cases
+		if (wkList.equals(ALL_ODD_WEEKS)) {
+			return "All Odd Weeks";
+		}
+		
+		if (wkList.equals(ALL_EVEN_WEEKS)) {
+			return "All Even Weeks";
+		}
+
+		StringBuilder ret = new StringBuilder();
+
+		int consecutiveBeg = 0;
+		boolean isFirst = true;
+
+		for (int i = 1; i <= wkList.size(); ++i) {
+			// If the series is not consecutive or the parsing comes to the end.
+			if (i == wkList.size() || wkList.get(i) != wkList.get(i - 1) + 1) {
+				if (!isFirst) {
+					ret.append(",");
+				}
+				if (consecutiveBeg == i-1) {
+					ret.append(wkList.get(consecutiveBeg));
+				} else {
+					ret.append(wkList.get(consecutiveBeg)).append('~').append(wkList.get(i-1));
+				}
+				isFirst = false;
+				consecutiveBeg = i;
+			}
+		}
+
+		return ret.toString();
+	}
 	/**
 	 * Get a compare of the schedule by comparing the class type, day of week and
 	 * begin time lexicologically.
@@ -240,4 +286,5 @@ public class Schedule {
 			return schedule1.getBeginTime().compareTo(schedule2.getBeginTime());
 		};
 	}
+
 }
