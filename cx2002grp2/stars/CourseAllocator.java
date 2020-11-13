@@ -16,7 +16,7 @@ public class CourseAllocator {
 		// TODO - implement method
 
 		Registration registration = new Registration
-			(student, courseIndex.getCourse(), LocalDateTime.now(), Status.REGISTERED);
+			(student, courseIndex, LocalDateTime.now(), Status.REGISTERED);
 
 		// check AU before adding
 		double maxAU = Configs.getMaxAu();
