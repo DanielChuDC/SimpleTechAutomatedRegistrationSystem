@@ -11,8 +11,13 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import cx2002grp2.stars.Configs;
 import cx2002grp2.stars.NotificationSender;
 import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.data.dataitem.Course;
+import cx2002grp2.stars.data.dataitem.CourseIndex;
+import cx2002grp2.stars.data.dataitem.Student;
 
 public class EmailNotificationSender implements NotificationSender {
 
@@ -27,32 +32,32 @@ public class EmailNotificationSender implements NotificationSender {
 
     public void sendWaitlistNotification(Registration reg, String msg) {
         // get senderEmail and password from config
-        String senderEmail;
-        String senderPassword;
+        String senderEmail = Configs.getSystemEmailAddr();
+        String senderPassword = Configs.getSystemEmailPasswd();
         Student student = reg.getStudent();
         Course course = reg.getCourse();
         CourseIndex idx = reg.getCourseIndex();
         String receiverEmail = student.getEmail();
         String subject = "Course " + course.getCourseCode() + " " + course.getCourseName() + " Added";
-        String content = "Dear " + student.getFullName + "\n" + "You have been added to the course "
+        String content = "Dear " + student.getFullName() + "\n" + "You have been added to the course "
                 + course.getCourseCode() + " " + course.getCourseName() + ".\n"
                 + "Your index number for this course is " + idx.getIndexNo();
 
-        String line = "";
-        String data[];
-        BufferedReader br = new BufferedReader(new FileReader("../../../tables/config.csv"));
-        while ((line = br.readLine()) != null) {
+        // String line = "";
+        // String data[];
+        // BufferedReader br = new BufferedReader(new FileReader("../../../tables/config.csv"));
+        // while ((line = br.readLine()) != null) {
 
-            if (line.startsWith("system_email")) {
-                data = line.split(",");
-                senderEmail = data[1];
-            }
-            if (line.startsWith("system_email_passwd")) {
-                data = line.split(",");
-                senderPassword = data[0];
-            }
+        //     if (line.startsWith("system_email")) {
+        //         data = line.split(",");
+        //         senderEmail = data[1];
+        //     }
+        //     if (line.startsWith("system_email_passwd")) {
+        //         data = line.split(",");
+        //         senderPassword = data[0];
+        //     }
 
-        }
+        // }
 
         // TODO: async - test first
         System.out.println("Sending email");
@@ -71,19 +76,12 @@ public class EmailNotificationSender implements NotificationSender {
      * @param subject        the subject of email.
      * @param content        the content of email.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
-            String content) {
-=======
-    private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject, String content) {
-        // TODO - refine the implementation
->>>>>>> origin/kaitao
-=======
+
+
 
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
             String content) {
->>>>>>> origin/kaitao
+
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
