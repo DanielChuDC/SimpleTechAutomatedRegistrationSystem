@@ -7,7 +7,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Scanner;
 
+import cx2002grp2.stars.data.database.UserDB;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.functions.Function;
 
@@ -36,14 +38,36 @@ public class Authenticator {
 
     /**
      * 
-     * @return
+     * 
+     * @return user with correct credentials or null if wrong
+     * 
      */
     public User login() {
-        // TODO - implement method
+        // TODO - check registration time - if outside of time, display approriate error message
 
         User.Domain[] allDomain = User.Domain.values();
+        boolean validDomain = false;
+        Scanner in = new Scanner(System.in);
+        User.Domain domain;
+        User user;
+        
+        // input username, password and domain
+        while (validDomain == false) {
+            System.out.println("Enter domain - 1 for STUDENT, 2 for STAFF");
+            int domainNo = in.nextInt();
+            if (domainNo == 1) domain = allDomain[0];
+            else if (domainNo == 2) domain = allDomain[1];
+            else {
+                System.out.println("Invalid domain choice. Login again.");
+                continue;
+            }
+            
+            validDomain = true;
+        }
 
-        return null;
+        user = login(domain);
+
+        return user;
     }
 
     /**
@@ -52,11 +76,37 @@ public class Authenticator {
      * @return
      */
     public User login(User.Domain useDomain) {
-        // TODO - implement method
+        // TODO - check registration time - if outside of time, display approriate error message
 
+        boolean login = false;
+        Scanner in = new Scanner(System.in);
         Console console = System.console();
+        User user;
+        
+        // input username, password and domain
+        while (login == false) {
+            // read username
+            System.out.println("Enter username: ");
+            String username = in.nextLine();
 
-        return null;
+            // read password - must not echo characters
+            char[] passwordEntry = console.readPassword("Enter password: ");
+            String password = String.valueOf(passwordEntry);
+            
+            
+            // get user from database using the username
+            // if user does not exist in db, or if hashed password not the same, 
+            // or if domain does not match, login again
+            user = UserDB.getDB().getByKey(username);
+            String encoded = hash(password);
+            if (user == null || encoded != user.getHashedPassword() || user.getDomain != useDomain) {
+                System.out.println("Invalid username or password. Login again.");
+                continue;
+            }
+            login = true;
+        }
+
+        return user;
     }
 
     /**
@@ -68,8 +118,11 @@ public class Authenticator {
         // TODO - implement method
         List<Function> result = new ArrayList<>();
 
+        // push into result accessible functions
         for (Function func : Function.allFunctions()) {
-
+            if (func.accessible(user)) {
+                result.add(func);
+            };
         }
 
         return result;
@@ -84,9 +137,21 @@ public class Authenticator {
      * @throws IllegalArgumentException If the username already exists in the
      *                                  user database.
      */
-    public User createAccount(String username, String password) {
-        // TODO - implement method
-        return null;
+    public User createAccount(String username, String password, User.Domain domain, String email, String phoneNo) {
+
+        // Check if username already exist
+        User user_exist = UserDB.getDB().getByKey(username);
+        if (user_exist != null) {
+            throw new IllegalArgumentException("Account with that username already exists");
+        }
+
+        // Encode password using hash function
+        String encoded = hash(password);
+
+        // Create new user
+        User user = new User(username, password, domain, email, phoneNo);
+
+        return user;
     }
 
     /**
@@ -97,7 +162,17 @@ public class Authenticator {
      * @return whether the password is changed successfully.
      */
     public boolean changePassword(User user, String password) {
-        // TODO - implement method
+
+        // Encode password using hash function
+        String encoded = hash(password);
+
+        // Check if user exists, if no return false
+        if (user.getKey()!=null) {
+            // Set new password for user
+            user.setHashedPassword(encoded);
+            return true;
+        }
+
         return false;
     }
 
