@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.TreeSet;
 
+import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Schedule;
@@ -181,6 +182,44 @@ public class TablePrinter {
 			}
 			System.out.printf(SPLITTER);
 		}
+	}
+
+	/**
+	 * Print student list in a table manner.
+	 * <p>
+	 * A header is required to be printed
+	 * <p>
+	 * Each row contains the username, full name and matriculation No. of a student.
+	 *
+	 * @param studList the student list to be printed.
+	 */
+	public void printStudentList(Iterable<Student> studList) {
+		final String TABLE_FORMAT = "%-15s | %-30s | %-15s\n";
+		System.out.printf(TABLE_FORMAT, "Username", "Full Name", "Matric No.");
+		System.out.printf(SPLITTER);
+		for (Student student : studList) {
+			System.out.printf(TABLE_FORMAT, student.getUsername(), student.getFullName(), student.getMatricNo());
+		}
+		System.out.printf(SPLITTER);
+	}
+
+	/**
+	 * Print course list in a table manner.
+	 * <p>
+	 * A header is required to be printed
+	 * <p>
+	 * Each row contains the course code, school, AU and course name of a course.
+	 *
+	 * @param courseList the course list to be printed.
+	 */
+	public void printCourseList(Iterable<Course> courseList) {
+		final String TABLE_FORMAT = "%-12s | %-10s | %-10s | %-50s\n";
+		System.out.printf(TABLE_FORMAT, "Course Code", "School", "AU", "Course Name");
+		System.out.printf(SPLITTER);
+		for (Course course : courseList) {
+			System.out.printf(TABLE_FORMAT, course.getCourseCode(), course.getSchool(), (int) course.getAu(), course.getCourseName());
+		}
+		System.out.printf(SPLITTER);
 	}
 
 	public static void main(String[] args) {
