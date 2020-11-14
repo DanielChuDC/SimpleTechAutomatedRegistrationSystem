@@ -1,5 +1,7 @@
 package cx2002grp2.stars.data.dataitem;
 
+import java.util.Objects;
+
 /**
  * A class saving information of a user.
  * <p>
@@ -31,6 +33,9 @@ public class User implements SingleKeyItem<String> {
     }
 
     public User(String username, String hashedPassword, User.Domain domain, String email, String phoneNo) {
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(hashedPassword);
+        
         this.username = username;
         this.hashedPassword = hashedPassword;
         this.domain = domain;
