@@ -72,11 +72,17 @@ public class EmailNotificationSender implements NotificationSender {
      * @param content        the content of email.
      */
 <<<<<<< HEAD
+<<<<<<< HEAD
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
             String content) {
 =======
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject, String content) {
         // TODO - refine the implementation
+>>>>>>> origin/kaitao
+=======
+
+    private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
+            String content) {
 >>>>>>> origin/kaitao
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");

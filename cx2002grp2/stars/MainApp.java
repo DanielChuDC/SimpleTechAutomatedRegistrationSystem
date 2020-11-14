@@ -116,6 +116,8 @@ public class MainApp implements OnExitSubject {
         );
 
         Authenticator auth = Authenticator.getInstance();
+        
+        @SuppressWarnings("resource")
         Scanner stdin = new Scanner(System.in);
 
         while (true) {

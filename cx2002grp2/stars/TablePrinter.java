@@ -1,14 +1,13 @@
 package cx2002grp2.stars;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
 
-import cx2002grp2.stars.data.Gender;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Schedule;
 import cx2002grp2.stars.data.dataitem.Student;
-import cx2002grp2.stars.data.dataitem.User;
 
 /**
  * Printer for well structured information.
@@ -32,7 +31,7 @@ public class TablePrinter {
 	private static final String GENERAL_INFO_FORMAT = "%-30s %-30s %-30s \n";
 	private static final String SPLITTER = "-------------------------------------------------------------------\n";
 	private static final String EMPTY_TABLE_MSG = "This table currently have no content.\n";
-	private static final DateTimeFormatter DATETIMEFORMATTER = DateTimeFormatter.ofPattern("hh:mm");
+	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("hh:mm");
 
 	/**
 	 * Print student's basic information.
@@ -136,7 +135,6 @@ public class TablePrinter {
 		System.out.printf(GENERAL_INFO_FORMAT, "Status: " + registration.getStatus(),
 				"Vacancy: " + registration.getCourseIndex().getAvailableVacancy(),
 				"WaitList Length: " + registration.getCourseIndex().getWaitList().size());
-		System.out.printf(SPLITTER);
 
 		this.printScheduleTable(registration.getCourseIndex());
 	}
@@ -161,29 +159,36 @@ public class TablePrinter {
 		System.out.printf(SPLITTER);
 	}
 
+	/**
+	 * Print the schedule table of a index without information of index.
+	 * 
+	 * @param index the index which the schedule is under.
+	 */
 	private void printScheduleTable(CourseIndex index) {
 		if (index.getRegisteredList().isEmpty()) {
 			System.out.printf(EMPTY_TABLE_MSG);
 		} else {
-			final String TABLE_FORMAT = "%-10s | %-10s | %-10s | %-10s | %-15s | %-10s | %-10s\n";
-			System.out.printf(TABLE_FORMAT, "Row", "Class Type", "Group", "Day", "Time", "Venue", "Remark");
+			final String TABLE_FORMAT = "%-3s | %-3s | %-10s | %-10s | %-11s | %-15s | %-15s | %-10s\n";
+			System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Wk", "Remark");
 			System.out.printf(SPLITTER);
 			int rowNumber = 0;
 			for (Schedule schedule : index.getScheduleList()) {
 				System.out.printf(TABLE_FORMAT, ++rowNumber, schedule.getClassType(), schedule.getGroup(),
 						schedule.getDayOfWeek().toString(),
-						schedule.getBeginTime().format(DATETIMEFORMATTER) + "-"
-								+ schedule.getEndTime().format(DATETIMEFORMATTER),
-						schedule.getVenue(), schedule.getRemark());
+						schedule.getBeginTime().format(TIME_FORMATTER) + "-"
+								+ schedule.getEndTime().format(TIME_FORMATTER),
+						schedule.getVenue(), schedule.teachWkStr(), schedule.getRemark());
 			}
 			System.out.printf(SPLITTER);
 		}
 	}
 
 	public static void main(String[] args) {
-		Student student = new Student(new User("username", null, null, null, null), "matricNo", Gender.MALE, "fullName",
-				"nationality", 9, "programme");
-		getPrinter().printStudentBrief(student);
+		Set<Integer> set = new TreeSet<Integer>();
+		set.add(1);
+		set.add(2);
+		// set.add(3);
+		set.add(4);
 	}
 
 }

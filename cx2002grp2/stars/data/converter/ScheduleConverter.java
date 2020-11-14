@@ -101,15 +101,17 @@ public class ScheduleConverter implements Converter<Schedule> {
         LocalTime endTime = LocalTime.parse(strings.get(END_POS));
 
         String teachWkStr = strings.get(WEEKS_POS);
-        Set<Integer> teachingWeeks = new TreeSet<>();
+        
+        Schedule ret = new Schedule(courseIndex, classType, group, dayOfWeek, venue, remark, beginTime, endTime);
+
 
         if (!teachWkStr.isBlank()) {
             for (String wkStr : teachWkStr.split(",")) {
-                teachingWeeks.add(Integer.valueOf(wkStr));
+                ret.teachingWeeks().add(Integer.valueOf(wkStr));
             }
         }
 
-        return new Schedule(courseIndex, classType, group, dayOfWeek, venue, remark, beginTime, endTime);
+        return ret;
     }
 
     public static void main(String[] args) {
