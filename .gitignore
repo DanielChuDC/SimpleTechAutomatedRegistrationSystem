@@ -11,6 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
+*.jar
 *.war
 *.nar
 *.ear
@@ -28,8 +29,16 @@ hs_err_pid*
 # vscode
 .vscode
 
+<<<<<<< HEAD
 # local backup
 _backup*
 
 # html documentation
 doc-html
+=======
+# local backup file
+_backup*
+
+# generated documentation html
+doc-html*
+>>>>>>> origin/kaitao

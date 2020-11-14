@@ -1,27 +1,58 @@
 package cx2002grp2.stars.data.database;
 
+import cx2002grp2.stars.data.converter.Converter;
+import cx2002grp2.stars.data.converter.ConverterFactory;
 import cx2002grp2.stars.data.dataitem.User;
 
+/**
+ * Database storing {@link User}.
+ * <p>
+ * The database is implemented with Singleton pattern.
+ */
 public class UserDB extends AbstractSingleKeyDatabase<String, User> {
 
-    private static final String DB_FILE_PATH = "tables/user.csv";
+	/**
+	 * database file that user database is storing
+	 */
+	private static final String DB_FILE_PATH = "tables/user.csv";
+	/**
+	 * A unique instance of database, for Singleton pattern.
+	 */
+	private static UserDB instance = new UserDB();
 
-    private static UserDB instance = new UserDB();
+	/**
+	 * Get instance of database, for Singleton pattern.
+	 * 
+	 * @return the singleton user database.
+	 */
+	public static UserDB getDB() {
+		return instance;
+	}
 
-    protected UserDB() {
-        loadData();
-    }
+	/**
+	 * Converter for converting user item from and into string list.
+	 */
+	private Converter<User> converter = ConverterFactory.userConverter();
 
-    public static UserDB getDB() {
-        return instance;
-    }
+	/**
+	 * Loader used to load database from and into file.
+	 */
+	private SimpleDatabaseLoader loader = SimpleDatabaseLoader.getLoader();
 
-    protected void loadData() {
-        // TODO - implement UserDB.loadData
-    }
+	/**
+	 * Construct a database with data loaded.
+	 */
+	protected UserDB() {
+		loadData();
+	}
 
-    protected void saveData() {
-        // TODO - implement UserDB.saveData
-    }
+	@Override
+	protected void loadData() {
+		loader.load(DB_FILE_PATH, this, converter);
+	}
 
+	@Override
+	protected void saveData() {
+		loader.save(this, DB_FILE_PATH, converter);
+	}
 }

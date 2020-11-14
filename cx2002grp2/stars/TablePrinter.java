@@ -1,10 +1,14 @@
 package cx2002grp2.stars;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
+import cx2002grp2.stars.data.Gender;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Registration;
+import cx2002grp2.stars.data.dataitem.Schedule;
 import cx2002grp2.stars.data.dataitem.Student;
+import cx2002grp2.stars.data.dataitem.User;
 
 /**
  * Printer for well structured information.
@@ -13,6 +17,7 @@ import cx2002grp2.stars.data.dataitem.Student;
  * characters.
  */
 public class TablePrinter {
+
 	private static TablePrinter defaultPrinter = new TablePrinter();
 
 	/**
@@ -24,16 +29,24 @@ public class TablePrinter {
 		return defaultPrinter;
 	}
 
+	private static final String GENERAL_INFO_FORMAT = "%-30s %-30s %-30s \n";
+	private static final String SPLITTER = "-------------------------------------------------------------------\n";
+	private static final String EMPTY_TABLE_MSG = "This table currently have no content.\n";
+	private static final DateTimeFormatter DATETIMEFORMATTER = DateTimeFormatter.ofPattern("hh:mm");
+
 	/**
-	 * Print student's basic infomation.
+	 * Print student's basic information.
 	 * <p>
 	 * Print username, matric No, full name, programme, years of study in at most 2
 	 * lines.
-	 * 
+	 *
 	 * @param student the student to be printed
 	 */
 	public void printStudentBrief(Student student) {
-
+		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(), "Matric: " + student.getMatricNo(),
+				"Full Name: " + student.getFullName());
+		System.out.printf(GENERAL_INFO_FORMAT, "Programme: " + student.getProgramme(),
+				"Years of study: " + student.getYearOfStudy(), "");
 	}
 
 	/**
@@ -51,7 +64,23 @@ public class TablePrinter {
 	 * @param student the student whose information and registrations are printed.
 	 */
 	public void printStudentAndReg(Student student) {
+		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(),
+				"Full Name: " + student.getFullName(), "Total Registered AU: " + (int) student.getRegisteredAU());
+		if (student.getRegistrationList().isEmpty()) {
+			System.out.printf(EMPTY_TABLE_MSG);
+		} else {
+			// System.out.printf("%-30s\n", "Registration List");
+			final String TABLE_FORMAT = "%-20s | %-20s | %-20s | %-20s\n";
 
+			System.out.printf(SPLITTER);
+			System.out.printf(TABLE_FORMAT, "Course Code", "Course Index", "Registration State", "AU");
+			System.out.printf(SPLITTER);
+			for (Registration reg : student.getRegistrationList()) {
+				System.out.printf(TABLE_FORMAT, reg.getCourse().getCourseCode(), reg.getCourseIndex(), reg.getStatus(),
+						(int) reg.getCourse().getAu());
+			}
+			System.out.printf(SPLITTER);
+		}
 	}
 
 	/**
@@ -60,7 +89,7 @@ public class TablePrinter {
 	 * including:
 	 * <ul>
 	 * <li>Print school, course code and course name in one row
-	 * <li>Print course index number, available vaccecy number and waitlist length
+	 * <li>Print course index number, available vacancy number and waitlist length
 	 * in one row
 	 * <li>If no schedule are available, print hinting message.
 	 * <li>Print course schedule in table manner
@@ -73,7 +102,14 @@ public class TablePrinter {
 	 *              printed.
 	 */
 	public void printIndexAndSchedule(CourseIndex index) {
+		System.out.printf(GENERAL_INFO_FORMAT, "School: " + index.getCourse().getSchool(),
+				"Course Code: " + index.getCourse().getCourseCode(),
+				"Course Name: " + index.getCourse().getCourseName());
+		System.out.printf(GENERAL_INFO_FORMAT, "Index Number: " + index.getIndexNo(),
+				"Vacancy: " + index.getAvailableVacancy(), "Waitlist Length: " + index.getWaitList().size());
+		System.out.printf(SPLITTER);
 
+		this.printScheduleTable(index);
 	}
 
 	/**
@@ -82,8 +118,8 @@ public class TablePrinter {
 	 * including:
 	 * <ul>
 	 * <li>Print student's username, course code and course index number in one row
-	 * <li>Print registration state, available vaccecy number and waitlist length in
-	 * one row
+	 * <li>Print registration status, available vacancy number and waitlist length
+	 * in one row
 	 * <li>If no schedule are available, print hinting message.
 	 * <li>Print course schedule in table manner
 	 * <li>The schedule table needs a header
@@ -94,7 +130,15 @@ public class TablePrinter {
 	 * @param registration the index whose information are printed.
 	 */
 	public void printRegDetail(Registration registration) {
+		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + registration.getStudent().getUsername(),
+				"Course Code: " + registration.getCourse().getCourseCode(),
+				"Course Index: " + registration.getCourseIndex().getIndexNo());
+		System.out.printf(GENERAL_INFO_FORMAT, "Status: " + registration.getStatus(),
+				"Vacancy: " + registration.getCourseIndex().getAvailableVacancy(),
+				"WaitList Length: " + registration.getCourseIndex().getWaitList().size());
+		System.out.printf(SPLITTER);
 
+		this.printScheduleTable(registration.getCourseIndex());
 	}
 
 	/**
@@ -103,11 +147,43 @@ public class TablePrinter {
 	 * A header is required to be printed
 	 * <p>
 	 * Each row contains the username, gender and nationality of a student.
-	 * 
-	 * @param regs the registration list whose item's studenta are to be printed.
+	 *
+	 * @param regs the registration list whose item's students are to be printed.
 	 */
-	public void printStudentInRegList(Collection<Registration> regs) {
+	public void printStudentInRegList(Iterable<Registration> regs) {
+		final String TABLE_FORMAT = "%-15s | %-15s | %-15s\n";
+		System.out.printf(TABLE_FORMAT, "Username", "Gender", "Nationality");
+		System.out.printf(SPLITTER);
+		for (Registration registration : regs) {
+			Student student = registration.getStudent();
+			System.out.printf(TABLE_FORMAT, student.getUsername(), student.getGender(), student.getNationality());
+		}
+		System.out.printf(SPLITTER);
+	}
 
+	private void printScheduleTable(CourseIndex index) {
+		if (index.getRegisteredList().isEmpty()) {
+			System.out.printf(EMPTY_TABLE_MSG);
+		} else {
+			final String TABLE_FORMAT = "%-10s | %-10s | %-10s | %-10s | %-15s | %-10s | %-10s\n";
+			System.out.printf(TABLE_FORMAT, "Row", "Class Type", "Group", "Day", "Time", "Venue", "Remark");
+			System.out.printf(SPLITTER);
+			int rowNumber = 0;
+			for (Schedule schedule : index.getScheduleList()) {
+				System.out.printf(TABLE_FORMAT, ++rowNumber, schedule.getClassType(), schedule.getGroup(),
+						schedule.getDayOfWeek().toString(),
+						schedule.getBeginTime().format(DATETIMEFORMATTER) + "-"
+								+ schedule.getEndTime().format(DATETIMEFORMATTER),
+						schedule.getVenue(), schedule.getRemark());
+			}
+			System.out.printf(SPLITTER);
+		}
+	}
+
+	public static void main(String[] args) {
+		Student student = new Student(new User("username", null, null, null, null), "matricNo", Gender.MALE, "fullName",
+				"nationality", 9, "programme");
+		getPrinter().printStudentBrief(student);
 	}
 
 }
