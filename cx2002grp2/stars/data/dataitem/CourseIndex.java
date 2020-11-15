@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -29,6 +31,8 @@ public class CourseIndex implements SingleKeyItem<String> {
 	private int maxVacancy;
 	private List<Schedule> scheduleList;
 	private SortedSet<Registration> registrationList;
+	private SortedSet<Registration> waitlistSet;
+	private Set<Registration> registeredSet;
 
 	private static final Registration splitterRegistration = Registration.makeDropped(LocalDateTime.MIN,
 			Status.WAITLIST);
@@ -38,6 +42,8 @@ public class CourseIndex implements SingleKeyItem<String> {
 		this.maxVacancy = maxVacancy;
 		this.scheduleList = new ArrayList<>();
 		this.registrationList = new TreeSet<>(new RegistrationComparator());
+		this.registeredSet = registrationList.headSet(splitterRegistration);
+		this.waitlistSet = registrationList.tailSet(splitterRegistration);
 
 		setCourse(course);
 
@@ -194,7 +200,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	 * @return a set of registration with status REGISTERED of this CourseIndex
 	 */
 	public Collection<Registration> getRegisteredList() {
-		return Collections.unmodifiableSet(registrationList.headSet(splitterRegistration));
+		return Collections.unmodifiableSet(registeredSet);
 	}
 
 	/**
@@ -203,7 +209,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	 * @return a set of registration with status WAITLIST of this CourseIndex
 	 */
 	public SortedSet<Registration> getWaitList() {
-		return Collections.unmodifiableSortedSet(registrationList.tailSet(splitterRegistration));
+		return Collections.unmodifiableSortedSet(waitlistSet);
 	}
 
 	/**
@@ -254,6 +260,32 @@ public class CourseIndex implements SingleKeyItem<String> {
 		registration.drop();
 
 		return true;
+	}
+
+	/**
+	 * Change the status of registration under this course index.
+	 * <p>
+	 * Other classes are compulsory to call this function to change the status of
+	 * registration, so that the index can maintain the waitlist.
+	 * 
+	 * @param reg    the registration to change status.
+	 * @param status the new status.
+	 */
+	public void changeRegistrationStatus(Registration reg, Status status) {
+		Objects.requireNonNull(reg);
+		Objects.requireNonNull(status);
+		
+		if (reg.getCourseIndex() != this) {
+			throw new IllegalArgumentException("Course index mismatch.");
+		}
+
+		if (reg.getStatus() == status) {
+			return;
+		}
+
+		registrationList.remove(reg);
+		reg.setStatus(status);
+		registrationList.add(reg);
 	}
 
 	@Override
