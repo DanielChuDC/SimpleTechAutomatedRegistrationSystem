@@ -12,7 +12,6 @@ import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.database.UserDB;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.data.dataitem.User.Domain;
-// import cx2002grp2.stars.functions.AbstractFunction;
 import cx2002grp2.stars.functions.Function;
 import cx2002grp2.stars.data.database.StudentDB;
 import cx2002grp2.stars.data.database.RegistrationDB;
@@ -134,11 +133,7 @@ public class MainApp implements OnExitSubject {
         int rightLen = BREAK_LINE_LENGTH - content.length() - leftLen - 2;
         String leftStr = String.join("", Collections.nCopies(leftLen, "="));
         String rightStr = String.join("", Collections.nCopies(rightLen, "="));
-        System.out.print(leftStr);
-        System.out.print(' ');
-        System.out.print(content);
-        System.out.print(' ');
-        System.out.println(rightStr);
+        System.out.printf("%s %s %s\n", leftStr, content, rightStr);
     }
 
     /**

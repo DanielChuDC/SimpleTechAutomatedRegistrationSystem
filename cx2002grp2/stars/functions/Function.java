@@ -9,6 +9,31 @@ import cx2002grp2.stars.data.dataitem.User;
  */
 public interface Function {
     /**
+     * Run the function with the given user.
+     * 
+     * @param user the user who what to run the function.
+     */
+    public void run(User user);
+
+    /**
+     * Check whether the given user has access to the Function.
+     * <p>
+     * This method shall be implemented as final method, so that the accessibility
+     * to the function cannot be change by any subclass.
+     * 
+     * @param user the user to check the accessibility.
+     * @return true if the user has access to the function. Otherwise, return false.
+     */
+    abstract public boolean accessible(User user);
+
+    /**
+     * The name of the function.
+     * 
+     * @return the name of the function.
+     */
+    abstract public String name();
+
+    /**
      * All the {@link Function} instances.
      * <p>
      * More exactly, return all the {@link AbstractFunction} instance.
@@ -35,7 +60,7 @@ public interface Function {
             funcFolder = new File("functions");
             // If still cannot find, throw exception.
             if (!funcFolder.exists()) {
-                throw new RuntimeException("Fail to find function package.");
+                throw new RuntimeException("Fail to find function package's location.");
             }
         }
 
@@ -55,29 +80,4 @@ public interface Function {
         }
 
     }
-
-    /**
-     * Run the function with the given user.
-     * 
-     * @param user the user who what to run the function.
-     */
-    public void run(User user);
-
-    /**
-     * Check whether the given user has access to the Function.
-     * <p>
-     * This method shall be implemented as final method, so that the accessibility
-     * to the function cannot be change by any subclass.
-     * 
-     * @param user the user to check the accessiblility.
-     * @return true if the user has access to the function. Otherwise, return false.
-     */
-    abstract public boolean accessible(User user);
-
-    /**
-     * The name of the function.
-     * 
-     * @return the name of the function.
-     */
-    abstract public String name();
 }
