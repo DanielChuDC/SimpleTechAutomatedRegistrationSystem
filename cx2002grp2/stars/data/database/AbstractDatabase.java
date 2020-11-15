@@ -51,6 +51,7 @@ public abstract class AbstractDatabase<ItemType> implements Database<ItemType>, 
     @Override
     public void doOnExit() {
         saveData();
+        System.out.println(this.getClass().getSimpleName()+": data automatically saved");
     }
 
     public ItemType pickOne() {
