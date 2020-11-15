@@ -229,10 +229,10 @@ public class Schedule {
 	 * <p>
 	 * Examples:
 	 * <ul>
-	 * <li>teaching weeks 1,2,3,4,5,6,7,8,9,10 ==> "1~10"
-	 * <li>teaching weeks 1,2,3,4,5,9,13 ==> "1~5,9,13"
-	 * <li>special case 1: 1,3,5,7,9,11,13 ==> "All Odd Weeks"
-	 * <li>special case 2: 2,4,6,8,10,12 ==> "All Even Weeks"
+	 * <li>teaching weeks 1,2,3,4,5,6,7,8,9,10 ==&gt; "1~10"
+	 * <li>teaching weeks 1,2,3,4,5,9,13 ==&gt; "1~5,9,13"
+	 * <li>special case 1: 1,3,5,7,9,11,13 ==&gt; "All Odd Weeks"
+	 * <li>special case 2: 2,4,6,8,10,12 ==&gt; "All Even Weeks"
 	 * </ul>
 	 * 
 	 * @return a string representing the teaching week in simplified format.

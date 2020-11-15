@@ -40,8 +40,6 @@ public class Authenticator {
      * Construct an authenticator
      */
     private Authenticator() {
-        // TODO - Add initialization code if necessary.
-
         // Get SHA-256 Hasher
         try {
             digester = MessageDigest.getInstance("SHA-256");
