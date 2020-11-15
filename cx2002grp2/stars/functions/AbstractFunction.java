@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Scanner;
 
+import cx2002grp2.stars.Configs;
 import cx2002grp2.stars.TablePrinter;
 import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.data.dataitem.User.Domain;
 
 /**
  * A common implementation for {@link Function}.
@@ -34,48 +36,6 @@ public abstract class AbstractFunction implements Function {
      */
     public static Iterable<Function> allFunctions() {
         return Collections.unmodifiableCollection(allFunctions);
-    }
-
-    /**
-     * Initialize all functions.
-     */
-    public static void init() {
-        // The package prefix of all function class
-        String packagePrefix = "cx2002grp2.stars.functions.";
-
-        // The folder of function class to be stored
-        File funcFolder = new File("cx2002grp2/stars/functions");
-
-        // If the path above is invalid, try another path.
-        if (!funcFolder.exists()) {
-            funcFolder = new File("functions");
-            // If still cannot find, throw exception.
-            if (!funcFolder.exists()) {
-                throw new RuntimeException("Fail to find function package.");
-            }
-        }
-
-        System.out.println("Function Package found: " + funcFolder.getPath());
-
-        // For all the file in the functions package.
-        for (String file : funcFolder.list()) {
-            System.out.println(file);
-
-            // For all the file ends with .java, initialize the corresponding class.
-            if (file.endsWith(".java")) {
-                // cut the suffix of file name to get the class name.
-                String className = file.substring(0, file.length() - ".java".length());
-                String fullClassName = packagePrefix + className;
-                try {
-                    // initialize the function class.
-                    Class.forName(fullClassName);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-
     }
 
     /**
@@ -114,6 +74,18 @@ public abstract class AbstractFunction implements Function {
      */
     protected TablePrinter tbPrinter() {
         return TablePrinter.getPrinter();
+    }
+
+    /**
+     * Common accessibility checking for student's functions.
+     * <p>
+     * student access time period and user domain will be checked.
+     * 
+     * @param user the user to be checked.
+     * @return true if the user can access function. Otherwise, return false.
+     */
+    protected boolean normalStudentAccessible(User user) {
+        return Configs.isStudentAccessTime() && user.getDomain() == Domain.STUDENT;
     }
 
     /**
@@ -188,6 +160,7 @@ public abstract class AbstractFunction implements Function {
     abstract protected void implementation(User user);
 
     public static void main(String[] args) {
-        AbstractFunction.init();
+        Function.init();
+        System.out.println(Function.allFunctions());
     }
 }

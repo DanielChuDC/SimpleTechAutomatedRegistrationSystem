@@ -2,6 +2,7 @@ package cx2002grp2.stars;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +12,7 @@ import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.database.UserDB;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.data.dataitem.User.Domain;
-import cx2002grp2.stars.functions.AbstractFunction;
+// import cx2002grp2.stars.functions.AbstractFunction;
 import cx2002grp2.stars.functions.Function;
 import cx2002grp2.stars.data.database.StudentDB;
 import cx2002grp2.stars.data.database.RegistrationDB;
@@ -56,6 +57,11 @@ public class MainApp implements OnExitSubject {
     private boolean initialized = false;
 
     /**
+     * Whether the app has exited.
+     */
+    private boolean exited = false;
+
+    /**
      * Initialize the app.
      * <p>
      * All the initialization function for all the tools will be put here.
@@ -64,7 +70,10 @@ public class MainApp implements OnExitSubject {
      */
     public void initialize(String[] args) {
         // Initialize all functions
-        AbstractFunction.init();
+        Function.init();
+
+        // Initialize configurations.
+        Configs.init();
 
         // Force the initialization order of database to avoid long run recursive
         // initialization call
@@ -74,8 +83,9 @@ public class MainApp implements OnExitSubject {
         StudentDB.getDB();
         RegistrationDB.getDB();
 
-        // Initialize configurations.
-        Configs.init();
+
+        // signal on exit when the virtual machine is terminating.
+        Runtime.getRuntime().addShutdownHook(new Thread(this::signalOnExit));
 
         initialized = true;
     }
@@ -95,12 +105,7 @@ public class MainApp implements OnExitSubject {
             throw new RuntimeException("Running MainApp without initialization.");
         }
 
-        // Using try so that the signaling the termination will happen anyway.
-        try {
-            mainBody();
-        } finally {
-            signalOnExit();
-        }
+        mainBody();
 
     }
 
@@ -110,85 +115,122 @@ public class MainApp implements OnExitSubject {
     private static final String FUNC_LIST_FMT = "%-3s : %s\n";
 
     /**
+     * Length of break line.
+     */
+
+    private static final int BREAK_LINE_LENGTH = 80;
+
+    /**
+     * Print a break line with content in the middle
+     * 
+     * @param content the content at the middle of break line
+     */
+    private void printBreakLine(String content) {
+        if (content.isEmpty()) {
+            System.out.println(String.join("", Collections.nCopies(BREAK_LINE_LENGTH, "=")));
+            return;
+        }
+        int leftLen = (BREAK_LINE_LENGTH - content.length()) / 2 - 1;
+        int rightLen = BREAK_LINE_LENGTH - content.length() - leftLen - 2;
+        String leftStr = String.join("", Collections.nCopies(leftLen, "="));
+        String rightStr = String.join("", Collections.nCopies(rightLen, "="));
+        System.out.print(leftStr);
+        System.out.print(' ');
+        System.out.print(content);
+        System.out.print(' ');
+        System.out.println(rightStr);
+    }
+
+    /**
      * The main function body.
      */
     private void mainBody() {
-        System.out.println(
-            "====================================\n" + 
-            "        Welcome to MySTARS.         \n" +
-            "====================================\n"
-        );
 
         Authenticator auth = Authenticator.getInstance();
-        
+
         @SuppressWarnings("resource")
         Scanner stdin = new Scanner(System.in);
 
+        printBreakLine("Welcome to MySTARS.");
+
+        User user = null;
+        // Login process
         while (true) {
             // Login
             System.out.println("Login: ");
-            User user = auth.login();
+            user = auth.login();
             if (user == null) {
-                System.out.println("Login failed.");
+                printBreakLine("Login Failed");
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                }
+                continue;
+            }
+            printBreakLine("Login Successfully");
+            break;
+        }
+
+        // Print warning if student login out of access period.
+        if (user.getDomain() == Domain.STUDENT && !Configs.isStudentAccessTime()) {
+            String beginTime = Configs.getAccessStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            String endTime = Configs.getAccessEndTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+            printBreakLine("WARNING");
+            System.out.println("It is not student access period. The access period is:");
+            System.out.printf("%s ~ %s\n", beginTime, endTime);
+            printBreakLine("");
+        }
+
+        // Get available function list.
+        List<Function> funcList = auth.accessibleFunctions(user);
+
+        while (true) {
+            // Print available function list.
+            System.out.println("Available function list: ");
+            System.out.printf(FUNC_LIST_FMT, 0, "Logout"); // Logout function is always available.
+            for (int i = 0; i < funcList.size(); ++i) {
+                System.out.printf(FUNC_LIST_FMT, i + 1, funcList.get(i).name());
             }
 
-            // Print warning if student login out of access period.
-            if (user.getDomain() == Domain.STUDENT && !Configs.isStudentAccessTime()) {
-                String beginTime = Configs.getAccessStartTime().format(DateTimeFormatter.RFC_1123_DATE_TIME);
-                String endTime = Configs.getAccessEndTime().format(DateTimeFormatter.RFC_1123_DATE_TIME);
-
-                System.out.println("Warning: it is not student access period. The access period is:");
-                System.out.printf("%s ~ %s\n", beginTime, endTime);
-            }
-
-            // Get available function list.
-            List<Function> funcList = auth.accessibleFunctions(user);
-
+            // User selection
+            System.out.println("Please enter the No. of function to be run.");
+            int selection = -1;
             while (true) {
-                // Print available function list.
-                System.out.printf(FUNC_LIST_FMT, "No.", "Function");
-                System.out.printf(FUNC_LIST_FMT, 0, "Logout"); // Logout function is always available.
-                for (int i = 0; i < funcList.size(); ++i) {
-                    System.out.printf(FUNC_LIST_FMT, i + 1, funcList.get(i).name());
+                System.out.print("Your selection: ");
+
+                String inStr = stdin.nextLine();
+
+                try {
+                    selection = Integer.parseInt(inStr);
+                } catch (NumberFormatException e) {
+                    selection = -1;
                 }
 
-                // User selection
-                System.out.println("Please enter the No. of function to be run.");
-                int selection = -1;
-                while (true) {
-                    System.out.print("Your selection: ");
-
-                    String inStr = stdin.nextLine();
-
-                    try {
-                        selection = Integer.parseInt(inStr);
-                    } catch (NumberFormatException e) {
-                        selection = -1;
-                    }
-
-                    if (selection < 0 || selection > funcList.size()) {
-                        if (funcList.isEmpty()) {
-                            System.out.println("You can only enter 0 and logout.");
-                        } else {
-                            System.out.println("Please enter an integer between 0 and " + funcList.size());
-                        }
+                if (selection < 0 || selection > funcList.size()) {
+                    if (funcList.isEmpty()) {
+                        System.out.println("You can only enter 0 and logout.");
                     } else {
-                        break;
+                        System.out.println("Please enter an integer between 0 and " + funcList.size());
                     }
-                }
-
-                // User selected to logout. Break the main loop.
-                if (selection == 0) {
+                } else {
                     break;
                 }
-
-                System.out.println("You selected function: "+funcList.get(selection-1).name());
-
-                funcList.get(selection-1).run(user);
             }
+
+            // User selected to logout. Break the main loop.
+            if (selection == 0) {
+                printBreakLine("Logout");
+                break;
+            }
+
+            System.out.println("You selected function: " + funcList.get(selection - 1).name());
+            printBreakLine("Function Starts");
+            funcList.get(selection - 1).run(user);
+            System.out.println();
+            printBreakLine("Function Finished");
         }
     }
-
 
     /**
      * The collection of observers that are observing on the program termination
@@ -210,7 +252,12 @@ public class MainApp implements OnExitSubject {
      * Notify all the observers that are observing on the program termination event.
      */
     private void signalOnExit() {
-        onExitObservers.forEach(ob -> ob.doOnExit());
+        // one program can only exit once
+        if (!exited) {
+            printBreakLine("Exiting");
+            onExitObservers.forEach(ob -> ob.doOnExit());
+            exited = true;
+        }
     }
 
     /**

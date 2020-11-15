@@ -1,5 +1,7 @@
 package cx2002grp2.stars.functions;
 
+import java.io.File;
+
 import cx2002grp2.stars.data.dataitem.User;
 
 /**
@@ -16,6 +18,42 @@ public interface Function {
      */
     public static Iterable<Function> allFunctions() {
         return AbstractFunction.allFunctions();
+    }
+
+    /**
+     * Scan the function package folder and initialize all function classes.
+     */
+    public static void init() {
+        // The package prefix of all function class
+        String packagePrefix = "cx2002grp2.stars.functions.";
+
+        // The folder of function class to be stored
+        File funcFolder = new File("cx2002grp2/stars/functions");
+
+        // If the path above is invalid, try another path.
+        if (!funcFolder.exists()) {
+            funcFolder = new File("functions");
+            // If still cannot find, throw exception.
+            if (!funcFolder.exists()) {
+                throw new RuntimeException("Fail to find function package.");
+            }
+        }
+
+        // For all the file in the functions package folder.
+        for (String file : funcFolder.list()) {
+            // For all the file ends with .java, initialize the corresponding class.
+            if (file.endsWith(".java")) {
+                // cut the suffix of file name to get the class name.
+                String className = file.substring(0, file.length() - ".java".length());
+                String fullClassName = packagePrefix + className;
+                try {
+                    // initialize the function class.
+                    Class.forName(fullClassName);
+                } catch (ClassNotFoundException e) {
+                }
+            }
+        }
+
     }
 
     /**
