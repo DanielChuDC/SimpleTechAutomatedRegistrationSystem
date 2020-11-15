@@ -62,39 +62,36 @@ public class Authenticator {
      *         credentials are correct. Otherwise, return null
      */
     public User login() {
-        // TODO - check registration time - if outside of time, display approriate error message
-
         User.Domain[] allDomain = User.Domain.values();
-        boolean validDomain = false;
         @SuppressWarnings("resource")
         Scanner in = new Scanner(System.in);
-        User.Domain domain = null;
-        User user = null;
+        
 
         // input domain
-        while (validDomain == false) {
-            System.out.println("Enter domain - 1 for STUDENT, 2 for STAFF");
-
-            int domainNo;
-            String inStr = in.nextLine();
-            try {
-                domainNo = Integer.parseInt(inStr);
-            } catch (NumberFormatException e) {
-                domainNo = -1;
-            }
-
-            if (domainNo == 1) domain = allDomain[0];
-            else if (domainNo == 2) domain = allDomain[1];
-            else {
-                System.out.println("Invalid domain choice. Login again.");
-                continue;
-            }
-            validDomain = true;
+        System.out.println("Select login domain: ");
+        for (int i = 0; i < allDomain.length; ++i) {
+            System.out.printf("%d for %s\n", i+1, allDomain[i]);
         }
+        System.out.print("Enter the No. of Domain: ");
+        String inStr = in.nextLine();
 
-        user = login(domain);
+        int domainNo;
 
-        return user;
+        try {
+            domainNo = Integer.parseInt(inStr);
+        } catch (NumberFormatException e) {
+            domainNo = -1;
+        }
+        User.Domain domain = null;
+
+        if (domainNo >= 1 && domainNo <= allDomain.length) {
+            domain = allDomain[domainNo-1];
+        } else {
+            System.out.println("Invalid domain choice. Login again.");
+            return null;
+        }
+    
+        return login(domain);
     }
 
     /**
@@ -109,8 +106,6 @@ public class Authenticator {
      *         credentials are correct. Otherwise, return null
      */
     public User login(User.Domain useDomain) {
-        // TODO - check registration time - if outside of time, display approriate error message
-
         @SuppressWarnings("resource")
         Scanner in = new Scanner(System.in);
         Console console = System.console();
@@ -118,7 +113,7 @@ public class Authenticator {
 
         // input username, password and domain
         // read username
-        System.out.println("Enter username: ");
+        System.out.print("Enter username: ");
         String username = in.nextLine();
 
         // read password - must not echo characters
@@ -130,8 +125,9 @@ public class Authenticator {
         // or if domain does not match, login again
         user = UserDB.getDB().getByKey(username);
         String encoded = hash(password);
-        if (user == null || encoded.equals(user.getHashedPassword()) || user.getDomain() != useDomain) {
+        if (user == null || !encoded.equals(user.getHashedPassword()) || user.getDomain() != useDomain) {
             System.out.println("Invalid username or password. Login again.");
+            user = null;
         }
 
         return user;
@@ -161,6 +157,9 @@ public class Authenticator {
      * 
      * @param username the username of new account.
      * @param password the password of new account.
+     * @param domain   the domain of new account.
+     * @param email    the email of new account.
+     * @param phoneNo  the phone number of new account.
      * @return a new user with the given username and password.
      * @throws IllegalArgumentException If the username already exists in the user
      *                                  database.
