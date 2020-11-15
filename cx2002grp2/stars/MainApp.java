@@ -11,6 +11,7 @@ import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.database.UserDB;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.data.dataitem.User.Domain;
+import cx2002grp2.stars.functions.AbstractFunction;
 import cx2002grp2.stars.functions.Function;
 import cx2002grp2.stars.data.database.StudentDB;
 import cx2002grp2.stars.data.database.RegistrationDB;
@@ -62,6 +63,9 @@ public class MainApp implements OnExitSubject {
      * @param args the argument passed to main function.
      */
     public void initialize(String[] args) {
+        // Initialize all functions
+        AbstractFunction.init();
+
         // Force the initialization order of database to avoid long run recursive
         // initialization call
         CourseDB.getDB();

@@ -4,7 +4,7 @@ set CLASSPATH="%CLASSPATH%.;javax\mail.jar;javax\activation.jar;";
 echo %CLASSPATH%
 
 echo Compiling...
-javac App.java 
+javac App.java cx2002grp2/stars/functions/*.java
 echo Finished compiling
 
 echo ==========RUN==========
