@@ -1,5 +1,6 @@
 package cx2002grp2.stars;
 
+import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.User;
 
 public interface NotificationSender {
