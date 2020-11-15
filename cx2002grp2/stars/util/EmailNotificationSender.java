@@ -17,6 +17,7 @@ import cx2002grp2.stars.NotificationSender;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
+import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
 
 public class EmailNotificationSender implements NotificationSender {
