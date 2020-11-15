@@ -30,6 +30,7 @@ public abstract class AbstractDatabase<ItemType> implements Database<ItemType>, 
      * Construct a database observing on the exiting event of MainApp.
      */
     public AbstractDatabase() {
+        System.err.println("Constructing: "+this.getClass().getSimpleName());
         MainApp.getApp().addOnExitObserver(this);
     }
 
@@ -51,7 +52,7 @@ public abstract class AbstractDatabase<ItemType> implements Database<ItemType>, 
     @Override
     public void doOnExit() {
         saveData();
-        System.out.println(this.getClass().getSimpleName()+": data automatically saved");
+        System.err.println(this.getClass().getSimpleName()+": data automatically saved");
     }
 
     public ItemType pickOne() {

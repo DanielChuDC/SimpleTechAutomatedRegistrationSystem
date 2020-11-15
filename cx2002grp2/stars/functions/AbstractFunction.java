@@ -1,6 +1,5 @@
 package cx2002grp2.stars.functions;
 
-import java.io.File;
 import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,6 +42,7 @@ public abstract class AbstractFunction implements Function {
      * {@link AbstractFunction#allFunctions}
      */
     public AbstractFunction() {
+        System.err.println("Constructing: "+this.getClass().getSimpleName());
         allFunctions.add(this);
     }
 

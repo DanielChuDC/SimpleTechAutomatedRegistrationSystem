@@ -151,18 +151,21 @@ public class MainApp implements OnExitSubject {
         @SuppressWarnings("resource")
         Scanner stdin = new Scanner(System.in);
 
+        printBreakLine("");
         printBreakLine("Welcome to MySTARS.");
+        printBreakLine("");
+        System.out.println();
 
         User user = null;
         // Login process
         while (true) {
             // Login
-            System.out.println("Login: ");
+            printBreakLine("Login");
             user = auth.login();
             if (user == null) {
-                printBreakLine("Login Failed");
+                System.out.println("Login Failed");
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                 }
                 continue;
@@ -192,6 +195,7 @@ public class MainApp implements OnExitSubject {
             for (int i = 0; i < funcList.size(); ++i) {
                 System.out.printf(FUNC_LIST_FMT, i + 1, funcList.get(i).name());
             }
+            System.out.println();
 
             // User selection
             System.out.println("Please enter the No. of function to be run.");
