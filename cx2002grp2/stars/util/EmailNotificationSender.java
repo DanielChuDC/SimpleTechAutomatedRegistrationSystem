@@ -31,6 +31,7 @@ public class EmailNotificationSender implements NotificationSender {
         // throw new UnsupportedOperationException();
     }
 
+    @Override
     public void sendWaitlistNotification(Registration reg, String msg) {
         // get senderEmail and password from config
         String senderEmail = Configs.getSystemEmailAddr();
@@ -91,10 +92,4 @@ public class EmailNotificationSender implements NotificationSender {
             throw new RuntimeException(e);
         }
     }
-
-	@Override
-	public void sendWaitlistNotification(Registration reg, String msg) {
-		// TODO Auto-generated method stub
-		
-	}
 }
