@@ -17,6 +17,7 @@ import cx2002grp2.stars.NotificationSender;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
+import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
 
 public class EmailNotificationSender implements NotificationSender {
@@ -43,22 +44,6 @@ public class EmailNotificationSender implements NotificationSender {
                 + course.getCourseCode() + " " + course.getCourseName() + ".\n"
                 + "Your index number for this course is " + idx.getIndexNo();
 
-        // String line = "";
-        // String data[];
-        // BufferedReader br = new BufferedReader(new FileReader("../../../tables/config.csv"));
-        // while ((line = br.readLine()) != null) {
-
-        //     if (line.startsWith("system_email")) {
-        //         data = line.split(",");
-        //         senderEmail = data[1];
-        //     }
-        //     if (line.startsWith("system_email_passwd")) {
-        //         data = line.split(",");
-        //         senderPassword = data[0];
-        //     }
-
-        // }
-
         // TODO: async - test first
         System.out.println("Sending email");
         sendEmail(senderEmail, senderPassword, receiverEmail, subject, content);
@@ -76,9 +61,6 @@ public class EmailNotificationSender implements NotificationSender {
      * @param subject        the subject of email.
      * @param content        the content of email.
      */
-
-
-
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
             String content) {
 
@@ -109,4 +91,10 @@ public class EmailNotificationSender implements NotificationSender {
             throw new RuntimeException(e);
         }
     }
+
+	@Override
+	public void sendWaitlistNotification(Registration reg, String msg) {
+		// TODO Auto-generated method stub
+		
+	}
 }
