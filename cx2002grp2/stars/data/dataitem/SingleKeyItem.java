@@ -31,6 +31,7 @@ public interface SingleKeyItem<KeyType> {
      * value of an item.
      * 
      * @param newKey the new key used to replace the old key.
+     * @throws NullPointerException if the new key is null.
      */
     public void setKey(KeyType newKey);
 

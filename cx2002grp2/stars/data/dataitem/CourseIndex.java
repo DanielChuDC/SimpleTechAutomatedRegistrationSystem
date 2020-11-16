@@ -38,6 +38,8 @@ public class CourseIndex implements SingleKeyItem<String> {
 			Status.WAITLIST);
 
 	public CourseIndex(String indexNo, Course course, int maxVacancy) {
+		Objects.requireNonNull(indexNo);
+
 		this.indexNo = indexNo;
 		this.maxVacancy = maxVacancy;
 		this.scheduleList = new ArrayList<>();
@@ -56,6 +58,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 
 	@Override
 	public void setKey(String newKey) {
+		Objects.requireNonNull(newKey);
 		this.indexNo = newKey;
 	}
 
@@ -72,6 +75,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	 * set new indexNo of this CourseIndex.
 	 * 
 	 * @param indexNo new indexNo of this CourseIndex
+	 * @throws NullPointerException if course index is null
 	 */
 	public void setIndexNo(String indexNo) {
 		setKey(indexNo);
