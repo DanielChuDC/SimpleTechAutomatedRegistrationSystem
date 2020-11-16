@@ -1,6 +1,6 @@
 package cx2002grp2.stars.functions;
 
-public class PrintStudentByCourse {
+public class PrintStudentByCourse extends AbstractFunction {
     /**
      * An instance of function, for Singleton pattern.
      */
