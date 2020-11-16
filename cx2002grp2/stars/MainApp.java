@@ -162,7 +162,7 @@ public class MainApp implements OnExitSubject {
             String endTime = Configs.getAccessEndTime().format(ACCESS_TIME_FORMATTER);
 
             printBreakLine("WARNING");
-            System.out.println("It is not student access period. Most of registration functions are not supported.");
+            System.out.println("It is not student access period. Registration functions are not available.");
             System.out.printf("The access period is: %s ~ %s\n", beginTime, endTime);
             printBreakLine("");
         }

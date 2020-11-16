@@ -4,9 +4,10 @@ import cx2002grp2.stars.data.Gender;
 import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.data.dataitem.User.Domain;
 
 /**
- * A example function, which will simply say "Hello!"
+ * A example function.
  */
 public class ExampleFunction extends AbstractFunction {
 
@@ -33,12 +34,12 @@ public class ExampleFunction extends AbstractFunction {
 
     @Override
     public boolean accessible(User user) {
-        return true;
+        return normalStudentAccessible(user) || user.getDomain() == Domain.STAFF;
     }
 
     @Override
     public String name() {
-        return "Test function.";
+        return "Test function";
     }
 
     @Override

@@ -71,6 +71,8 @@ public abstract class AbstractFunction implements Function {
 
     /**
      * A quick way to get a Scanner for System.in
+     * <p>
+     * It is the same to {@link sc()}
      * 
      * @return a scanner of System.in
      */
@@ -79,7 +81,9 @@ public abstract class AbstractFunction implements Function {
     }
 
     /**
-     * A quick way to get a Scanner for System.in
+     * A quick way to get a Scanner for System.in.
+     * <p>
+     * It is the same to {@link stdin()}
      * 
      * @return a scanner of System.in
      */
@@ -174,7 +178,7 @@ public abstract class AbstractFunction implements Function {
 
     /**
      * Formatting string for enum value list used by
-     * {@link AbstractFunction#selectEnum(String, Enum[]).
+     * {@link AbstractFunction#selectEnum(String, Enum[])}.
      */
     private static final String ENUM_LIST_FORMAT = "%-2d for %s\n";
 

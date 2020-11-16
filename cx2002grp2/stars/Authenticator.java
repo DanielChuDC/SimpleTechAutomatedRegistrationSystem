@@ -55,6 +55,8 @@ public class Authenticator {
      * password.
      * <p>
      * Existence of user and correctness of password will be checked.
+     * <p>
+     * The function won't loop and repeat asking user for input, any invalid will course 
      * 
      * @return the user login if the user exist in the selected domain and
      *         credentials are correct. Otherwise, return null
