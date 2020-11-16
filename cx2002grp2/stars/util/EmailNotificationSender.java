@@ -24,15 +24,23 @@ public class EmailNotificationSender implements NotificationSender {
 
     @Override
     public void sendNotification(User targetUser, String msg) {
-        String senderEmail;
-        String senderPassword;
-        String receiverEmail;
+        String senderEmail = Configs.getSystemEmailAddr();
+        String senderPassword = Configs.getSystemEmailPasswd();
+        String receiverEmail = targetUser.getEmail();
+
+        System.out.println("Sending email to " + receiverEmail);
+        sendEmail(senderEmail, senderPassword, receiverEmail, "", msg);
+        System.out.println("Email has been sent to " + receiverEmail);
 
         // throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void sendWaitlistNotification(Registration reg, String msg) {
+    /**
+     * Setup notification for when student is added into a course from waitlist
+     * 
+     * @param reg The registration object containing student and course information
+     */
+    public void sendWaitlistNotification(Registration reg) {
         // get senderEmail and password from config
         String senderEmail = Configs.getSystemEmailAddr();
         String senderPassword = Configs.getSystemEmailPasswd();
@@ -45,10 +53,11 @@ public class EmailNotificationSender implements NotificationSender {
                 + course.getCourseCode() + " " + course.getCourseName() + ".\n"
                 + "Your index number for this course is " + idx.getIndexNo();
 
-        // TODO: async - test first
-        System.out.println("Sending email");
+
+        // TODO: (Optional) async - test first
+        System.out.println("Sending email to " + receiverEmail);
         sendEmail(senderEmail, senderPassword, receiverEmail, subject, content);
-        System.out.println("Email has been sent");
+        System.out.println("Email has been sent to " + receiverEmail);
 
     }
 
@@ -64,12 +73,17 @@ public class EmailNotificationSender implements NotificationSender {
      */
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
             String content) {
-
+        
+        // Get system properties
         Properties props = new Properties();
+
+        // Setup mail server
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.enable", "true");
+
 
         // public static Session getInstance(Properties prop, Authenticator auth)
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
@@ -78,14 +92,20 @@ public class EmailNotificationSender implements NotificationSender {
             }
         });
 
-        try {
+        // Used to debug SMTP issues
+        session.setDebug(true);
 
+        try {
+            // Create a default MimeMessage object
             Message message = new MimeMessage(session);
+
+            // Set who is sending, receiving, subject and message
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiverEmail));
             message.setSubject(subject);
             message.setText(content);
 
+            // Send message
             Transport.send(message);
 
         } catch (MessagingException e) {
