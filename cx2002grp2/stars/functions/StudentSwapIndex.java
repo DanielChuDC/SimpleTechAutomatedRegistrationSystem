@@ -1,6 +1,6 @@
 package cx2002grp2.stars.functions;
 
-public class StudentSwapIndex {
+public class StudentSwapIndex extends AbstractFunction{
     /**
      * An instance of function, for Singleton pattern.
      */
@@ -34,6 +34,20 @@ public class StudentSwapIndex {
 
     @Override
     protected void implementation(User user) {
+        // user1 - current user // user2 - user to swop with
+        // ask for user1's index number
+
+        // check if user1 is taking the index number
+
+        // second student login - login(domain)
+        // max 3 tries before exiting function? 
+
+        // check if user2 is taking the index number
+
+        // if all checks successful, table printer the swopping 
         
+        // ask to confirm, swap indexes if yes. if no, return;
+        // print successful
+        System.out.println("MATRIC_NUMBER-Index Number INDEX has been successfuly swopped with MATRIC_NUMBER-Index Number INDEX.");
     }
 }
