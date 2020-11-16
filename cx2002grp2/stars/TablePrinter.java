@@ -167,10 +167,10 @@ public class TablePrinter {
 	 * @param index the index which the schedule is under.
 	 */
 	private void printScheduleTable(CourseIndex index) {
-		if (index.getRegisteredList().isEmpty()) {
+		if (index.getScheduleList().isEmpty()) {
 			System.out.printf(EMPTY_TABLE_MSG);
 		} else {
-			final String TABLE_FORMAT = "%-3s | %-3s | %-10s | %-10s | %-11s | %-15s | %-15s | %-10s\n";
+			final String TABLE_FORMAT = "%-3s | %-4s | %-10s | %-10s | %-11s | %-15s | %-15s | %-10s\n";
 			System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Wk", "Remark");
 			printBreakLine();
 			int rowNumber = 0;
