@@ -143,6 +143,7 @@ public class CourseAllocator {
 
 	/**
 	 * Generate result for invalid input
+	 * @param value the invalid value
 	 * @return a result showing invalid input.
 	 */
 	private Result invalidInputResult(String value) {
