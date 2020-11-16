@@ -13,8 +13,16 @@ import cx2002grp2.stars.data.dataitem.Registration.Status;
  */
 public class CourseAllocator {
 
+	/**
+	 * Default course allocator
+	 */
 	private static CourseAllocator defaultAllocator = new CourseAllocator();
 
+	/**
+	 * Get an instance of course allocator
+	 * 
+	 * @return an instance of course allocator
+	 */
 	public static CourseAllocator getInstance() {
 		return defaultAllocator;
 	}
@@ -22,11 +30,9 @@ public class CourseAllocator {
 	// Short name for databases
 	private StudentDB studDB = StudentDB.getDB();
 	private CourseIndexDB indexDB = CourseIndexDB.getDB();
-	private CourseDB courseDB = CourseDB.getDB();
 	private RegistrationDB regDB = RegistrationDB.getDB();
-	private UserDB userDB = UserDB.getDB();
 
-	// Notification sender
+	//  Short name for notification sender
 	private NotificationSender sender = Configs.getNotificationSender();
 
 	/**
@@ -185,8 +191,6 @@ public class CourseAllocator {
 	 * @return the result of changing registration.
 	 */
 	public CourseAllocator.Result changeIndex(Registration currentReg, CourseIndex newIndex) {
-		// TODO - implement method
-
 		// Validate inputs
 		if (!regDB.hasItem(currentReg)) {
 			return invalidInputResult("Registration: " + currentReg);
@@ -286,11 +290,14 @@ public class CourseAllocator {
 			return clashingResult;
 		}
 
-		// The student field of registration object is immutable, new registration must be created.
+		// The student field of registration object is immutable, new registration must
+		// be created.
 		Registration regFrom1To2, regFrom2To1;
-		regFrom1To2 = new Registration(reg2.getStudent(), reg1.getCourse(), reg1.getRegisterDateTime(), reg1.getStatus());
-		regFrom2To1 = new Registration(reg1.getStudent(), reg2.getCourse(), reg2.getRegisterDateTime(), reg2.getStatus());
-		
+		regFrom1To2 = new Registration(reg2.getStudent(), reg1.getCourse(), reg1.getRegisterDateTime(),
+				reg1.getStatus());
+		regFrom2To1 = new Registration(reg1.getStudent(), reg2.getCourse(), reg2.getRegisterDateTime(),
+				reg2.getStatus());
+
 		// remove existing registration.
 		regDB.delItem(reg1);
 		regDB.delItem(reg2);
@@ -343,9 +350,9 @@ public class CourseAllocator {
 	 * {@link CourseAllocator#timeSlotClash(CourseIndex, CourseIndex)} and two
 	 * clashing indexes. Otherwise, return null.
 	 * <p>
-	 * A registration can be specified to be exception, which will not be checked
-	 * for time slot clashing. The value of exception is typically null or a value
-	 * in the given registration set.
+	 * A registration can be specified to be the exception, which will not be
+	 * checked for time slot clashing. The value of exception is typically null
+	 * (which means not exception) or a value in the given registration set.
 	 * 
 	 * @param regList     the given registration list
 	 * @param courseIndex the course index used to find potential clashing.
@@ -386,12 +393,12 @@ public class CourseAllocator {
 	 * @return true if they clash with each other
 	 */
 	private boolean isClashed(CourseIndex index1, CourseIndex index2) {
-		List<Schedule> scheList1 = index1.getScheduleList();
-		List<Schedule> scheList2 = index2.getScheduleList();
+		List<Schedule> scheduleList1 = index1.getScheduleList();
+		List<Schedule> scheduleList2 = index2.getScheduleList();
 
-		for (int i = 0; i < scheList1.size(); ++i) {
-			for (int j = 0; j < scheList2.size(); ++j) {
-				if (isClashed(scheList1.get(i), scheList2.get(j))) {
+		for (int i = 0; i < scheduleList1.size(); ++i) {
+			for (int j = 0; j < scheduleList2.size(); ++j) {
+				if (isClashed(scheduleList1.get(i), scheduleList2.get(j))) {
 					return true;
 				}
 			}
