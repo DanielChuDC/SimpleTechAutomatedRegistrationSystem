@@ -1,5 +1,14 @@
 package cx2002grp2.stars.functions;
 
+import java.util.Collection;
+
+import cx2002grp2.stars.data.database.CourseIndexDB;
+import cx2002grp2.stars.data.database.RegistrationDB;
+import cx2002grp2.stars.data.dataitem.CourseIndex;
+import cx2002grp2.stars.data.dataitem.Registration;
+import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.data.dataitem.User.Domain;
+
 /**
  * A example function.
  */
@@ -33,11 +42,27 @@ public class PrintStudentByIndex extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Test function";
+        return "Print student list by index number";
     }
 
     @Override
     protected void implementation(User user) {
+        // Enter index number
+        System.out.println("Enter course code: ");
+        String indexNo = sc().nextLine();
         
+        // Check if index number exist
+        CourseIndex index = CourseIndexDB.getDB().getByKey(indexNo);
+        if (index == null) {
+            System.out.println("Invalid index.");
+            return;
+        }
+
+
+        // Get registration list
+        Collection<Registration> regs = RegistrationDB.getDB().getRegOfIndex(indexNo);
+
+        // print list of students
+        tbPrinter().printStudentInRegList(regs);
     }
 }
