@@ -14,7 +14,13 @@ import java.util.Objects;
  * When an attribute is changed, related information in other class will also
  * change.
  * <p>
- * This class can be safely deleted by drop() with all relationships removed.
+ * A registration can be dropped. If a registration is dropped, it will be
+ * removed from all its related objects, including student, course index, etc.
+ * The student, index and course fields of registration will become null after
+ * dropping.
+ * <p>
+ * The registration can be safely dropped with {@link Registration#drop()} and
+ * all relationships will be removed. The dropping process cannot be reverted.
  */
 public class Registration {
 
@@ -201,6 +207,6 @@ public class Registration {
 
 	@Override
 	public String toString() {
-		return "{student=" + student + ", index=" + courseIndex +"}";
+		return "{student=" + student + ", index=" + courseIndex + "}";
 	}
 }
