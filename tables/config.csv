@@ -3,6 +3,6 @@ access_end_time,2020-11-04T00:00
 access_start_time,2020-10-01T00:00
 default_log_level,ALL
 default_max_au,23
+max_registration_count,15
 system_email,CZ2002group2@gmail.com
 system_email_passwd,CZ2002OODP!
-max_registration_count,15

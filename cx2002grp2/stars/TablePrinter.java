@@ -5,6 +5,10 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
+import cx2002grp2.stars.data.database.CourseDB;
+import cx2002grp2.stars.data.database.CourseIndexDB;
+import cx2002grp2.stars.data.database.RegistrationDB;
+import cx2002grp2.stars.data.database.StudentDB;
 import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Registration;
@@ -65,23 +69,25 @@ public class TablePrinter {
 	 * @param student the student whose information and registrations are printed.
 	 */
 	public void printStudentAndReg(Student student) {
+		final String TABLE_FORMAT = "%-20s | %-20s | %-20s | %-20s\n";
+		
 		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(),
 				"Full Name: " + student.getFullName(), "Total Registered AU: " + roundedAu(student.getRegisteredAU()));
+
+		System.out.printf(TABLE_FORMAT, "Course Code", "Course Index", "Registration State", "AU");
+		printBreakLine();
+
 		if (student.getRegistrationList().isEmpty()) {
 			System.out.printf(EMPTY_TABLE_MSG);
 		} else {
 			// System.out.printf("%-30s\n", "Registration List");
-			final String TABLE_FORMAT = "%-20s | %-20s | %-20s | %-20s\n";
 
-			printBreakLine();
-			System.out.printf(TABLE_FORMAT, "Course Code", "Course Index", "Registration State", "AU");
-			printBreakLine();
 			for (Registration reg : student.getRegistrationList()) {
 				System.out.printf(TABLE_FORMAT, reg.getCourse().getCourseCode(), reg.getCourseIndex(), reg.getStatus(),
 						roundedAu(reg.getCourse().getAu()));
 			}
-			printBreakLine();
 		}
+		printBreakLine();
 	}
 
 	/**
@@ -273,11 +279,7 @@ public class TablePrinter {
 	}
 
 	public static void main(String[] args) {
-		Set<Integer> set = new TreeSet<Integer>();
-		set.add(1);
-		set.add(2);
-		// set.add(3);
-		set.add(4);
+		getPrinter().printStudentAndReg(StudentDB.getDB().pickOne());
 	}
 
 }

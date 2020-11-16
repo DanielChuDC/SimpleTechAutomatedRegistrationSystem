@@ -1,7 +1,5 @@
 package cx2002grp2.stars.util;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.Properties;
 
 import javax.mail.Message;
