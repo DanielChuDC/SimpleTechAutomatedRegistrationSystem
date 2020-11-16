@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import cx2002grp2.stars.Configs;
+import cx2002grp2.stars.CourseAllocator;
 import cx2002grp2.stars.TablePrinter;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.data.dataitem.User.Domain;
@@ -94,12 +95,21 @@ public abstract class AbstractFunction implements Function {
     /**
      * A quick way to get a {@link TablePrinter}
      * 
-     * @return a table printer
+     * @return an instance {@link TablePrinter}
      */
     protected TablePrinter tbPrinter() {
         return TablePrinter.getPrinter();
     }
 
+    /**
+     * A quick way to get an {@link CourseAllocator}
+     * 
+     * @return an instance of {@link CourseAllocator}
+     */
+    protected CourseAllocator allocator() {
+        return CourseAllocator.getInstance();
+    }
+    
     /**
      * Common accessibility checking for student's functions.
      * <p>

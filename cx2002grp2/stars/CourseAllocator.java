@@ -1,7 +1,6 @@
 package cx2002grp2.stars;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import cx2002grp2.stars.data.dataitem.*;
 import cx2002grp2.stars.data.dataitem.Registration.Status;
@@ -10,6 +9,12 @@ import cx2002grp2.stars.data.dataitem.Registration.Status;
  * Manager for all the events that may cause the registration information changes. 
  */
 public class CourseAllocator {
+
+	private static CourseAllocator defaultAllocator = new CourseAllocator();
+
+	public static CourseAllocator getInstance() {
+		return defaultAllocator;
+	}
 
 	/**
 	 * Register a the given course index for the given student.
@@ -30,32 +35,34 @@ public class CourseAllocator {
 	 */
 	public CourseAllocator.Result registerCourse(Student student, CourseIndex courseIndex) {
 		// TODO - implement method
-		Course course = courseIndex.getCourse();
 
-		// check AU before adding
-		double maxAU = Configs.getMaxAu();
-		double registeredAU = 0;
-		for (Registration reg : student.getRegistrationList()) {
-			registeredAU += reg.getCourse().getAu();
-		}
+		// Check existence
+		// Course course = courseIndex.getCourse();
 
-		if (registeredAU + course.getAu() > maxAU) {
-			return new Result(false, "The AU");
-		}
-
-		// // check vacancy of corresponding courseIndex
-		// CourseIndex newCourseIndex = registration.getCourseIndex();
-		// if (newCourseIndex.getAvailableVacancy() <= 0) {
-		// registration.setStatus(Status.WAITLIST);
-		// }
-		// else {
-		// registration.setStatus(Status.REGISTERED);
+		// // check AU before adding
+		// double maxAU = Configs.getMaxAu();
+		// double registeredAU = 0;
+		// for (Registration reg : student.getRegistrationList()) {
+		// 	registeredAU += reg.getCourse().getAu();
 		// }
 
-		// to be continued...
-		Registration registration = new Registration(student, courseIndex, LocalDateTime.now(), Status.REGISTERED);
+		// if (registeredAU + course.getAu() > maxAU) {
+		// 	return new Result(false, "The AU");
+		// }
 
-		return new Result(false, "FAIL");
+		// // // check vacancy of corresponding courseIndex
+		// // CourseIndex newCourseIndex = registration.getCourseIndex();
+		// // if (newCourseIndex.getAvailableVacancy() <= 0) {
+		// // registration.setStatus(Status.WAITLIST);
+		// // }
+		// // else {
+		// // registration.setStatus(Status.REGISTERED);
+		// // }
+
+		// // to be continued...
+		// Registration registration = new Registration(student, courseIndex, LocalDateTime.now(), Status.REGISTERED);
+
+		return new Result(false, "Function not implemented.");
 	}
 
 	/**
@@ -73,7 +80,7 @@ public class CourseAllocator {
 	 */
 	public CourseAllocator.Result dropCourse(Student student, CourseIndex courseIndex) {
 		// TODO - implement method
-		return new Result(false, "FAIL");
+		return new Result(false, "Function not implemented.");
 	}
 
 	/**
@@ -93,7 +100,7 @@ public class CourseAllocator {
 	 */
 	public CourseAllocator.Result changeMaxVacancy(CourseIndex courseIndex, int newMaxVcc) {
 		// TODO - implement method
-		return new Result(false, "FAIL");
+		return new Result(false, "Function not implemented.");
 	}
 
 	/**
@@ -112,7 +119,7 @@ public class CourseAllocator {
 	 */
 	public CourseAllocator.Result changeIndex(Registration currentReg, CourseIndex newIndex) {
 		// TODO - implement method
-		return new Result(false, "FAIL");
+		return new Result(false, "Function not implemented.");
 	}
 
 	/**
@@ -131,7 +138,15 @@ public class CourseAllocator {
 	 */
 	public CourseAllocator.Result swapRegistration(Registration reg1, Registration reg2) {
 		// TODO - implement method
-		return new Result(false, "FAIL");
+		return new Result(false, "Function not implemented.");
+	}
+
+	/**
+	 * Generate result for invalid input
+	 * @return a result showing invalid input.
+	 */
+	private Result invalidInputResult(String value) {
+		return new Result(false, "Invalid input: "+value);
 	}
 
 	/**
