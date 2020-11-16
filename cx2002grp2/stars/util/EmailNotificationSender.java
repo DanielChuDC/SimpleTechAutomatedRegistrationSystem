@@ -24,9 +24,13 @@ public class EmailNotificationSender implements NotificationSender {
 
     @Override
     public void sendNotification(User targetUser, String msg) {
-        String senderEmail;
-        String senderPassword;
-        String receiverEmail;
+        String senderEmail = Configs.getSystemEmailAddr();
+        String senderPassword = Configs.getSystemEmailPasswd();
+        String receiverEmail = targetUser.getEmail();
+
+        System.out.println("Sending email to " + receiverEmail);
+        sendEmail(senderEmail, senderPassword, receiverEmail, "", msg);
+        System.out.println("Email has been sent to " + receiverEmail);
 
         // throw new UnsupportedOperationException();
     }
