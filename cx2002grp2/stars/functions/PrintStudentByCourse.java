@@ -1,5 +1,14 @@
 package cx2002grp2.stars.functions;
 
+import java.util.Collection;
+
+import cx2002grp2.stars.data.database.CourseDB;
+import cx2002grp2.stars.data.dataitem.Registration;
+import cx2002grp2.stars.data.database.RegistrationDB;
+import cx2002grp2.stars.data.dataitem.Course;
+import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.data.dataitem.User.Domain;
+
 public class PrintStudentByCourse extends AbstractFunction {
     /**
      * An instance of function, for Singleton pattern.
@@ -29,11 +38,28 @@ public class PrintStudentByCourse extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Test function";
+        return "Print student list by course";
     }
 
     @Override
     protected void implementation(User user) {
+        // Enter course code
+        System.out.println("Enter course code: ");
+        String courseCode = sc().nextLine();
+
+        // check if course exist
+        Course course = CourseDB.getDB().getByKey(courseCode);
+        if (course == null) {
+            System.out.println("Invalid course code.");
+            return;
+        }
+
+        // get Registration list
+        Collection<Registration> regs = RegistrationDB.getDB().getRegOfCourseCode(courseCode, true);
+
         
+        // print list of students
+        tbPrinter().printStudentInRegList(regs);
+
     }
 }
