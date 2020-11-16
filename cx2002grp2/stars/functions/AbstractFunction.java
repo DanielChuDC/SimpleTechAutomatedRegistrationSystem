@@ -42,7 +42,7 @@ public abstract class AbstractFunction implements Function {
      * {@link AbstractFunction#allFunctions}
      */
     public AbstractFunction() {
-        System.err.println("Constructing: "+this.getClass().getSimpleName());
+        System.err.println("Constructing: " + this.getClass().getSimpleName());
         allFunctions.add(this);
     }
 
@@ -76,6 +76,15 @@ public abstract class AbstractFunction implements Function {
      */
     protected Scanner stdin() {
         return stdinSc;
+    }
+
+    /**
+     * A quick way to get a Scanner for System.in
+     * 
+     * @return a scanner of System.in
+     */
+    protected Scanner sc() {
+        return stdin();
     }
 
     /**
@@ -161,6 +170,29 @@ public abstract class AbstractFunction implements Function {
         }
 
         return ret;
+    }
+
+    /**
+     * Formatting string for enum value list used by
+     * {@link AbstractFunction#selectEnum(String, Enum[]).
+     */
+    private static final String ENUM_LIST_FORMAT = "%-2d for %s\n";
+
+    /**
+     * Ask user to select one enum values for an array of enum.
+     * 
+     * @param <T>     the type of enum to be selected.
+     * @param hintMsg the hinting message to be print before asking user to input
+     * @param values  the values in which the user will select.
+     * @return the enum value selected by user.
+     */
+    protected <T extends Enum<T>> T selectEnum(String hintMsg, T[] values) {
+        System.out.println(hintMsg);
+        for (int i = 0; i < values.length; ++i) {
+            System.out.printf(ENUM_LIST_FORMAT, i + 1, values[i]);
+        }
+        int selection = enterInt("Enter your choice: ", 1, values.length);
+        return values[selection - 1];
     }
 
     /**

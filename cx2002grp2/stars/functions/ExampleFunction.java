@@ -1,5 +1,8 @@
 package cx2002grp2.stars.functions;
 
+import cx2002grp2.stars.data.Gender;
+import cx2002grp2.stars.data.database.CourseIndexDB;
+import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.User;
 
 /**
@@ -14,6 +17,7 @@ public class ExampleFunction extends AbstractFunction {
 
     /**
      * An getter of function instance, for Singleton pattern.
+     * 
      * @return an instance of function.
      */
     public static Function getInstance() {
@@ -34,12 +38,28 @@ public class ExampleFunction extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Double a number";
+        return "Test function.";
     }
 
     @Override
     protected void implementation(User user) {
         int num = enterInt("Enter an integer: ");
-        System.out.println(num*2);
+        System.out.println(num + "*2 = " + (num * 2));
+
+        System.out.println();
+
+        Gender gender = selectEnum("Choose your gender: ", Gender.values());
+        System.out.println("Your gender is: "+gender);
+
+        System.out.println();
+
+        System.out.println("Select a course index.");
+        String indexNo = sc().nextLine();
+        CourseIndex index = CourseIndexDB.getDB().getByKey(indexNo);
+        if (index == null) {
+            System.out.println("invalid index.");
+        } else {
+            tbPrinter().printIndexAndSchedule(index);
+        }
     }
 }
