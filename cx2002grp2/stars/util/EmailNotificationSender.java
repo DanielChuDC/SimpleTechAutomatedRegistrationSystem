@@ -67,12 +67,17 @@ public class EmailNotificationSender implements NotificationSender {
 
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
             String content) {
-
+        
+        // Get system properties
         Properties props = new Properties();
+
+        // Setup mail server
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.enable", "true");
+
 
         // public static Session getInstance(Properties prop, Authenticator auth)
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
