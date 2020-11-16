@@ -14,6 +14,7 @@ public class ExampleFunction extends AbstractFunction {
 
     /**
      * An getter of function instance, for Singleton pattern.
+     * @return an instance of function.
      */
     public static Function getInstance() {
         return instance;

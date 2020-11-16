@@ -6,6 +6,9 @@ import java.util.Objects;
 import cx2002grp2.stars.data.dataitem.*;
 import cx2002grp2.stars.data.dataitem.Registration.Status;
 
+/**
+ * Manager for all the events that may cause the registration information changes. 
+ */
 public class CourseAllocator {
 
 	/**
@@ -18,6 +21,7 @@ public class CourseAllocator {
 	 * the waitlist instead).
 	 * <li>The student reaches the limit of number of registration.
 	 * <li>The student makes duplicated registration on the same course.
+	 * <li>The new registration has time slot clashing with the existing courses.
 	 * </ul>
 	 * 
 	 * @param student     the student to register the course.
@@ -26,10 +30,7 @@ public class CourseAllocator {
 	 */
 	public CourseAllocator.Result registerCourse(Student student, CourseIndex courseIndex) {
 		// TODO - implement method
-		Objects.requireNonNull(student);
-		Objects.requireNonNull(courseIndex);
 		Course course = courseIndex.getCourse();
-		Objects.requireNonNull(course);
 
 		// check AU before adding
 		double maxAU = Configs.getMaxAu();
@@ -102,6 +103,7 @@ public class CourseAllocator {
 	 * <li>The course code of the index does not match course code of the
 	 * registration.
 	 * <li>The status of registration is not {@link Registration.Status#REGISTERED}.
+	 * <li>The new registration has time slot clashing with the existing courses.
 	 * </ul>
 	 * 
 	 * @param currentReg the registration whose index to be changed.
@@ -120,6 +122,7 @@ public class CourseAllocator {
 	 * <li>Two registrations are the same.
 	 * <li>The course codes of two registrations do not match.
 	 * <li>The status of registrations are not {@link Registration.Status#REGISTERED}.
+	 * <li>The new registration has time slot clashing with the existing courses.
 	 * </ul>
 	 * 
 	 * @param reg1 one registration

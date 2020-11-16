@@ -64,9 +64,18 @@ public class MainApp implements OnExitSubject {
     private boolean initialized = false;
 
     /**
-     * Whether the app has exiting.
+     * Whether the app is exiting.
      */
     private boolean exiting = false;
+
+    /**
+     * Print a break line with content in the middle
+     * 
+     * @param content the content at the middle of break line
+     */
+    private void printBreakLine(String content) {
+        TablePrinter.getPrinter().printBreakLine(content, '=');
+    }
 
     /**
      * Initialize the app.
@@ -103,7 +112,7 @@ public class MainApp implements OnExitSubject {
      * 
      * @throws RuntimeException if the main app is run without initialization, that
      *                          is, {@link MainApp#run()} is called before
-     *                          {@link MainApp#initialize(String[]) is called.}
+     *                          {@link MainApp#initialize(String[])} is called.
      */
     public final void run() {
         // Initialization check
@@ -112,15 +121,6 @@ public class MainApp implements OnExitSubject {
         }
 
         mainBody();
-    }
-
-    /**
-     * Print a break line with content in the middle
-     * 
-     * @param content the content at the middle of break line
-     */
-    private void printBreakLine(String content) {
-        TablePrinter.getPrinter().printBreakLine(content, '=');
     }
 
     /**
