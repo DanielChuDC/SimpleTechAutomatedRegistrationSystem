@@ -65,7 +65,7 @@ public class TablePrinter {
 	 */
 	public void printStudentAndReg(Student student) {
 		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(),
-				"Full Name: " + student.getFullName(), "Total Registered AU: " + (int) student.getRegisteredAU());
+				"Full Name: " + student.getFullName(), "Total Registered AU: " + roundedAu(student.getRegisteredAU()));
 		if (student.getRegistrationList().isEmpty()) {
 			System.out.printf(EMPTY_TABLE_MSG);
 		} else {
@@ -77,7 +77,7 @@ public class TablePrinter {
 			System.out.printf(SPLITTER);
 			for (Registration reg : student.getRegistrationList()) {
 				System.out.printf(TABLE_FORMAT, reg.getCourse().getCourseCode(), reg.getCourseIndex(), reg.getStatus(),
-						(int) reg.getCourse().getAu());
+						roundedAu(reg.getCourse().getAu()));
 			}
 			System.out.printf(SPLITTER);
 		}
@@ -194,11 +194,11 @@ public class TablePrinter {
 	 * @param studList the student list to be printed.
 	 */
 	public void printStudentList(Iterable<Student> studList) {
-		final String TABLE_FORMAT = "%-15s | %-30s | %-15s\n";
+		final String TABLE_FORMAT = "%-15s | %-15s | %-30s\n";
 		System.out.printf(TABLE_FORMAT, "Username", "Full Name", "Matric No.");
 		System.out.printf(SPLITTER);
 		for (Student student : studList) {
-			System.out.printf(TABLE_FORMAT, student.getUsername(), student.getFullName(), student.getMatricNo());
+			System.out.printf(TABLE_FORMAT, student.getUsername(), student.getMatricNo(), student.getFullName());
 		}
 		System.out.printf(SPLITTER);
 	}
@@ -213,13 +213,24 @@ public class TablePrinter {
 	 * @param courseList the course list to be printed.
 	 */
 	public void printCourseList(Iterable<Course> courseList) {
-		final String TABLE_FORMAT = "%-12s | %-10s | %-10s | %-50s\n";
-		System.out.printf(TABLE_FORMAT, "Course Code", "School", "AU", "Course Name");
+		final String TABLE_FORMAT = "%-10s | %-10s | %-10s | %-50s\n";
+		System.out.printf(TABLE_FORMAT, "Code", "School", "AU", "Course Name");
 		System.out.printf(SPLITTER);
 		for (Course course : courseList) {
-			System.out.printf(TABLE_FORMAT, course.getCourseCode(), course.getSchool(), (int) course.getAu(), course.getCourseName());
+			System.out.printf(TABLE_FORMAT, course.getCourseCode(), course.getSchool(), roundedAu(course.getAu()),
+					course.getCourseName());
 		}
 		System.out.printf(SPLITTER);
+	}
+
+	/**
+	 * Function used to round the AU before printing
+	 * 
+	 * @param au the AU to be rounded
+	 * @return a string representing the AU with 2 digit precision.
+	 */
+	private String roundedAu(double au) {
+		return String.format("%.2f", au);
 	}
 
 	public static void main(String[] args) {
