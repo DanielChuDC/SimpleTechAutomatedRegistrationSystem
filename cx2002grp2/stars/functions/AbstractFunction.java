@@ -70,9 +70,9 @@ public abstract class AbstractFunction implements Function {
     private Scanner stdinSc = new Scanner(System.in);
 
     /**
-     * A quick way to get a Scanner for stdin.
+     * A quick way to get a Scanner for System.in
      * 
-     * @return a scanner of stdin
+     * @return a scanner of System.in
      */
     protected Scanner stdin() {
         return stdinSc;
@@ -169,9 +169,4 @@ public abstract class AbstractFunction implements Function {
      * @param user the user who run the function.
      */
     abstract protected void implementation(User user);
-
-    public static void main(String[] args) {
-        Function.init();
-        System.out.println(Function.allFunctions());
-    }
 }

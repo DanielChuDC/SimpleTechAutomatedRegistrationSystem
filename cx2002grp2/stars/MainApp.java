@@ -2,7 +2,6 @@ package cx2002grp2.stars;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -24,6 +23,15 @@ import cx2002grp2.stars.util.OnExitSubject;
  * It is implemented with Singleton pattern.
  */
 public class MainApp implements OnExitSubject {
+    /**
+     * formatter for access time period.
+     */
+    private static final DateTimeFormatter accessTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss");
+
+    /**
+     * The formatting string used for printing function list.
+     */
+    private static final String FUNC_LIST_FMT = "%3s: %s\n";
 
     /**
      * A unique instance of MainApp.
@@ -44,7 +52,7 @@ public class MainApp implements OnExitSubject {
     }
 
     /**
-     * Private constructor reserve for Singleton pattern.
+     * Private constructor reserved for Singleton pattern.
      */
     private MainApp() {
 
@@ -56,9 +64,9 @@ public class MainApp implements OnExitSubject {
     private boolean initialized = false;
 
     /**
-     * Whether the app has exited.
+     * Whether the app has exiting.
      */
-    private boolean exited = false;
+    private boolean exiting = false;
 
     /**
      * Initialize the app.
@@ -82,7 +90,6 @@ public class MainApp implements OnExitSubject {
         StudentDB.getDB();
         RegistrationDB.getDB();
 
-
         // signal on exit when the virtual machine is terminating.
         Runtime.getRuntime().addShutdownHook(new Thread(this::signalOnExit));
 
@@ -105,19 +112,7 @@ public class MainApp implements OnExitSubject {
         }
 
         mainBody();
-
     }
-
-    /**
-     * The formatting string used for printing function list.
-     */
-    private static final String FUNC_LIST_FMT = "%-3s : %s\n";
-
-    /**
-     * Length of break line.
-     */
-
-    private static final int BREAK_LINE_LENGTH = 80;
 
     /**
      * Print a break line with content in the middle
@@ -125,15 +120,7 @@ public class MainApp implements OnExitSubject {
      * @param content the content at the middle of break line
      */
     private void printBreakLine(String content) {
-        if (content.isEmpty()) {
-            System.out.println(String.join("", Collections.nCopies(BREAK_LINE_LENGTH, "=")));
-            return;
-        }
-        int leftLen = (BREAK_LINE_LENGTH - content.length()) / 2 - 1;
-        int rightLen = BREAK_LINE_LENGTH - content.length() - leftLen - 2;
-        String leftStr = String.join("", Collections.nCopies(leftLen, "="));
-        String rightStr = String.join("", Collections.nCopies(rightLen, "="));
-        System.out.printf("%s %s %s\n", leftStr, content, rightStr);
+        TablePrinter.getPrinter().printBreakLine(content, '=');
     }
 
     /**
@@ -171,12 +158,12 @@ public class MainApp implements OnExitSubject {
 
         // Print warning if student login out of access period.
         if (user.getDomain() == Domain.STUDENT && !Configs.isStudentAccessTime()) {
-            String beginTime = Configs.getAccessStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            String endTime = Configs.getAccessEndTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            String beginTime = Configs.getAccessStartTime().format(accessTimeFormatter);
+            String endTime = Configs.getAccessEndTime().format(accessTimeFormatter);
 
             printBreakLine("WARNING");
-            System.out.println("It is not student access period. The access period is:");
-            System.out.printf("%s ~ %s\n", beginTime, endTime);
+            System.out.println("It is not student access period. Most of registration functions are not supported.");
+            System.out.printf("The access period is: %s ~ %s\n", beginTime, endTime);
             printBreakLine("");
         }
 
@@ -252,10 +239,10 @@ public class MainApp implements OnExitSubject {
      */
     private void signalOnExit() {
         // one program can only exit once
-        if (!exited) {
+        if (!exiting) {
+            exiting = true;
             printBreakLine("Exiting");
             onExitObservers.forEach(ob -> ob.doOnExit());
-            exited = true;
         }
     }
 

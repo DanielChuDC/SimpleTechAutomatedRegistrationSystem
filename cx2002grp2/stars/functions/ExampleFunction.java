@@ -33,11 +33,12 @@ public class ExampleFunction extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Say Hello!";
+        return "Double a number";
     }
 
     @Override
     protected void implementation(User user) {
-        System.out.println("Hello! " + user.getUsername());
+        int num = enterInt("Enter an integer: ");
+        System.out.println(num*2);
     }
 }
