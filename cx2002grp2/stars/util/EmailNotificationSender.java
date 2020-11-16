@@ -44,26 +44,11 @@ public class EmailNotificationSender implements NotificationSender {
                 + course.getCourseCode() + " " + course.getCourseName() + ".\n"
                 + "Your index number for this course is " + idx.getIndexNo();
 
-        // String line = "";
-        // String data[];
-        // BufferedReader br = new BufferedReader(new FileReader("../../../tables/config.csv"));
-        // while ((line = br.readLine()) != null) {
 
-        //     if (line.startsWith("system_email")) {
-        //         data = line.split(",");
-        //         senderEmail = data[1];
-        //     }
-        //     if (line.startsWith("system_email_passwd")) {
-        //         data = line.split(",");
-        //         senderPassword = data[0];
-        //     }
-
-        // }
-
-        // TODO: async - test first
-        System.out.println("Sending email");
+        // TODO: (Optional) async - test first
+        System.out.println("Sending email to " + receiverEmail);
         sendEmail(senderEmail, senderPassword, receiverEmail, subject, content);
-        System.out.println("Email has been sent");
+        System.out.println("Email has been sent to " + receiverEmail);
 
     }
 
