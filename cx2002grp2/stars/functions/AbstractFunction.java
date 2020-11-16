@@ -67,6 +67,17 @@ public abstract class AbstractFunction implements Function {
         implementation(user);
     }
 
+    private Scanner stdinSc = new Scanner(System.in);
+
+    /**
+     * A quick way to get a Scanner for stdin.
+     * 
+     * @return a scanner of stdin
+     */
+    protected Scanner stdin() {
+        return stdinSc;
+    }
+
     /**
      * A quick way to get a {@link TablePrinter}
      * 
