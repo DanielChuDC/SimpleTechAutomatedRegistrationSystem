@@ -201,6 +201,6 @@ public class Registration {
 
 	@Override
 	public String toString() {
-		return "{" + student + ", " + courseIndex + "}";
+		return "{student=" + student + ", index=" + courseIndex +"}";
 	}
 }
