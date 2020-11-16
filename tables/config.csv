@@ -5,3 +5,4 @@ default_log_level,ALL
 default_max_au,23
 system_email,CZ2002group2@gmail.com
 system_email_passwd,CZ2002OODP!
+max_registration_count,15

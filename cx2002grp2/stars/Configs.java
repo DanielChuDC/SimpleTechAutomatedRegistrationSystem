@@ -42,6 +42,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     private static final String SYSTEM_EMAIL_PASSWD_KEY = "system_email_passwd";
     private static final String MAX_AU_KEY = "default_max_au";
     private static final String DEFAULT_LOG_LEVEL_KEY = "default_log_level";
+    private static final String MAX_REG_COUNT_KEY = "max_registration_count";
 
     // Buffered values.
     private static LocalDateTime accessEndTimeBuf;
@@ -49,6 +50,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     private static String systemEmailAddrBuf;
     private static String systemEmailPasswdBuf;
     private static int maxAuBuf;
+    private static int maxRegCntBuf;
     private static Level defaultLogLevelBuf;
 
     /**
@@ -60,6 +62,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         systemEmailAddrBuf = (String) getConfig(SYSTEM_EMAIL_KEY);
         systemEmailPasswdBuf = (String) getConfig(SYSTEM_EMAIL_PASSWD_KEY);
         maxAuBuf = (Integer) getConfig(MAX_AU_KEY);
+        maxRegCntBuf = (Integer) getConfig(MAX_REG_COUNT_KEY);
         defaultLogLevelBuf = (Level) getConfig(DEFAULT_LOG_LEVEL_KEY);
     }
 
@@ -203,12 +206,32 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     }
 
     /**
+     * Get the maximum allowed registration count
+     * 
+     * @return the maximum allowed registration count
+     */
+    public static int getMaxRegistrationCount() {
+        return maxRegCntBuf;
+    }
+
+    /**
+     * Set the maximum allowed registration count
+     * 
+     * @param newMaxRegCnt the new the maximum allowed registration count
+     */
+    public static void setMaxRegistrationCount(int newMaxRegCnt) {
+        maxRegCntBuf = newMaxRegCnt;
+        setConfig(MAX_REG_COUNT_KEY, Integer.valueOf(maxRegCntBuf));
+    }
+
+    /**
      * The default notification sender.
      */
     private static final NotificationSender defaultSender = new EmailNotificationSender();
 
     /**
      * Get a notification sender to be used system-wise.
+     * 
      * @return a notification sender to be used system-wise.
      */
     public static NotificationSender getNotificationSender() {
@@ -248,6 +271,9 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
                 case SYSTEM_EMAIL_PASSWD_KEY:
                     break;
                 case MAX_AU_KEY:
+                    configVal = Integer.valueOf(configValStr);
+                    break;
+                case MAX_REG_COUNT_KEY:
                     configVal = Integer.valueOf(configValStr);
                     break;
                 case DEFAULT_LOG_LEVEL_KEY:
@@ -291,7 +317,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         /**
          * Construct a configuration with the given key and value.
          * 
-         * @param key key of configuration
+         * @param key   key of configuration
          * @param value value of configuration
          */
         public OneConfig(String key, Object value) {
@@ -311,6 +337,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
 
         /**
          * Get the value of configuration
+         * 
          * @return the value of configuration
          */
         public Object getValue() {
@@ -319,6 +346,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
 
         /**
          * Set the value of configuration
+         * 
          * @param value the new value of configuration
          */
         public void setValue(Object value) {
