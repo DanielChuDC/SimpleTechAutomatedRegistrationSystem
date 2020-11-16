@@ -31,7 +31,12 @@ public class EmailNotificationSender implements NotificationSender {
         // throw new UnsupportedOperationException();
     }
 
-    public void sendWaitlistNotification(Registration reg, String msg) {
+    /**
+     * Setup notification for when student is added into a course from waitlist
+     * 
+     * @param reg The registration object containing student and course information
+     */
+    public void sendWaitlistNotification(Registration reg) {
         // get senderEmail and password from config
         String senderEmail = Configs.getSystemEmailAddr();
         String senderPassword = Configs.getSystemEmailPasswd();
@@ -63,8 +68,6 @@ public class EmailNotificationSender implements NotificationSender {
      * @param content        the content of email.
      */
 
-
-
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
             String content) {
         
@@ -86,14 +89,20 @@ public class EmailNotificationSender implements NotificationSender {
             }
         });
 
-        try {
+        // Used to debug SMTP issues
+        session.setDebug(true);
 
+        try {
+            // Create a default MimeMessage object
             Message message = new MimeMessage(session);
+
+            // Set who is sending, receiving, subject and message
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiverEmail));
             message.setSubject(subject);
             message.setText(content);
 
+            // Send message
             Transport.send(message);
 
         } catch (MessagingException e) {
