@@ -19,33 +19,10 @@ public class StudentConverter implements Converter<Student> {
      */
     private static final int ROW_SIZE = 7;
     /**
-     * Position of username field in one row of table.
+     * Position of field in the row of table.
      */
-    private static final int USER_POS = 0;
-    /**
-     * Position of matric No. field in one row of table.
-     */
-    private static final int MATRIC_POS = 1;
-    /**
-     * Position of gender field in one row of table.
-     */
-    private static final int GENDER_POS = 3;
-    /**
-     * Position of full name field in one row of table.
-     */
-    private static final int NAME_POS = 2;
-    /**
-     * Position of nationality field in one row of table.
-     */
-    private static final int NATION_POS = 4;
-    /**
-     * Position of year of study field in one row of table.
-     */
-    private static final int YEAR_POS = 5;
-    /**
-     * Position of programme field in one row of table.
-     */
-    private static final int PROG_POS = 6;
+    private static final int USER_POS = 0, MATRIC_POS = 1, GENDER_POS = 3, NAME_POS = 2, NATION_POS = 4, YEAR_POS = 5,
+            PROG_POS = 6;
 
     @Override
     public List<String> toStringList(Student item) {

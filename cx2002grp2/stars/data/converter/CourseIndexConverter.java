@@ -18,17 +18,9 @@ public class CourseIndexConverter implements Converter<CourseIndex> {
      */
     private static final int ROW_SIZE = 3;
     /**
-     * Position of course index field in one row of table.
+     * Position of field in the row of table.
      */
-    private static final int INDEX_POS = 0;
-    /**
-     * Position of course code field in one row of table.
-     */
-    private static final int COURSE_POS = 1;
-    /**
-     * Position of max Vacancy field in one row of table.
-     */
-    private static final int MAXVCC_POS = 2;
+    private static final int INDEX_POS = 0, COURSE_POS = 1, MAX_VCC_POS = 2;
 
     @Override
     public List<String> toStringList(CourseIndex item) {
@@ -39,7 +31,7 @@ public class CourseIndexConverter implements Converter<CourseIndex> {
 
         row[INDEX_POS] = item.getIndexNo();
         row[COURSE_POS] = item.getCourse().getCourseCode();
-        row[MAXVCC_POS] = String.valueOf(item.getMaxVacancy());
+        row[MAX_VCC_POS] = String.valueOf(item.getMaxVacancy());
 
         return Arrays.asList(row);
     }
@@ -52,7 +44,7 @@ public class CourseIndexConverter implements Converter<CourseIndex> {
         String courseCode = strings.get(COURSE_POS);
         Course course = CourseDB.getDB().getByKey(courseCode);
 
-        int maxVacancy = Integer.parseInt(strings.get(MAXVCC_POS));
+        int maxVacancy = Integer.parseInt(strings.get(MAX_VCC_POS));
 
         return new CourseIndex(indexNo, course, maxVacancy);
     }

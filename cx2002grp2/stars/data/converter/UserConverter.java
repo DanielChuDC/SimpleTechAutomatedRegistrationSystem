@@ -15,25 +15,9 @@ public class UserConverter implements Converter<User> {
      */
     private static final int ROW_SIZE = 5;
     /**
-     * Position of username field in one row of table.
+     * Position of field in the row of table.
      */
-    private static final int NAME_POS = 0;
-    /**
-     * Position of hashed password field in one row of table.
-     */
-    private static final int PASSWD_POS = 2;
-    /**
-     * Position of domain field in one row of table.
-     */
-    private static final int DOMAIN_POS = 1;
-    /**
-     * Position of email field in one row of table.
-     */
-    private static final int EMAIL_POS = 3;
-    /**
-     * Position of phone No. field in one row of table.
-     */
-    private static final int PHONE_POS = 4;
+    private static final int NAME_POS = 0, PASSWD_POS = 2, DOMAIN_POS = 1, EMAIL_POS = 3, PHONE_POS = 4;
 
     @Override
     public List<String> toStringList(User item) {

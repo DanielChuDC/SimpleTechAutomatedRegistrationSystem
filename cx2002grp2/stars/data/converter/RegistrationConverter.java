@@ -12,30 +12,19 @@ import cx2002grp2.stars.data.dataitem.Student;
 import cx2002grp2.stars.data.dataitem.Registration.Status;
 
 /**
- * Concrete implementation for {@link Converter converter} of {@link Registration Registration}
+ * Concrete implementation for {@link Converter converter} of
+ * {@link Registration Registration}
  */
 public class RegistrationConverter implements Converter<Registration> {
-    
+
     /**
-     * Size of row of the table storing the registration. 
+     * Size of row of the table storing the registration.
      */
     private static final int ROW_SIZE = 4;
     /**
-     * Position of student username field in one row of table.
+     * Position of field in the row of table.
      */
-    private static final int STUD_POS = 0;
-    /**
-     * Position of course index field in one row of table.
-     */
-    private static final int INDEX_POS = 1;
-    /**
-     * Position of registration time field in one row of table.
-     */
-    private static final int TIME_POS = 3;
-    /**
-     * Position of registration status field in one row of table.
-     */
-    private static final int STAT_POS = 2;
+    private static final int STUD_POS = 0, INDEX_POS = 1, TIME_POS = 3, STAT_POS = 2;
 
     @Override
     public List<String> toStringList(Registration item) {
