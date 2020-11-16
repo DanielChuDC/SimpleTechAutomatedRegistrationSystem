@@ -1,6 +1,7 @@
 package cx2002grp2.stars;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -30,9 +31,9 @@ public class TablePrinter {
 	}
 
 	private static final String GENERAL_INFO_FORMAT = "%-30s %-30s %-30s \n";
-	private static final String SPLITTER = "-------------------------------------------------------------------\n";
 	private static final String EMPTY_TABLE_MSG = "This table currently have no content.\n";
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("hh:mm");
+	private static final int BREAK_LINE_LENGTH = 100;
 
 	/**
 	 * Print student's basic information.
@@ -72,14 +73,14 @@ public class TablePrinter {
 			// System.out.printf("%-30s\n", "Registration List");
 			final String TABLE_FORMAT = "%-20s | %-20s | %-20s | %-20s\n";
 
-			System.out.printf(SPLITTER);
+			printBreakLine();
 			System.out.printf(TABLE_FORMAT, "Course Code", "Course Index", "Registration State", "AU");
-			System.out.printf(SPLITTER);
+			printBreakLine();
 			for (Registration reg : student.getRegistrationList()) {
 				System.out.printf(TABLE_FORMAT, reg.getCourse().getCourseCode(), reg.getCourseIndex(), reg.getStatus(),
 						roundedAu(reg.getCourse().getAu()));
 			}
-			System.out.printf(SPLITTER);
+			printBreakLine();
 		}
 	}
 
@@ -107,7 +108,7 @@ public class TablePrinter {
 				"Course Name: " + index.getCourse().getCourseName());
 		System.out.printf(GENERAL_INFO_FORMAT, "Index Number: " + index.getIndexNo(),
 				"Vacancy: " + index.getAvailableVacancy(), "Waitlist Length: " + index.getWaitList().size());
-		System.out.printf(SPLITTER);
+		printBreakLine();
 
 		this.printScheduleTable(index);
 	}
@@ -152,12 +153,12 @@ public class TablePrinter {
 	public void printStudentInRegList(Iterable<Registration> regs) {
 		final String TABLE_FORMAT = "%-15s | %-15s | %-15s\n";
 		System.out.printf(TABLE_FORMAT, "Username", "Gender", "Nationality");
-		System.out.printf(SPLITTER);
+		printBreakLine();
 		for (Registration registration : regs) {
 			Student student = registration.getStudent();
 			System.out.printf(TABLE_FORMAT, student.getUsername(), student.getGender(), student.getNationality());
 		}
-		System.out.printf(SPLITTER);
+		printBreakLine();
 	}
 
 	/**
@@ -171,7 +172,7 @@ public class TablePrinter {
 		} else {
 			final String TABLE_FORMAT = "%-3s | %-3s | %-10s | %-10s | %-11s | %-15s | %-15s | %-10s\n";
 			System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Wk", "Remark");
-			System.out.printf(SPLITTER);
+			printBreakLine();
 			int rowNumber = 0;
 			for (Schedule schedule : index.getScheduleList()) {
 				System.out.printf(TABLE_FORMAT, ++rowNumber, schedule.getClassType(), schedule.getGroup(),
@@ -180,7 +181,7 @@ public class TablePrinter {
 								+ schedule.getEndTime().format(TIME_FORMATTER),
 						schedule.getVenue(), schedule.teachWkStr(), schedule.getRemark());
 			}
-			System.out.printf(SPLITTER);
+			printBreakLine();
 		}
 	}
 
@@ -196,11 +197,11 @@ public class TablePrinter {
 	public void printStudentList(Iterable<Student> studList) {
 		final String TABLE_FORMAT = "%-15s | %-15s | %-30s\n";
 		System.out.printf(TABLE_FORMAT, "Username", "Full Name", "Matric No.");
-		System.out.printf(SPLITTER);
+		printBreakLine();
 		for (Student student : studList) {
 			System.out.printf(TABLE_FORMAT, student.getUsername(), student.getMatricNo(), student.getFullName());
 		}
-		System.out.printf(SPLITTER);
+		printBreakLine();
 	}
 
 	/**
@@ -215,12 +216,50 @@ public class TablePrinter {
 	public void printCourseList(Iterable<Course> courseList) {
 		final String TABLE_FORMAT = "%-10s | %-10s | %-10s | %-50s\n";
 		System.out.printf(TABLE_FORMAT, "Code", "School", "AU", "Course Name");
-		System.out.printf(SPLITTER);
+		printBreakLine();
 		for (Course course : courseList) {
 			System.out.printf(TABLE_FORMAT, course.getCourseCode(), course.getSchool(), roundedAu(course.getAu()),
 					course.getCourseName());
 		}
-		System.out.printf(SPLITTER);
+		printBreakLine();
+	}
+
+	/**
+	 * Print a break line
+	 */
+	public void printBreakLine() {
+		printBreakLine("");
+	}
+
+	/**
+	 * Print a break line with content in the middle
+	 * 
+	 * @param content the content at the middle of break line
+	 */
+	public void printBreakLine(String content) {
+		printBreakLine(content, '-');
+	}
+
+	/**
+	 * Print a break line with content in the middle with the given breakLine
+	 * character.
+	 * 
+	 * @param content       the content at the middle of break line
+	 * @param breakLineChar the character used for break line
+	 */
+	public void printBreakLine(String content, char breakLineChar) {
+		String oneBreakLineChar = String.valueOf(breakLineChar);
+
+		if (content.isEmpty()) {
+			System.out.println(String.join("", Collections.nCopies(BREAK_LINE_LENGTH, oneBreakLineChar)));
+			return;
+		}
+
+		int leftLen = (BREAK_LINE_LENGTH - content.length()) / 2 - 1;
+		int rightLen = BREAK_LINE_LENGTH - content.length() - leftLen - 2;
+		String leftStr = String.join("", Collections.nCopies(leftLen, oneBreakLineChar));
+		String rightStr = String.join("", Collections.nCopies(rightLen, oneBreakLineChar));
+		System.out.printf("%s %s %s\n", leftStr, content, rightStr);
 	}
 
 	/**
