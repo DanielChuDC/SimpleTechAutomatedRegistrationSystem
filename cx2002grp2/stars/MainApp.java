@@ -26,7 +26,7 @@ public class MainApp implements OnExitSubject {
     /**
      * formatter for access time period.
      */
-    private static final DateTimeFormatter accessTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss");
+    private static final DateTimeFormatter ACCESS_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss");
 
     /**
      * The formatting string used for printing function list.
@@ -158,8 +158,8 @@ public class MainApp implements OnExitSubject {
 
         // Print warning if student login out of access period.
         if (user.getDomain() == Domain.STUDENT && !Configs.isStudentAccessTime()) {
-            String beginTime = Configs.getAccessStartTime().format(accessTimeFormatter);
-            String endTime = Configs.getAccessEndTime().format(accessTimeFormatter);
+            String beginTime = Configs.getAccessStartTime().format(ACCESS_TIME_FORMATTER);
+            String endTime = Configs.getAccessEndTime().format(ACCESS_TIME_FORMATTER);
 
             printBreakLine("WARNING");
             System.out.println("It is not student access period. Most of registration functions are not supported.");
