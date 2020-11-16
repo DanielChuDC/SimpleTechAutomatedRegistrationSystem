@@ -5,6 +5,6 @@ public class App {
         MainApp app = MainApp.getApp();
         app.initialize(args);
         app.run();
-        System.out.println("Program end");
+        System.out.println("Waiting for email sender...");
     }
 }
