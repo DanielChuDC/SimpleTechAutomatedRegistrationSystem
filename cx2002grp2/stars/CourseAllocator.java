@@ -15,14 +15,14 @@ public class CourseAllocator {
 	 * Register a the given course index for the given student.
 	 * <p>
 	 * Possible reasons of failure:
-	 * <ul>
+	 * <ol>
 	 * <li>The student or the course does not exist in the database.
 	 * <li>The registered course index has no vacancy (the student will be put on
 	 * the waitlist instead).
 	 * <li>The student reaches the limit of number of registration.
 	 * <li>The student makes duplicated registration on the same course.
 	 * <li>The new registration has time slot clashing with the existing courses.
-	 * </ul>
+	 * </ol>
 	 * 
 	 * @param student     the student to register the course.
 	 * @param courseIndex the course index to be registered.
@@ -62,10 +62,10 @@ public class CourseAllocator {
 	 * Drop a course for a student.
 	 * <p>
 	 * Possible reasons of failure:
-	 * <ul>
+	 * <ol>
 	 * <li>The student or the course does not exist in the database.
 	 * <li>The student didn't register for the given index.
-	 * </ul>
+	 * </ol>
 	 * 
 	 * @param student     the student to drop the course index
 	 * @param courseIndex the course index to be dropped
@@ -80,12 +80,12 @@ public class CourseAllocator {
 	 * Change the maximum vacancy of the given course index.
 	 * <p>
 	 * Possible reasons of failure:
-	 * <ul>
+	 * <ol>
 	 * <li>The course index does not exist in the database.
 	 * <li>The new vacancy is not a positive number. (newMaxVcc smaller than 1)
 	 * <li>The number of student that has already registered the course is more than
 	 * the newMaxVcc.
-	 * </ul>
+	 * </ol>
 	 * 
 	 * @param courseIndex the course index which the max vacancy to be changed.
 	 * @param newMaxVcc   the new max vacancy
@@ -98,13 +98,13 @@ public class CourseAllocator {
 
 	/**
 	 * Change the index of an registration to another index.
-	 * <ul>
+	 * <ol>
 	 * <li>The registration or the course index does not exist in the database.
 	 * <li>The course code of the index does not match course code of the
 	 * registration.
 	 * <li>The status of registration is not {@link Registration.Status#REGISTERED}.
 	 * <li>The new registration has time slot clashing with the existing courses.
-	 * </ul>
+	 * </ol>
 	 * 
 	 * @param currentReg the registration whose index to be changed.
 	 * @param newIndex   the new index of the registration.
@@ -117,13 +117,13 @@ public class CourseAllocator {
 
 	/**
 	 * Swap the two registration of two student.
-	 * <ul>
+	 * <ol>
 	 * <li>The registrations does not exist in the database.
 	 * <li>Two registrations are the same.
 	 * <li>The course codes of two registrations do not match.
 	 * <li>The status of registrations are not {@link Registration.Status#REGISTERED}.
 	 * <li>The new registration has time slot clashing with the existing courses.
-	 * </ul>
+	 * </ol>
 	 * 
 	 * @param reg1 one registration
 	 * @param reg2 the other registration.
@@ -138,11 +138,11 @@ public class CourseAllocator {
 	 * A class representing the allocation result of registration.
 	 * <p>
 	 * The following information will be included:
-	 * <ul>
+	 * <ol>
 	 * <li>Whether the attempt to allocation is successful.
 	 * <li>The message produced by the allocator. If an allocation failed, the
 	 * message will show the reason of failure.
-	 * </ul>
+	 * </ol>
 	 */
 	public static class Result {
 
