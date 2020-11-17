@@ -9,6 +9,13 @@ import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.data.dataitem.User.Domain;
 
+/**
+ * a function which is used to print student list by course using courseCode.
+ * <p>
+ * using singleton pattern to make sure only one object is created.
+ * <p>
+ * this function can only be accessed by staff.
+ */
 public class PrintStudentByCourse extends AbstractFunction {
     /**
      * An instance of function, for Singleton pattern.
