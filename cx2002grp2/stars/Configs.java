@@ -49,7 +49,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     private static LocalDateTime accessStartTimeBuf;
     private static String systemEmailAddrBuf;
     private static String systemEmailPasswdBuf;
-    private static int maxAuBuf;
+    private static double maxAuBuf;
     private static int maxRegCntBuf;
     private static Level defaultLogLevelBuf;
 
@@ -61,7 +61,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         accessEndTimeBuf = (LocalDateTime) getConfig(ACCESS_END_TIME_KEY);
         systemEmailAddrBuf = (String) getConfig(SYSTEM_EMAIL_KEY);
         systemEmailPasswdBuf = (String) getConfig(SYSTEM_EMAIL_PASSWD_KEY);
-        maxAuBuf = (Integer) getConfig(MAX_AU_KEY);
+        maxAuBuf = (Double) getConfig(MAX_AU_KEY);
         maxRegCntBuf = (Integer) getConfig(MAX_REG_COUNT_KEY);
         defaultLogLevelBuf = (Level) getConfig(DEFAULT_LOG_LEVEL_KEY);
     }
@@ -191,7 +191,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
      * @return the maximum allowed AU
      */
 
-    public static int getMaxAu() {
+    public static double getMaxAu() {
         return maxAuBuf;
     }
 
@@ -200,9 +200,9 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
      * 
      * @param newAu the new maximum allowed AU.
      */
-    public static void setMaxAu(int newAu) {
+    public static void setMaxAu(double newAu) {
         maxAuBuf = newAu;
-        setConfig(MAX_AU_KEY, Integer.valueOf(newAu));
+        setConfig(MAX_AU_KEY, Double.valueOf(newAu));
     }
 
     /**
@@ -284,7 +284,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
                 case SYSTEM_EMAIL_PASSWD_KEY:
                     break;
                 case MAX_AU_KEY:
-                    configVal = Integer.valueOf(configValStr);
+                    configVal = Double.valueOf(configValStr);
                     break;
                 case MAX_REG_COUNT_KEY:
                     configVal = Integer.valueOf(configValStr);
