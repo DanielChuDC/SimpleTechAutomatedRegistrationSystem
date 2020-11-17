@@ -7,6 +7,11 @@ import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Student;
 import cx2002grp2.stars.data.dataitem.User;
 
+/**
+ * a function which is used to register a course.
+ * using singleton pattern to make sure only one object is created.
+ * this function can be accessed by student.
+ */
 public class StudentAddCourse extends AbstractFunction {
 
     /**
@@ -58,7 +63,7 @@ public class StudentAddCourse extends AbstractFunction {
         }
 
         this.tbPrinter().printIndexAndSchedule(courseIndex);
-        
+
         if (this.askYesNo("Register for course index " + rawIndex + "?")) {
             Result result = this.allocator().registerCourse(student, courseIndex);
             System.out.println(result.message());

@@ -9,6 +9,11 @@ import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
 import cx2002grp2.stars.data.dataitem.User;
 
+/**
+ * a function which is used to change course index of a registration.
+ * using singleton pattern to make sure only one object is created.
+ * this function can be accessed by student.
+ */
 public class StudentChangeIndexOfRegistration extends AbstractFunction {
 
     /**
