@@ -354,6 +354,13 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         }
     }
 
+    /**
+     * manually save the configuration data.
+     */
+    public static void saveConfig() {
+        configDB.saveData();
+    }
+
     public static void main(String[] args) {
         Configs.init();
         System.out.println(Configs.getAccessEndTime());
