@@ -9,7 +9,9 @@ import cx2002grp2.stars.data.dataitem.User;
 
 /**
  * a function which is used to register a course.
+ * <p>
  * using singleton pattern to make sure only one object is created.
+ * <p>
  * this function can be accessed by student.
  */
 public class StudentAddCourse extends AbstractFunction {
