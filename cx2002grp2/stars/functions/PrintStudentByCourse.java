@@ -43,15 +43,21 @@ public class PrintStudentByCourse extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-        // Enter course code
-        System.out.println("Enter course code: ");
-        String courseCode = sc().nextLine();
+        String courseCode;
+        while (true) {
+            // Enter course code
+            System.out.println("Enter course code: ");
+            courseCode = sc().nextLine();
+    
+            // check if course exist
+            Course course = CourseDB.getDB().getByKey(courseCode);
+            if (course == null) {
+                System.out.println("Invalid course code.");
+                if (!askYesNo("Try again?")) {
+                    return;
+                }
+            } else break;
 
-        // check if course exist
-        Course course = CourseDB.getDB().getByKey(courseCode);
-        if (course == null) {
-            System.out.println("Invalid course code.");
-            return;
         }
 
         // get Registration list

@@ -47,16 +47,23 @@ public class PrintStudentByIndex extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-        // Enter index number
-        System.out.println("Enter course code: ");
-        String indexNo = sc().nextLine();
-        
-        // Check if index number exist
-        CourseIndex index = CourseIndexDB.getDB().getByKey(indexNo);
-        if (index == null) {
-            System.out.println("Invalid index.");
-            return;
+        String indexNo;
+        while (true) {
+            // Enter index number
+            System.out.println("Enter course code: ");
+            indexNo = sc().nextLine();
+            
+            // Check if index number exist
+            CourseIndex index = CourseIndexDB.getDB().getByKey(indexNo);
+            if (index == null) {
+                System.out.println("Invalid index.");
+                if (!askYesNo("Try again?")) {
+                    return;
+                }
+            } else break;
+
         }
+        
 
 
         // Get registration list
