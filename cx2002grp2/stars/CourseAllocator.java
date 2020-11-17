@@ -145,7 +145,7 @@ public class CourseAllocator {
 		regDB.delItem(existingReg);
 		existingReg.drop();
 
-		approveRegistration(dropIndex, 1);
+		approveRegistration(dropIndex, Integer.MAX_VALUE);
 
 		return Result.SUCCESSFUL;
 	}
@@ -242,7 +242,7 @@ public class CourseAllocator {
 		CourseIndex oldIndex = currentReg.getCourseIndex();
 		currentReg.setCourseIndex(newIndex);
 
-		approveRegistration(oldIndex, 1);
+		approveRegistration(oldIndex, Integer.MAX_VALUE);
 
 		return Result.SUCCESSFUL;
 	}

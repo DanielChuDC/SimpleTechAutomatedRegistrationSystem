@@ -41,7 +41,7 @@ public class Authenticator {
      * Construct an authenticator
      */
     private Authenticator() {
-        // Get SHA-256 Hasher
+        // Get SHA-256 Hashing function
         try {
             digester = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
