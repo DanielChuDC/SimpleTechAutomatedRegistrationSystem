@@ -1,8 +1,9 @@
 package cx2002grp2.stars.functions;
 
-import cx2002grp2.stars.CourseAllocator;
-import cx2002grp2.stars.data.database.CourseDB;
-import cx2002grp2.stars.data.dataitem.Course;
+import cx2002grp2.stars.data.database.CourseIndexDB;
+import cx2002grp2.stars.data.database.StudentDB;
+import cx2002grp2.stars.data.dataitem.CourseIndex;
+import cx2002grp2.stars.data.dataitem.Student;
 import cx2002grp2.stars.data.dataitem.User;
 
 public class StudentAddCourse extends AbstractFunction {
@@ -40,16 +41,22 @@ public class StudentAddCourse extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-        System.out.print("Please enter the course code: ");
-        String rawCourseCode = this.sc().nextLine();
-
-        Course course = CourseDB.getDB().getByKey(rawCourseCode);
-        if (course == null) {
-            System.out.println("Course Code doesn't exist. Please try again.");
+        Student student = StudentDB.getDB().getFromUser(user);
+        if (student == null) {
+            System.out.println("Student doesn't exist. Please try again.");
             return;
         }
-        
-        CourseAllocator courseAllocator = new 
+
+        System.out.print("Please enter course index: ");
+        String rawIndex = this.sc().nextLine();
+
+        CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(rawIndex);
+        if (courseIndex == null) {
+            System.out.println("course Index doesn't exist. Please try again.");
+            return;
+        }
+
+        this.allocator().registerCourse(student, courseIndex);
     }
     
 }

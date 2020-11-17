@@ -1,5 +1,7 @@
 package cx2002grp2.stars.functions;
 
+import cx2002grp2.stars.data.database.StudentDB;
+import cx2002grp2.stars.data.dataitem.Student;
 import cx2002grp2.stars.data.dataitem.User;
 
 public class StudentCheckRegistration extends AbstractFunction {
@@ -39,8 +41,13 @@ public class StudentCheckRegistration extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-        
+        Student student = StudentDB.getDB().getFromUser(user);
+        if (student == null) {
+            System.out.println("Student doesn't exist. Please try again.");
+            return;
+        }
 
+        this.tbPrinter().printStudentAndReg(student);
     }
     
 }
