@@ -85,6 +85,10 @@ public class MainApp implements OnExitSubject {
      * @param args the argument passed to main function.
      */
     public void initialize(String[] args) {
+        if (initialized) {
+            return;
+        }
+
         // Initialize all functions
         Function.init();
 
@@ -121,6 +125,8 @@ public class MainApp implements OnExitSubject {
         }
 
         mainBody();
+
+        signalOnExit();
     }
 
     /**
@@ -255,6 +261,6 @@ public class MainApp implements OnExitSubject {
         MainApp app = MainApp.getApp();
         app.initialize(args);
         app.run();
-        System.out.println("Program end");
+        System.out.println("Waiting for email sender.");
     }
 }

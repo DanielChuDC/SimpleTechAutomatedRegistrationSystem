@@ -3,6 +3,7 @@ package cx2002grp2.stars.data.dataitem;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -25,6 +26,8 @@ public class Course implements SingleKeyItem<String> {
 	private Set<CourseIndex> indexList;
 
 	public Course(String courseCode, String courseName, String school, double au) {
+		Objects.requireNonNull(courseCode);
+
 		this.courseCode = courseCode;
 		this.courseName = courseName;
 		this.school = school;
@@ -39,6 +42,7 @@ public class Course implements SingleKeyItem<String> {
 
 	@Override
 	public void setKey(String newKey) {
+		Objects.requireNonNull(newKey);
 		this.courseCode = newKey;
 	}
 
@@ -55,6 +59,7 @@ public class Course implements SingleKeyItem<String> {
 	 * set course code of this course.
 	 * 
 	 * @param courseCode course code of this course
+	 * @throws NullPointerException if course code is null
 	 */
 	public void setCourseCode(String courseCode) {
 		setKey(courseCode);

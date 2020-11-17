@@ -215,5 +215,10 @@ public class Student extends User {
 		}
 
 		return registeredAU;
-    }
+	}
+	
+	@Override
+	public String toString() {
+		return getUsername();
+	}
 }

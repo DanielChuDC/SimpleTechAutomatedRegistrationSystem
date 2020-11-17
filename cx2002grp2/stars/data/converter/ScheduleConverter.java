@@ -22,41 +22,10 @@ public class ScheduleConverter implements Converter<Schedule> {
      */
     private static final int ROW_SIZE = 9;
     /**
-     * Position of course index field in one row of table.
+     * Position of field in the row of table.
      */
-    private static final int INDEX_POS = 0;
-    /**
-     * Position of class type field in one row of table.
-     */
-    private static final int TYPE_POS = 1;
-    /**
-     * Position of class group field in one row of table.
-     */
-    private static final int GROUP_POS = 2;
-    /**
-     * Position of day of week field in one row of table.
-     */
-    private static final int DAY_POS = 3;
-    /**
-     * Position of class venue field in one row of table.
-     */
-    private static final int VENUE_POS = 6;
-    /**
-     * Position of remark field in one row of table.
-     */
-    private static final int REMARK_POS = 8;
-    /**
-     * Position of class begin time field in one row of table.
-     */
-    private static final int BEGIN_POS = 4;
-    /**
-     * Position of class end time field in one row of table.
-     */
-    private static final int END_POS = 5;
-    /**
-     * Position of class weeks field in one row of table.
-     */
-    private static final int WEEKS_POS = 7;
+    private static final int INDEX_POS = 0, TYPE_POS = 1, GROUP_POS = 2, DAY_POS = 3, VENUE_POS = 6, REMARK_POS = 8,
+            BEGIN_POS = 4, END_POS = 5, WEEKS_POS = 7;
 
     @Override
     public List<String> toStringList(Schedule item) {
@@ -99,9 +68,8 @@ public class ScheduleConverter implements Converter<Schedule> {
         LocalTime endTime = LocalTime.parse(strings.get(END_POS));
 
         String teachWkStr = strings.get(WEEKS_POS);
-        
-        Schedule ret = new Schedule(courseIndex, classType, group, dayOfWeek, venue, remark, beginTime, endTime);
 
+        Schedule ret = new Schedule(courseIndex, classType, group, dayOfWeek, venue, remark, beginTime, endTime);
 
         if (!teachWkStr.isBlank()) {
             for (String wkStr : teachWkStr.split(",")) {
