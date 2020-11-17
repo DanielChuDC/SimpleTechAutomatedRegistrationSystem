@@ -62,4 +62,9 @@ public interface Database<ItemType>
      * @return the number of items in the database (&gt;= 0).
      */
     public abstract int size();
+    
+    /**
+     * Save data in database into file.
+     */
+    public abstract void saveData();
 }

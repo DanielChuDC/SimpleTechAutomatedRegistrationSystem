@@ -290,25 +290,10 @@ public class CourseAllocator {
 			return clashingResult;
 		}
 
-		// The student field of registration object is immutable, new registration must
-		// be created.
-		// Registration regFrom1To2, regFrom2To1;
-		// regFrom1To2 = new Registration(reg2.getStudent(), reg1.getCourse(),
-		// reg1.getRegisterDateTime(),
-		// reg1.getStatus());
-		// regFrom2To1 = new Registration(reg1.getStudent(), reg2.getCourse(),
-		// reg2.getRegisterDateTime(),
-		// reg2.getStatus());
-
-		// // remove existing registration.
-		// regDB.delItem(reg1);
-		// regDB.delItem(reg2);
-		// reg1.drop();
-		// reg2.drop();
-
-		// // Add new item
-		// regDB.addItem(regFrom1To2);
-		// regDB.addItem(regFrom2To1);
+		// Swapping index.
+		// CourseIndex temp = reg1.getCourseIndex();
+		// reg1.setCourseIndex(reg2.getCourseIndex());
+		// reg2.setCourseIndex(temp);
 
 		return Result.SUCCESSFUL;
 	}
@@ -326,7 +311,7 @@ public class CourseAllocator {
 	/**
 	 * Generate result for invalid input
 	 * 
-	 * @param value the invalid value in string format. 
+	 * @param value the invalid value in string format.
 	 * @return a result showing invalid input.
 	 */
 	private Result invalidInputResult(String value) {
@@ -407,6 +392,22 @@ public class CourseAllocator {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Approve a student's registration on wait list of the given course index.
+	 * <p>
+	 * Notification will be sent through {@link Configs#getNotificationSender()}
+	 * 
+	 * @param index the index whose wait list is checked.
+	 * @return the approved registration. return null if no registration is
+	 *         approved.
+	 */
+	private Registration approveAStudent(CourseIndex index) {
+		if (index.getRegisteredList().size() >= index.getMaxVacancy() || index.getWaitList().size() <= 0) {
+			return null;
+		}
+		return null;
 	}
 
 	/**

@@ -52,7 +52,7 @@ public class UserDB extends AbstractSingleKeyDatabase<String, User> {
 	}
 
 	@Override
-	protected void saveData() {
+	public void saveData() {
 		loader.save(this, DB_FILE_PATH, converter);
 	}
 }

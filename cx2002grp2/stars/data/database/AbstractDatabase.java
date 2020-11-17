@@ -42,7 +42,7 @@ public abstract class AbstractDatabase<ItemType> implements Database<ItemType>, 
     /**
      * Save data in database into file.
      */
-    protected abstract void saveData();
+    public abstract void saveData();
 
     /**
      * {@inheritDoc}
