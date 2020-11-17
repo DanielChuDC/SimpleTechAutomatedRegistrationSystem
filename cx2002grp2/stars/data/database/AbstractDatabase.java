@@ -42,6 +42,7 @@ public abstract class AbstractDatabase<ItemType> implements Database<ItemType>, 
     /**
      * Save data in database into file.
      */
+    @Override
     public abstract void saveData();
 
     /**

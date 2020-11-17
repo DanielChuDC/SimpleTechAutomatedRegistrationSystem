@@ -34,7 +34,7 @@ public interface Database<ItemType>
      * @return The original item if the replacement happens, or null if no
      *         replacement happens
      */
-    public abstract ItemType addItem(ItemType item);
+    public ItemType addItem(ItemType item);
 
     /**
      * Delete an item in the database.
@@ -46,7 +46,7 @@ public interface Database<ItemType>
      * @param item the item to be deleted.
      * @return the deleted item if the deletion happens. Other wise, return null.
      */
-    public abstract ItemType delItem(ItemType item);
+    public ItemType delItem(ItemType item);
 
     /**
      * Check if an item exists in the database.
@@ -54,17 +54,17 @@ public interface Database<ItemType>
      * @param item the item to be checked.
      * @return true if the item exists in the database. Otherwise, return false.
      */
-    public abstract boolean hasItem(ItemType item);
+    public boolean hasItem(ItemType item);
 
     /**
      * The size of the database.
      * 
      * @return the number of items in the database (&gt;= 0).
      */
-    public abstract int size();
+    public int size();
     
     /**
      * Save data in database into file.
      */
-    public abstract void saveData();
+    public void saveData();
 }
