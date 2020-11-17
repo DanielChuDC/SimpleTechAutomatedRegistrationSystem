@@ -109,7 +109,39 @@ public abstract class AbstractFunction implements Function {
     protected CourseAllocator allocator() {
         return CourseAllocator.getInstance();
     }
-    
+
+    /**
+     * Ask user to enter yes or no.
+     * 
+     * @param hintMsg hinting message to be print before asking.
+     * @return true if user enter yes, false if user enter no.
+     */
+    boolean askYesNo(String hintMsg) {
+        System.out.println(hintMsg);
+        while (true) {
+            System.out.print("Please enter yes(y) or no(n): ");
+            String input = sc().nextLine();
+            input = input.trim().toLowerCase();
+            switch (input) {
+                case "y":
+                case "yes":
+                    return true;
+                case "n":
+                case "no":
+                    return false;
+            }
+        }
+    }
+
+    /**
+     * Ask user to enter yes of no before apply changes.
+     * 
+     * @return true if user enter yes, false if user enter no.
+     */
+    boolean askForApplyChange() {
+        return askYesNo("Apply changes?");
+    }
+
     /**
      * Common accessibility checking for student's functions.
      * <p>
