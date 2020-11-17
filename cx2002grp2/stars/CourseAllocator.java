@@ -94,7 +94,7 @@ public class CourseAllocator {
 
 		// Check max AU limit
 		double maxAu = Configs.getMaxAu(), totalAu = student.getRegisteredAU(), indexAu = newIndex.getCourse().getAu();
-		if (maxAu < totalAu + indexAu) {
+		if (result == null && maxAu < totalAu + indexAu) {
 			result = failure("Max AU limit is " + maxAu
 					+ ". New index cannot be registered, and is added to wait list instead.");
 			registration = new Registration(student, newIndex, LocalDateTime.now(), Status.WAITLIST);
@@ -145,7 +145,7 @@ public class CourseAllocator {
 		regDB.delItem(existingReg);
 		existingReg.drop();
 
-		approveRegistration(dropIndex, Integer.MAX_VALUE);
+		approveRegistration(dropIndex);
 
 		return Result.SUCCESSFUL;
 	}
@@ -186,7 +186,7 @@ public class CourseAllocator {
 
 		courseIndex.setMaxVacancy(newMaxVcc);
 
-		approveRegistration(courseIndex, Integer.MAX_VALUE);
+		approveRegistration(courseIndex);
 
 		return Result.SUCCESSFUL;
 	}
@@ -242,7 +242,7 @@ public class CourseAllocator {
 		CourseIndex oldIndex = currentReg.getCourseIndex();
 		currentReg.setCourseIndex(newIndex);
 
-		approveRegistration(oldIndex, Integer.MAX_VALUE);
+		approveRegistration(oldIndex);
 
 		return Result.SUCCESSFUL;
 	}
@@ -417,16 +417,13 @@ public class CourseAllocator {
 	 * Notification will be sent through {@link Configs#getNotificationSender()}
 	 * 
 	 * @param index the index whose wait list is checked.
-	 * @param limit the limit of the number of the approvals.
 	 */
-	private void approveRegistration(CourseIndex index, int limit) {
+	private void approveRegistration(CourseIndex index) {
 		if (index.getRegisteredList().size() >= index.getMaxVacancy() || index.getWaitList().size() <= 0) {
 			return;
 		}
 
-		// Find out the strictest number of limit.
-		limit = Math.min(limit, index.getWaitList().size());
-		limit = Math.min(limit, index.getMaxVacancy() - index.getRegisteredList().size());
+		int limit = Math.min(index.getWaitList().size(), index.getMaxVacancy() - index.getRegisteredList().size());
 
 		// The registrations to be approved.
 		List<Registration> approvals = new ArrayList<>(limit);
