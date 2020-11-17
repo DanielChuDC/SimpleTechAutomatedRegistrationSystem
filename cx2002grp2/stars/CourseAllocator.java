@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import cx2002grp2.stars.data.dataitem.*;
-import cx2002grp2.stars.data.database.*;
-import cx2002grp2.stars.data.dataitem.Registration.Status;
+import cx2002grp2.stars.database.*;
+import cx2002grp2.stars.dataitem.*;
+import cx2002grp2.stars.dataitem.Registration.Status;
 
 /**
  * Manager for all the events that may cause the registration information

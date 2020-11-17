@@ -14,11 +14,11 @@ import javax.mail.internet.MimeMessage;
 
 import cx2002grp2.stars.Configs;
 import cx2002grp2.stars.NotificationSender;
-import cx2002grp2.stars.data.dataitem.User;
-import cx2002grp2.stars.data.dataitem.Course;
-import cx2002grp2.stars.data.dataitem.CourseIndex;
-import cx2002grp2.stars.data.dataitem.Registration;
-import cx2002grp2.stars.data.dataitem.Student;
+import cx2002grp2.stars.dataitem.Course;
+import cx2002grp2.stars.dataitem.CourseIndex;
+import cx2002grp2.stars.dataitem.Registration;
+import cx2002grp2.stars.dataitem.Student;
+import cx2002grp2.stars.dataitem.User;
 
 /**
  * Notification sender implemented with email.

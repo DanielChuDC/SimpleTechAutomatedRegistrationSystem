@@ -1,13 +1,13 @@
 package cx2002grp2.stars.functions;
 
 import cx2002grp2.stars.Authenticator;
-import cx2002grp2.stars.data.database.CourseIndexDB;
-import cx2002grp2.stars.data.database.RegistrationDB;
-import cx2002grp2.stars.data.dataitem.CourseIndex;
-import cx2002grp2.stars.data.dataitem.User;
-import cx2002grp2.stars.data.dataitem.User.Domain;
-import cx2002grp2.stars.data.dataitem.Registration;
+import cx2002grp2.stars.dataitem.CourseIndex;
+import cx2002grp2.stars.dataitem.Registration;
+import cx2002grp2.stars.dataitem.User;
+import cx2002grp2.stars.dataitem.User.Domain;
 import cx2002grp2.stars.CourseAllocator.Result;
+import cx2002grp2.stars.database.CourseIndexDB;
+import cx2002grp2.stars.database.RegistrationDB;
 
 /**
  * a function which is used to swop the course index of 2 students.

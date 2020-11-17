@@ -6,14 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
-import cx2002grp2.stars.data.database.CourseDB;
-import cx2002grp2.stars.data.database.CourseIndexDB;
-import cx2002grp2.stars.data.database.UserDB;
-import cx2002grp2.stars.data.dataitem.User;
-import cx2002grp2.stars.data.dataitem.User.Domain;
+import cx2002grp2.stars.database.CourseDB;
+import cx2002grp2.stars.database.CourseIndexDB;
+import cx2002grp2.stars.database.RegistrationDB;
+import cx2002grp2.stars.database.StudentDB;
+import cx2002grp2.stars.database.UserDB;
+import cx2002grp2.stars.dataitem.User;
+import cx2002grp2.stars.dataitem.User.Domain;
 import cx2002grp2.stars.functions.Function;
-import cx2002grp2.stars.data.database.StudentDB;
-import cx2002grp2.stars.data.database.RegistrationDB;
 import cx2002grp2.stars.util.OnExitObserver;
 import cx2002grp2.stars.util.OnExitSubject;
 

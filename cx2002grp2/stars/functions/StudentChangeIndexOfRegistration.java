@@ -1,13 +1,13 @@
 package cx2002grp2.stars.functions;
 
 import cx2002grp2.stars.CourseAllocator.Result;
-import cx2002grp2.stars.data.database.CourseIndexDB;
-import cx2002grp2.stars.data.database.RegistrationDB;
-import cx2002grp2.stars.data.database.StudentDB;
-import cx2002grp2.stars.data.dataitem.CourseIndex;
-import cx2002grp2.stars.data.dataitem.Registration;
-import cx2002grp2.stars.data.dataitem.Student;
-import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.database.CourseIndexDB;
+import cx2002grp2.stars.database.RegistrationDB;
+import cx2002grp2.stars.database.StudentDB;
+import cx2002grp2.stars.dataitem.CourseIndex;
+import cx2002grp2.stars.dataitem.Registration;
+import cx2002grp2.stars.dataitem.Student;
+import cx2002grp2.stars.dataitem.User;
 
 /**
  * a function which is used to change course index of a registration.

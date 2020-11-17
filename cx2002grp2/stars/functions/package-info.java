@@ -17,4 +17,4 @@
  */
 package cx2002grp2.stars.functions;
 
-import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.dataitem.User;

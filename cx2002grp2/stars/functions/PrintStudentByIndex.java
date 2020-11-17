@@ -2,12 +2,12 @@ package cx2002grp2.stars.functions;
 
 import java.util.Collection;
 
-import cx2002grp2.stars.data.database.CourseIndexDB;
-import cx2002grp2.stars.data.database.RegistrationDB;
-import cx2002grp2.stars.data.dataitem.CourseIndex;
-import cx2002grp2.stars.data.dataitem.Registration;
-import cx2002grp2.stars.data.dataitem.User;
-import cx2002grp2.stars.data.dataitem.User.Domain;
+import cx2002grp2.stars.database.CourseIndexDB;
+import cx2002grp2.stars.database.RegistrationDB;
+import cx2002grp2.stars.dataitem.CourseIndex;
+import cx2002grp2.stars.dataitem.Registration;
+import cx2002grp2.stars.dataitem.User;
+import cx2002grp2.stars.dataitem.User.Domain;
 
 /**
  * a function which is used to print student list by index number of a course.

@@ -2,7 +2,7 @@ package cx2002grp2.stars.functions;
 
 import java.io.File;
 
-import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.dataitem.User;
 
 /**
  * The common interface for all the functions.

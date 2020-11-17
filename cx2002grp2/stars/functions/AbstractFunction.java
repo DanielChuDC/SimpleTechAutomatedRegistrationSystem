@@ -10,8 +10,8 @@ import java.util.Scanner;
 import cx2002grp2.stars.Configs;
 import cx2002grp2.stars.CourseAllocator;
 import cx2002grp2.stars.TablePrinter;
-import cx2002grp2.stars.data.dataitem.User;
-import cx2002grp2.stars.data.dataitem.User.Domain;
+import cx2002grp2.stars.dataitem.User;
+import cx2002grp2.stars.dataitem.User.Domain;
 
 /**
  * A common implementation for {@link Function}.

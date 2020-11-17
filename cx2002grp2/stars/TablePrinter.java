@@ -3,11 +3,11 @@ package cx2002grp2.stars;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
-import cx2002grp2.stars.data.dataitem.Course;
-import cx2002grp2.stars.data.dataitem.CourseIndex;
-import cx2002grp2.stars.data.dataitem.Registration;
-import cx2002grp2.stars.data.dataitem.Schedule;
-import cx2002grp2.stars.data.dataitem.Student;
+import cx2002grp2.stars.dataitem.Course;
+import cx2002grp2.stars.dataitem.CourseIndex;
+import cx2002grp2.stars.dataitem.Registration;
+import cx2002grp2.stars.dataitem.Schedule;
+import cx2002grp2.stars.dataitem.Student;
 
 /**
  * Printer for well structured information.

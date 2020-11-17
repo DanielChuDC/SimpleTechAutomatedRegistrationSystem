@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import cx2002grp2.stars.Configs;
-import cx2002grp2.stars.data.database.UserDB;
-import cx2002grp2.stars.data.dataitem.User;
-import cx2002grp2.stars.data.dataitem.User.Domain;
+import cx2002grp2.stars.database.UserDB;
+import cx2002grp2.stars.dataitem.User;
+import cx2002grp2.stars.dataitem.User.Domain;
 
 /**
  * a function which is used to edit the access time of student.

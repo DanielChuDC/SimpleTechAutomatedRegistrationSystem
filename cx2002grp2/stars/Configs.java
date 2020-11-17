@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import cx2002grp2.stars.data.database.AbstractSingleKeyDatabase;
-import cx2002grp2.stars.data.dataitem.SingleKeyItem;
+import cx2002grp2.stars.database.AbstractSingleKeyDatabase;
+import cx2002grp2.stars.dataitem.SingleKeyItem;
 import cx2002grp2.stars.util.EmailNotificationSender;
 
 /**

@@ -2,7 +2,7 @@ package cx2002grp2.stars.util;
 
 import java.util.Comparator;
 
-import cx2002grp2.stars.data.dataitem.Registration;
+import cx2002grp2.stars.dataitem.Registration;
 
 /**
  * Comparator for registration used to manage wait list.

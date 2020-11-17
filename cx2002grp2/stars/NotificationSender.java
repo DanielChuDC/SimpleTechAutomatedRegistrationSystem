@@ -1,7 +1,7 @@
 package cx2002grp2.stars;
 
-import cx2002grp2.stars.data.dataitem.Registration;
-import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.dataitem.Registration;
+import cx2002grp2.stars.dataitem.User;
 
 /**
  * Common interface for all the notification sender.
