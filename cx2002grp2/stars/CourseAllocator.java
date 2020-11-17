@@ -95,7 +95,7 @@ public class CourseAllocator {
 		}
 
 		// Add new registration into registration database.
-		regDB.addItem(registration);
+		// regDB.addItem(registration);
 
 		return result;
 	}
@@ -130,8 +130,8 @@ public class CourseAllocator {
 		}
 
 		// Drop the registration.
-		regDB.delItem(existingReg);
-		existingReg.drop();
+		// regDB.delItem(existingReg);
+		// existingReg.drop();
 
 		// TODO - handle possible course reallocation.
 
@@ -168,7 +168,7 @@ public class CourseAllocator {
 					+ " students has already registered the index, the new max vacancy cannot be smaller than that.");
 		}
 
-		courseIndex.setMaxVacancy(newMaxVcc);
+		// courseIndex.setMaxVacancy(newMaxVcc);
 
 		// TODO - handle possible course reallocation.
 
@@ -223,7 +223,7 @@ public class CourseAllocator {
 			return clashingResult;
 		}
 
-		currentReg.setCourseIndex(newIndex);
+		// currentReg.setCourseIndex(newIndex);
 
 		// TODO - handle possible course reallocation.
 
@@ -292,21 +292,21 @@ public class CourseAllocator {
 
 		// The student field of registration object is immutable, new registration must
 		// be created.
-		Registration regFrom1To2, regFrom2To1;
-		regFrom1To2 = new Registration(reg2.getStudent(), reg1.getCourse(), reg1.getRegisterDateTime(),
-				reg1.getStatus());
-		regFrom2To1 = new Registration(reg1.getStudent(), reg2.getCourse(), reg2.getRegisterDateTime(),
-				reg2.getStatus());
+		// Registration regFrom1To2, regFrom2To1;
+		// regFrom1To2 = new Registration(reg2.getStudent(), reg1.getCourse(), reg1.getRegisterDateTime(),
+		// 		reg1.getStatus());
+		// regFrom2To1 = new Registration(reg1.getStudent(), reg2.getCourse(), reg2.getRegisterDateTime(),
+		// 		reg2.getStatus());
 
-		// remove existing registration.
-		regDB.delItem(reg1);
-		regDB.delItem(reg2);
-		reg1.drop();
-		reg2.drop();
+		// // remove existing registration.
+		// regDB.delItem(reg1);
+		// regDB.delItem(reg2);
+		// reg1.drop();
+		// reg2.drop();
 
-		// Add new item
-		regDB.addItem(regFrom1To2);
-		regDB.addItem(regFrom2To1);
+		// // Add new item
+		// regDB.addItem(regFrom1To2);
+		// regDB.addItem(regFrom2To1);
 
 		return Result.SUCCESSFUL;
 	}
