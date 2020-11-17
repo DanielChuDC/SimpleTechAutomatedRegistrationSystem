@@ -8,6 +8,11 @@ import cx2002grp2.stars.data.database.UserDB;
 import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.data.dataitem.User.Domain;
 
+/**
+ * a function which is used to edit the access time of student.
+ * using singleton pattern to make sure only one object is created.
+ * this function can be accessed by staff.
+ */
 public class EditStudentAccessPeriod extends AbstractFunction {
 
     /**
@@ -46,7 +51,7 @@ public class EditStudentAccessPeriod extends AbstractFunction {
         String pattern = "yyyy-MM-dd HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 
-        
+
         System.out.print("Please input new start date and time (Format: " + pattern + "): \n");
         String input = this.sc().nextLine();
         LocalDateTime newStartDateTime;
@@ -75,12 +80,20 @@ public class EditStudentAccessPeriod extends AbstractFunction {
             return;
         }
 
+        if (this.askYesNo("Change access time from " + newStartDateTime.format(formatter) +
+                    " to " + newEndDateTime.format(formatter) + "?")) {
+            Configs.setAccessStartTime(newStartDateTime);
+            Configs.setAccessEndTime(newEndDateTime);
+        }
+        else {
+            System.out.println("Action cancelled.");
+        }
 
-        Configs.setAccessStartTime(newStartDateTime);
-        Configs.setAccessEndTime(newEndDateTime);
+        
     }
     
     public static void main(String[] args) {
         EditStudentAccessPeriod.getInstance().run(UserDB.getDB().getByKey("testuser1"));
+        Configs.saveConfig();
     }
 }

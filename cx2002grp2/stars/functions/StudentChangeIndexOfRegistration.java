@@ -1,5 +1,6 @@
 package cx2002grp2.stars.functions;
 
+import cx2002grp2.stars.CourseAllocator.Result;
 import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.database.RegistrationDB;
 import cx2002grp2.stars.data.database.StudentDB;
@@ -8,6 +9,11 @@ import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
 import cx2002grp2.stars.data.dataitem.User;
 
+/**
+ * a function which is used to change course index of a registration.
+ * using singleton pattern to make sure only one object is created.
+ * this function can be accessed by student.
+ */
 public class StudentChangeIndexOfRegistration extends AbstractFunction {
 
     /**
@@ -68,7 +74,20 @@ public class StudentChangeIndexOfRegistration extends AbstractFunction {
             return;
         }
 
-        this.allocator().changeIndex(currentReg, newCourseIndex);
+        System.out.println("Old Index: ");
+        this.tbPrinter().printIndexAndSchedule(currentReg.getCourseIndex());
+        System.out.println("New Index: ");
+        this.tbPrinter().printIndexAndSchedule(newCourseIndex);
+
+        if (this.askYesNo("Change course index from " + currentReg.getCourseIndex() + " to " +
+                    newCourseIndex.getIndexNo() + "?")) {
+            Result result = this.allocator().changeIndex(currentReg, newCourseIndex);
+            System.out.println(result.message());
+        }
+        else {
+            System.out.println("Action cancelled.");
+        }
+
     }
     
 }
