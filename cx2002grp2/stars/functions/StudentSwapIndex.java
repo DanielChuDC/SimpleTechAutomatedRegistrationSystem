@@ -9,6 +9,13 @@ import cx2002grp2.stars.data.dataitem.User.Domain;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.CourseAllocator.Result;
 
+/**
+ * a function which is used to swop the course index of 2 students.
+ * <p>
+ * using singleton pattern to make sure only one object is created.
+ * <p>
+ * this function can be accessed by student.
+ */
 public class StudentSwapIndex extends AbstractFunction {
     /**
      * An instance of function, for Singleton pattern.
@@ -117,7 +124,7 @@ public class StudentSwapIndex extends AbstractFunction {
         } else {
             // Swap index of both students
             Result result = allocator().swapRegistration(reg1, reg2);
-            
+
             // print failure or success
             System.out.println(result.message());
         }

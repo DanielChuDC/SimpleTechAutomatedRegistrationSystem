@@ -10,7 +10,11 @@ import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.data.dataitem.User.Domain;
 
 /**
- * A example function.
+ * a function which is used to print student list by index number of a course.
+ * <p>
+ * using singleton pattern to make sure only one object is created.
+ * <p>
+ * this function can only be accessed by staff.
  */
 public class PrintStudentByIndex extends AbstractFunction {
 
