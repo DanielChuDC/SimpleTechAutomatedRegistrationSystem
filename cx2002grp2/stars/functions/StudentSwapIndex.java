@@ -112,6 +112,7 @@ public class StudentSwapIndex extends AbstractFunction{
             System.out.println("Failed to swop index number. Exiting function...");
             return;
         } else {
+            // TODO: database
 
             // print successful
             System.out.printf("%s-Index Number %s has been successfuly swopped with %s-Index Number %s.%n", username1, indexNo1, username2, indexNo2);
