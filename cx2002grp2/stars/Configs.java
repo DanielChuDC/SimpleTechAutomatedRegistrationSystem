@@ -238,10 +238,23 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         return defaultSender;
     }
 
+    /**
+     * Get the logger level produced by the {@link Configs#getLogger(String)}
+     * 
+     * @return the logger level produced by the {@link Configs#getLogger(String)}
+     */
     public static Level getDefaultLogLevel() {
         return defaultLogLevelBuf;
     }
 
+    /**
+     * Produce a logger.
+     * <p>
+     * The logger will be config with level {@link Configs#getDefaultLogLevel()}
+     * 
+     * @param loggerName the name of logger
+     * @return the created logger
+     */
     public static Logger getLogger(String loggerName) {
         Logger logger = Logger.getLogger(loggerName);
         logger.setLevel(getDefaultLogLevel());
