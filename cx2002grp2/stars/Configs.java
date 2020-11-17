@@ -12,7 +12,7 @@ import cx2002grp2.stars.data.dataitem.SingleKeyItem;
 import cx2002grp2.stars.util.EmailNotificationSender;
 
 /**
- * A collection of the global configuration.
+ * A collection of the global configurations.
  * <p>
  * All the configuration is backed by a config database.
  */

@@ -14,7 +14,8 @@ import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.functions.Function;
 
 /**
- * The controller used to manage stuff about user account and password.
+ * The controller used to manage stuff about user account, password and
+ * accessibility.
  */
 public class Authenticator {
     /**

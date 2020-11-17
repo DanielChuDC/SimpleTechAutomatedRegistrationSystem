@@ -452,13 +452,13 @@ public class CourseAllocator {
 	}
 
 	/**
-	 * A class representing the allocation result of registration.
+	 * A class representing the result of a function of allocator.
 	 * <p>
 	 * The following information will be included:
 	 * <ol>
-	 * <li>Whether the attempt to allocation is successful.
-	 * <li>The message produced by the allocator. If an allocation failed, the
-	 * message will show the reason of failure.
+	 * <li>Whether the attempt to execute the function is successful.
+	 * <li>The message produced by the allocator. If an function failed to finish
+	 * normally, the message will show the reason of failure.
 	 * </ol>
 	 */
 	public static class Result {

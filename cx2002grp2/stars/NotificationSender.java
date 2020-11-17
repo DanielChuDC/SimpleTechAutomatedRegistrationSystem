@@ -3,6 +3,9 @@ package cx2002grp2.stars;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.User;
 
+/**
+ * Common interface for all the notification sender.
+ */
 public interface NotificationSender {
     /**
      * Send the given text message to the given user.
