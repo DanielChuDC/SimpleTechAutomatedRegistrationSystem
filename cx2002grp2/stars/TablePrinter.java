@@ -170,13 +170,13 @@ public class TablePrinter {
 		if (index.getScheduleList().isEmpty()) {
 			System.out.printf(EMPTY_TABLE_MSG);
 		} else {
-			final String TABLE_FORMAT = "%-3s | %-4s | %-10s | %-10s | %-11s | %-15s | %-15s | %-10s\n";
-			System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Wk", "Remark");
+			final String TABLE_FORMAT = "%-3s | %-4s | %-10s | %-3s | %-11s | %-15s | %-15s | %-10s\n";
+			System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Week", "Remark");
 			printBreakLine();
 			int rowNumber = 0;
 			for (Schedule schedule : index.getScheduleList()) {
 				System.out.printf(TABLE_FORMAT, ++rowNumber, schedule.getClassType(), schedule.getGroup(),
-						schedule.getDayOfWeek().toString(),
+						schedule.getDayOfWeek().toString().substring(0, 3),
 						schedule.getBeginTime().format(TIME_FORMATTER) + "-"
 								+ schedule.getEndTime().format(TIME_FORMATTER),
 						schedule.getVenue(), schedule.teachWkStr(), schedule.getRemark());

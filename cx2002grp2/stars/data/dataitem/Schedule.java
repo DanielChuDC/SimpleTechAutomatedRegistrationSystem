@@ -22,6 +22,9 @@ import java.util.TreeSet;
  */
 public class Schedule {
 
+	/**
+	 * A enum representing all class types
+	 */
 	public enum ClassType {
 		LEC, TUT, SEM, LAB, DES, PRJ
 	}

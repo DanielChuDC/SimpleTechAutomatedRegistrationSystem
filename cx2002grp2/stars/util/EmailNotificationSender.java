@@ -23,8 +23,8 @@ import cx2002grp2.stars.data.dataitem.Student;
 /**
  * Notification sender implemented with email.
  * <p>
- * Output of this class will not be printed. Instead, it will be logged into log
- * file "email.log"
+ * Most of the output of this class will not be printed. Instead, it will be
+ * logged into log file "email.log"
  */
 public class EmailNotificationSender implements NotificationSender {
 
@@ -40,7 +40,7 @@ public class EmailNotificationSender implements NotificationSender {
 
         // Set logging file.
         try {
-            log.addHandler(new FileHandler("email.log", 4096, 5, true));
+            log.addHandler(new FileHandler("email.log", 1 << 20 /* 1 MB */, 5, true));
         } catch (Exception e) {
             System.err.println(e.getLocalizedMessage());
             System.err.println("Email logger initialization failed. No output will be recorded.");
@@ -89,6 +89,8 @@ public class EmailNotificationSender implements NotificationSender {
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
             String content) {
 
+        log.info("Starts sending email to " + receiverEmail);
+
         // Get system properties
         Properties props = new Properties();
 
@@ -124,7 +126,9 @@ public class EmailNotificationSender implements NotificationSender {
 
             log.info("Email sent to " + receiverEmail);
         } catch (Exception e) {
-            log.severe(e.getLocalizedMessage());
+            String failMessage = e.getLocalizedMessage() + "\nFailed to send the email to " + receiverEmail;
+            System.err.println(failMessage);
+            log.severe(failMessage);
         }
     }
 
@@ -145,7 +149,6 @@ public class EmailNotificationSender implements NotificationSender {
             String content) {
         Runnable task = () -> sendEmail(senderEmail, senderPassword, receiverEmail, subject, content);
         Thread thread = new Thread(task);
-        log.info("Starts sending email to " + receiverEmail);
         thread.start();
     }
 }

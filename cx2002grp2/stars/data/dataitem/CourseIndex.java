@@ -208,7 +208,10 @@ public class CourseIndex implements SingleKeyItem<String> {
 	}
 
 	/**
-	 * get a set of registration with status WAITLIST of this CourseIndex.
+	 * get a sorted set of registration with status WAITLIST of this CourseIndex.
+	 * <p>
+	 * The wait list is sorted from the earliest registration time to the latest
+	 * registration time
 	 * 
 	 * @return a set of registration with status WAITLIST of this CourseIndex
 	 */
@@ -278,7 +281,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	public void changeRegistrationStatus(Registration reg, Status status) {
 		Objects.requireNonNull(reg);
 		Objects.requireNonNull(status);
-		
+
 		if (reg.getCourseIndex() != this) {
 			throw new IllegalArgumentException("Course index mismatch.");
 		}

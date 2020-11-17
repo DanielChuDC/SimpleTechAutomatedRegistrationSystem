@@ -26,37 +26,45 @@ public class StudentConverter implements Converter<Student> {
 
     @Override
     public List<String> toStringList(Student item) {
-        String[] row = new String[ROW_SIZE];
+        try {
+            String[] row = new String[ROW_SIZE];
 
-        row[USER_POS] = item.getUsername();
-        row[MATRIC_POS] = item.getMatricNo();
-        row[GENDER_POS] = item.getGender().name();
-        row[NAME_POS] = item.getFullName();
-        row[NATION_POS] = item.getNationality();
-        row[YEAR_POS] = String.valueOf(item.getYearOfStudy());
-        row[PROG_POS] = item.getProgramme();
+            row[USER_POS] = item.getUsername();
+            row[MATRIC_POS] = item.getMatricNo();
+            row[GENDER_POS] = item.getGender().name();
+            row[NAME_POS] = item.getFullName();
+            row[NATION_POS] = item.getNationality();
+            row[YEAR_POS] = String.valueOf(item.getYearOfStudy());
+            row[PROG_POS] = item.getProgramme();
 
-        return Arrays.asList(row);
+            return Arrays.asList(row);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public Student fromStringList(List<String> strings) {
-        String username = strings.get(USER_POS);
-        User user = UserDB.getDB().getByKey(username);
+        try {
+            String username = strings.get(USER_POS);
+            User user = UserDB.getDB().getByKey(username);
 
-        String matricNo = strings.get(MATRIC_POS);
+            String matricNo = strings.get(MATRIC_POS);
 
-        Gender gender = Gender.valueOf(strings.get(GENDER_POS));
+            Gender gender = Gender.valueOf(strings.get(GENDER_POS));
 
-        String fullName = strings.get(NAME_POS);
+            String fullName = strings.get(NAME_POS);
 
-        String nationality = strings.get(NATION_POS);
+            String nationality = strings.get(NATION_POS);
 
-        int yearOfStudy = Integer.parseInt(strings.get(YEAR_POS));
+            int yearOfStudy = Integer.parseInt(strings.get(YEAR_POS));
 
-        String programme = strings.get(PROG_POS);
+            String programme = strings.get(PROG_POS);
 
-        return new Student(user, matricNo, gender, fullName, nationality, yearOfStudy, programme);
+            return new Student(user, matricNo, gender, fullName, nationality, yearOfStudy, programme);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

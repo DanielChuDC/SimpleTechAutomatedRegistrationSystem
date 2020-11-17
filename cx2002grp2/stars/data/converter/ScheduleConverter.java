@@ -29,55 +29,63 @@ public class ScheduleConverter implements Converter<Schedule> {
 
     @Override
     public List<String> toStringList(Schedule item) {
-        if (item.getCourseIndex() == null) {
+        try {
+            if (item.getCourseIndex() == null) {
+                return null;
+            }
+
+            String[] row = new String[ROW_SIZE];
+
+            row[INDEX_POS] = item.getCourseIndex().getIndexNo();
+            row[TYPE_POS] = item.getClassType().name();
+            row[GROUP_POS] = item.getGroup();
+            row[DAY_POS] = item.getDayOfWeek().name();
+            row[VENUE_POS] = item.getVenue();
+            row[REMARK_POS] = item.getRemark();
+            row[BEGIN_POS] = item.getBeginTime().toString();
+            row[END_POS] = item.getEndTime().toString();
+
+            row[WEEKS_POS] = item.teachingWeeks().stream().map(String::valueOf).collect(Collectors.joining(","));
+
+            return Arrays.asList(row);
+        } catch (Exception e) {
             return null;
         }
-
-        String[] row = new String[ROW_SIZE];
-
-        row[INDEX_POS] = item.getCourseIndex().getIndexNo();
-        row[TYPE_POS] = item.getClassType().name();
-        row[GROUP_POS] = item.getGroup();
-        row[DAY_POS] = item.getDayOfWeek().name();
-        row[VENUE_POS] = item.getVenue();
-        row[REMARK_POS] = item.getRemark();
-        row[BEGIN_POS] = item.getBeginTime().toString();
-        row[END_POS] = item.getEndTime().toString();
-
-        row[WEEKS_POS] = item.teachingWeeks().stream().map(String::valueOf).collect(Collectors.joining(","));
-
-        return Arrays.asList(row);
     }
 
     @Override
     public Schedule fromStringList(List<String> strings) {
-        String indexNo = strings.get(INDEX_POS);
+        try {
+            String indexNo = strings.get(INDEX_POS);
 
-        CourseIndexDB.getDB();
+            CourseIndexDB.getDB();
 
-        CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(indexNo);
+            CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(indexNo);
 
-        ClassType classType = ClassType.valueOf(strings.get(TYPE_POS));
+            ClassType classType = ClassType.valueOf(strings.get(TYPE_POS));
 
-        DayOfWeek dayOfWeek = DayOfWeek.valueOf(strings.get(DAY_POS));
+            DayOfWeek dayOfWeek = DayOfWeek.valueOf(strings.get(DAY_POS));
 
-        String group = strings.get(GROUP_POS);
-        String venue = strings.get(VENUE_POS);
-        String remark = strings.get(REMARK_POS);
-        LocalTime beginTime = LocalTime.parse(strings.get(BEGIN_POS));
-        LocalTime endTime = LocalTime.parse(strings.get(END_POS));
+            String group = strings.get(GROUP_POS);
+            String venue = strings.get(VENUE_POS);
+            String remark = strings.get(REMARK_POS);
+            LocalTime beginTime = LocalTime.parse(strings.get(BEGIN_POS));
+            LocalTime endTime = LocalTime.parse(strings.get(END_POS));
 
-        String teachWkStr = strings.get(WEEKS_POS);
+            String teachWkStr = strings.get(WEEKS_POS);
 
-        Schedule ret = new Schedule(courseIndex, classType, group, dayOfWeek, venue, remark, beginTime, endTime);
+            Schedule ret = new Schedule(courseIndex, classType, group, dayOfWeek, venue, remark, beginTime, endTime);
 
-        if (!teachWkStr.isBlank()) {
-            for (String wkStr : teachWkStr.split(",")) {
-                ret.teachingWeeks().add(Integer.valueOf(wkStr));
+            if (!teachWkStr.isBlank()) {
+                for (String wkStr : teachWkStr.split(",")) {
+                    ret.teachingWeeks().add(Integer.valueOf(wkStr));
+                }
             }
-        }
 
-        return ret;
+            return ret;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static void main(String[] args) {

@@ -28,33 +28,41 @@ public class RegistrationConverter implements Converter<Registration> {
 
     @Override
     public List<String> toStringList(Registration item) {
-        if (item.isDropped()) {
+        try {
+            if (item.isDropped()) {
+                return null;
+            }
+
+            String[] row = new String[ROW_SIZE];
+
+            row[STUD_POS] = item.getStudent().getUsername();
+            row[INDEX_POS] = item.getCourseIndex().getIndexNo();
+            row[TIME_POS] = item.getRegisterDateTime().toString();
+            row[STAT_POS] = item.getStatus().name();
+
+            return Arrays.asList(row);
+        } catch (Exception e) {
             return null;
         }
-
-        String[] row = new String[ROW_SIZE];
-
-        row[STUD_POS] = item.getStudent().getUsername();
-        row[INDEX_POS] = item.getCourseIndex().getIndexNo();
-        row[TIME_POS] = item.getRegisterDateTime().toString();
-        row[STAT_POS] = item.getStatus().name();
-
-        return Arrays.asList(row);
     }
 
     @Override
     public Registration fromStringList(List<String> strings) {
-        String username = strings.get(STUD_POS);
-        Student student = StudentDB.getDB().getByKey(username);
+        try {
+            String username = strings.get(STUD_POS);
+            Student student = StudentDB.getDB().getByKey(username);
 
-        String index = strings.get(INDEX_POS);
-        CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(index);
+            String index = strings.get(INDEX_POS);
+            CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(index);
 
-        LocalDateTime registerDateTime = LocalDateTime.parse(strings.get(TIME_POS));
+            LocalDateTime registerDateTime = LocalDateTime.parse(strings.get(TIME_POS));
 
-        Status status = Status.valueOf(strings.get(STAT_POS));
+            Status status = Status.valueOf(strings.get(STAT_POS));
 
-        return new Registration(student, courseIndex, registerDateTime, status);
+            return new Registration(student, courseIndex, registerDateTime, status);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

@@ -52,7 +52,7 @@ public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
     }
 
     @Override
-    protected void saveData() {
+    public void saveData() {
         loader.save(this, DB_FILE_PATH, converter);
     }
 

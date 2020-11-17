@@ -14,7 +14,8 @@ import cx2002grp2.stars.data.dataitem.User;
 import cx2002grp2.stars.functions.Function;
 
 /**
- * The controller used to manage stuff about user account and password.
+ * The controller used to manage stuff about user account, password and
+ * accessibility.
  */
 public class Authenticator {
     /**
@@ -40,7 +41,7 @@ public class Authenticator {
      * Construct an authenticator
      */
     private Authenticator() {
-        // Get SHA-256 Hasher
+        // Get SHA-256 Hashing function
         try {
             digester = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {

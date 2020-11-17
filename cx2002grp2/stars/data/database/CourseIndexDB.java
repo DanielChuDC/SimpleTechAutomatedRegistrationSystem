@@ -187,7 +187,7 @@ public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex
      * Both course index and course schedule will be saved.
      */
     @Override
-    protected void saveData() {
+    public void saveData() {
         loader.save(this, COURSE_INDEX_DB_FILE_PATH, converter);
 
         List<List<String>> table = new ArrayList<>();

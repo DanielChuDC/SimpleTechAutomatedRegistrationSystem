@@ -24,29 +24,37 @@ public class CourseIndexConverter implements Converter<CourseIndex> {
 
     @Override
     public List<String> toStringList(CourseIndex item) {
-        if (item.getCourse() == null) {
+        try {
+            if (item.getCourse() == null) {
+                return null;
+            }
+            String[] row = new String[ROW_SIZE];
+
+            row[INDEX_POS] = item.getIndexNo();
+            row[COURSE_POS] = item.getCourse().getCourseCode();
+            row[MAX_VCC_POS] = String.valueOf(item.getMaxVacancy());
+
+            return Arrays.asList(row);
+        } catch (Exception e) {
             return null;
         }
-        String[] row = new String[ROW_SIZE];
-
-        row[INDEX_POS] = item.getIndexNo();
-        row[COURSE_POS] = item.getCourse().getCourseCode();
-        row[MAX_VCC_POS] = String.valueOf(item.getMaxVacancy());
-
-        return Arrays.asList(row);
     }
 
     @Override
     public CourseIndex fromStringList(List<String> strings) {
 
-        String indexNo = strings.get(INDEX_POS);
+        try {
+            String indexNo = strings.get(INDEX_POS);
 
-        String courseCode = strings.get(COURSE_POS);
-        Course course = CourseDB.getDB().getByKey(courseCode);
+            String courseCode = strings.get(COURSE_POS);
+            Course course = CourseDB.getDB().getByKey(courseCode);
 
-        int maxVacancy = Integer.parseInt(strings.get(MAX_VCC_POS));
+            int maxVacancy = Integer.parseInt(strings.get(MAX_VCC_POS));
 
-        return new CourseIndex(indexNo, course, maxVacancy);
+            return new CourseIndex(indexNo, course, maxVacancy);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
