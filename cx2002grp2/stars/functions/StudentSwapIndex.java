@@ -1,19 +1,13 @@
 package cx2002grp2.stars.functions;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Set;
-
 import cx2002grp2.stars.Authenticator;
 import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.database.RegistrationDB;
-import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.User;
-import cx2002grp2.stars.data.dataitem.Registration.Status;
 import cx2002grp2.stars.data.dataitem.User.Domain;
 import cx2002grp2.stars.data.dataitem.Registration;
-import cx2002grp2.stars.data.dataitem.Student;
+import cx2002grp2.stars.CourseAllocator.Result;
 
 public class StudentSwapIndex extends AbstractFunction{
     /**
@@ -116,9 +110,11 @@ public class StudentSwapIndex extends AbstractFunction{
             return;
         } else {
             // Swop index of both students
+            Result result = allocator().swapRegistration(reg1, reg2);
             
             // print successful
-            System.out.printf("%s-Index Number %s has been successfuly swopped with %s-Index Number %s.%n", username1, indexNo1, username2, indexNo2);
+            System.out.println(result.message());
+            System.out.printf("%s-Index Number %s has been successfully swopped with %s-Index Number %s.%n", username1, indexNo1, username2, indexNo2);
         }
         
 
