@@ -153,6 +153,9 @@ public class Authenticator {
             }
         }
 
+        // Sort by function name.
+        result.sort((f1, f2)->f1.name().compareTo(f2.name()));
+
         return result;
     }
 

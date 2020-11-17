@@ -95,6 +95,10 @@ public class MainApp implements OnExitSubject {
         // Initialize configurations.
         Configs.init();
 
+        // Force the CSV classes to be loaded into JVM
+        CSV.Reader.class.getName();
+        CSV.Writer.class.getName();
+
         // Force the initialization order of database to avoid long run recursive
         // initialization call
         CourseDB.getDB();
