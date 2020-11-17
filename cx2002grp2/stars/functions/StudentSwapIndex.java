@@ -97,7 +97,7 @@ public class StudentSwapIndex extends AbstractFunction{
         }
         
 
-        // if all checks successful, table printer the swopping
+        // if all checks successful, table printer the swapping
         System.out.println("Student #1");
         tbPrinter().printRegDetail(reg1); 
         System.out.println("Student #2");
