@@ -96,11 +96,12 @@ public class MainApp implements OnExitSubject {
         Configs.init();
 
         // Force the CSV classes to be loaded into JVM
+        // so that the CSV.Writer can be found when exception happens
         CSV.Reader.class.getName();
         CSV.Writer.class.getName();
 
-        // Force the initialization order of database to avoid long run recursive
-        // initialization call
+        // Force the initialization order of database to avoid 
+        // long-run recursive initialization call stack
         CourseDB.getDB();
         CourseIndexDB.getDB();
         UserDB.getDB();
