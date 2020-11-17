@@ -33,7 +33,7 @@ public class PrintStudentByCourse extends AbstractFunction {
 
     @Override
     public boolean accessible(User user) {
-        return normalStudentAccessible(user) || user.getDomain() == Domain.STAFF;
+        return user.getDomain() == Domain.STAFF;
     }
 
     @Override
