@@ -64,7 +64,7 @@ public class TablePrinter {
 	 */
 	public void printStudentAndReg(Student student) {
 		final String TABLE_FORMAT = "%-20s | %-20s | %-20s | %-20s\n";
-		
+
 		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(),
 				"Full Name: " + student.getFullName(), "Total Registered AU: " + roundedAu(student.getRegisteredAU()));
 
@@ -153,10 +153,15 @@ public class TablePrinter {
 	public void printStudentInRegList(Iterable<Registration> regs) {
 		final String TABLE_FORMAT = "%-15s | %-15s | %-15s\n";
 		System.out.printf(TABLE_FORMAT, "Username", "Gender", "Nationality");
+		boolean printed = false;
 		printBreakLine();
 		for (Registration registration : regs) {
 			Student student = registration.getStudent();
 			System.out.printf(TABLE_FORMAT, student.getUsername(), student.getGender(), student.getNationality());
+			printed = true;
+		}
+		if (!printed) {
+			System.out.println(EMPTY_TABLE_MSG);
 		}
 		printBreakLine();
 	}
@@ -167,12 +172,12 @@ public class TablePrinter {
 	 * @param index the index which the schedule is under.
 	 */
 	private void printScheduleTable(CourseIndex index) {
+		final String TABLE_FORMAT = "%-3s | %-4s | %-10s | %-3s | %-11s | %-15s | %-15s | %-10s\n";
+		System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Week", "Remark");
+		printBreakLine();
 		if (index.getScheduleList().isEmpty()) {
 			System.out.printf(EMPTY_TABLE_MSG);
 		} else {
-			final String TABLE_FORMAT = "%-3s | %-4s | %-10s | %-3s | %-11s | %-15s | %-15s | %-10s\n";
-			System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Week", "Remark");
-			printBreakLine();
 			int rowNumber = 0;
 			for (Schedule schedule : index.getScheduleList()) {
 				System.out.printf(TABLE_FORMAT, ++rowNumber, schedule.getClassType(), schedule.getGroup(),
@@ -181,8 +186,8 @@ public class TablePrinter {
 								+ schedule.getEndTime().format(TIME_FORMATTER),
 						schedule.getVenue(), schedule.teachWkStr(), schedule.getRemark());
 			}
-			printBreakLine();
 		}
+		printBreakLine();
 	}
 
 	/**
@@ -197,9 +202,14 @@ public class TablePrinter {
 	public void printStudentList(Iterable<Student> studList) {
 		final String TABLE_FORMAT = "%-15s | %-15s | %-30s\n";
 		System.out.printf(TABLE_FORMAT, "Username", "Full Name", "Matric No.");
+		boolean printed = false;
 		printBreakLine();
 		for (Student student : studList) {
 			System.out.printf(TABLE_FORMAT, student.getUsername(), student.getMatricNo(), student.getFullName());
+			printed = true;
+		}
+		if (!printed) {
+			System.out.println(EMPTY_TABLE_MSG);
 		}
 		printBreakLine();
 	}
@@ -216,10 +226,15 @@ public class TablePrinter {
 	public void printCourseList(Iterable<Course> courseList) {
 		final String TABLE_FORMAT = "%-10s | %-10s | %-10s | %-50s\n";
 		System.out.printf(TABLE_FORMAT, "Code", "School", "AU", "Course Name");
+		boolean printed = false;
 		printBreakLine();
 		for (Course course : courseList) {
 			System.out.printf(TABLE_FORMAT, course.getCourseCode(), course.getSchool(), roundedAu(course.getAu()),
 					course.getCourseName());
+			printed = true;
+		}
+		if (!printed) {
+			System.out.println(EMPTY_TABLE_MSG);
 		}
 		printBreakLine();
 	}

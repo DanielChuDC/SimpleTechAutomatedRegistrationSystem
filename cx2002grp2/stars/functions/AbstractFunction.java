@@ -43,7 +43,7 @@ public abstract class AbstractFunction implements Function {
      * {@link AbstractFunction#allFunctions}
      */
     public AbstractFunction() {
-        System.err.println("Constructing: " + this.getClass().getSimpleName());
+        System.err.println("Constructing function: " + this.getClass().getSimpleName());
         allFunctions.add(this);
     }
 
