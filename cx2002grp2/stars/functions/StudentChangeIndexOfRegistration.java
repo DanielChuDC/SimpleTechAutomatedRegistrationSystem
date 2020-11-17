@@ -11,6 +11,7 @@ import cx2002grp2.stars.data.dataitem.User;
 
 /**
  * a function which is used to change course index of a registration.
+ * <p>
  * using singleton pattern to make sure only one object is created.
  * this function can be accessed by student.
  */

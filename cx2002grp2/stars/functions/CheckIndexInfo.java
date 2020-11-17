@@ -7,6 +7,7 @@ import cx2002grp2.stars.data.dataitem.User.Domain;
 
 /**
  * a function which is used to check the information of a course index.
+ * <p>
  * using singleton pattern to make sure only one object is created.
  * this function can be accessed by student and staff.
  */
