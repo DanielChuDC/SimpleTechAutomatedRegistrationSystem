@@ -1,13 +1,16 @@
 package cx2002grp2.stars.functions;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
 import cx2002grp2.stars.Authenticator;
 import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.database.RegistrationDB;
+import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.User;
+import cx2002grp2.stars.data.dataitem.Registration.Status;
 import cx2002grp2.stars.data.dataitem.User.Domain;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
@@ -112,12 +115,35 @@ public class StudentSwapIndex extends AbstractFunction{
             System.out.println("Failed to swop index number. Exiting function...");
             return;
         } else {
-            // TODO: database
-
+            // Swop index of both students
+            swopIndex(reg1, reg2);
             // print successful
             System.out.printf("%s-Index Number %s has been successfuly swopped with %s-Index Number %s.%n", username1, indexNo1, username2, indexNo2);
         }
         
 
+    }
+
+    private void swopIndex(Registration reg1, Registration reg2) {
+        Status status = Status.REGISTERED;
+
+        // get info from reg1 and create new reg with student 2
+        Student student2 = reg2.getStudent();
+        // Course course1 = reg1.getCourse();
+        CourseIndex courseIndex1 = reg1.getCourseIndex();
+        Registration newReg2 = new Registration(student2, courseIndex1, LocalDateTime.now(), status);
+
+        // get info from reg2 and create new reg with student 1
+        Student student1 = reg1.getStudent();
+        CourseIndex courseIndex2 = reg2.getCourseIndex();
+        Registration newReg1 = new Registration(student1, courseIndex2, LocalDateTime.now(), status);
+
+        // del old reg and add new reg to RegistrationDB
+        RegistrationDB.getDB().delItem(reg1);
+        RegistrationDB.getDB().delItem(reg2);
+        RegistrationDB.getDB().addItem(newReg1);
+        RegistrationDB.getDB().addItem(newReg2);
+
+        // do i need to addRegistraion() in CourseIndex and Student or are they observers so it will happen automatically?
     }
 }
