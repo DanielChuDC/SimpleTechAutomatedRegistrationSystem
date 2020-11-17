@@ -16,21 +16,9 @@ public class CourseConverter implements Converter<Course> {
      */
     private static final int ROW_SIZE = 4;
     /**
-     * Position of course code field in one row of table.
+     * Position of field in the row of table.
      */
-    private static final int CODE_POS = 0;
-    /**
-     * Position of course title field in one row of table.
-     */
-    private static final int TITLE_POS = 1;
-    /**
-     * Position of course AU field in one row of table.
-     */
-    private static final int AU_POS = 2;
-    /**
-     * Position of school field in one row of table.
-     */
-    private static final int SCHOOL_POS = 3;
+    private static final int CODE_POS = 0, TITLE_POS = 1, AU_POS = 2, SCHOOL_POS = 3;
 
     @Override
     public List<String> toStringList(Course item) {

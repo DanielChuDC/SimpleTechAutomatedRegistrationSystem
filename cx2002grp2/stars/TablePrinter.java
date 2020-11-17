@@ -2,13 +2,7 @@ package cx2002grp2.stars;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
-import java.util.Set;
-import java.util.TreeSet;
 
-import cx2002grp2.stars.data.database.CourseDB;
-import cx2002grp2.stars.data.database.CourseIndexDB;
-import cx2002grp2.stars.data.database.RegistrationDB;
-import cx2002grp2.stars.data.database.StudentDB;
 import cx2002grp2.stars.data.dataitem.Course;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Registration;
@@ -277,9 +271,4 @@ public class TablePrinter {
 	private String roundedAu(double au) {
 		return String.format("%.2f", au);
 	}
-
-	public static void main(String[] args) {
-		getPrinter().printStudentAndReg(StudentDB.getDB().pickOne());
-	}
-
 }

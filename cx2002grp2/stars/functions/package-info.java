@@ -10,7 +10,7 @@
  * {@link Function} itself.
  * <p>
  * All the subclass of {@link Function} shall extend {@link AbstractFunction}
- * and be implemented with Singleten pattern.
+ * and be implemented with Singleton pattern.
  * <p>
  * All the functions shall be found in the iterable returned by
  * {@link AbstractFunction#allFunctions()}

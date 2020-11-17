@@ -1,9 +1,11 @@
 package cx2002grp2.stars.util;
 
 import java.util.Properties;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -18,19 +20,42 @@ import cx2002grp2.stars.data.dataitem.CourseIndex;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.data.dataitem.Student;
 
+/**
+ * Notification sender implemented with email.
+ * <p>
+ * Output of this class will not be printed. Instead, it will be logged into log
+ * file "email.log"
+ */
 public class EmailNotificationSender implements NotificationSender {
 
+    private Logger log;
+
+    public EmailNotificationSender() {
+        // Initialize logger.
+        log = Configs.getLogger(this.getClass().getName());
+        log.setLevel(Level.ALL);
+
+        // Disable printing onto screen
+        log.setUseParentHandlers(false);
+
+        // Set logging file.
+        try {
+            log.addHandler(new FileHandler("email.log", 4096, 5, true));
+        } catch (Exception e) {
+            System.err.println(e.getLocalizedMessage());
+            System.err.println("Email logger initialization failed. No output will be recorded.");
+        }
+
+        log.info("Finished initialization.");
+    }
+
     @Override
-    public void sendNotification(User targetUser, String msg) {
+    public void sendNotification(User targetUser, String subject, String msg) {
         String senderEmail = Configs.getSystemEmailAddr();
         String senderPassword = Configs.getSystemEmailPasswd();
         String receiverEmail = targetUser.getEmail();
 
-        System.out.println("Sending email to " + receiverEmail);
-        sendEmail(senderEmail, senderPassword, receiverEmail, "", msg);
-        System.out.println("Email has been sent to " + receiverEmail);
-
-        // throw new UnsupportedOperationException();
+        asyncSendEmail(senderEmail, senderPassword, receiverEmail, subject, msg);
     }
 
     /**
@@ -40,23 +65,15 @@ public class EmailNotificationSender implements NotificationSender {
      */
     public void sendWaitlistNotification(Registration reg) {
         // get senderEmail and password from config
-        String senderEmail = Configs.getSystemEmailAddr();
-        String senderPassword = Configs.getSystemEmailPasswd();
         Student student = reg.getStudent();
         Course course = reg.getCourse();
         CourseIndex idx = reg.getCourseIndex();
-        String receiverEmail = student.getEmail();
         String subject = "Course " + course.getCourseCode() + " " + course.getCourseName() + " Added";
-        String content = "Dear " + student.getFullName() + "\n" + "You have been added to the course "
+        String content = "Dear " + student.getFullName() + ",\n" + "You have been added to the course "
                 + course.getCourseCode() + " " + course.getCourseName() + ".\n"
                 + "Your index number for this course is " + idx.getIndexNo();
 
-
-        // TODO: (Optional) async - test first
-        System.out.println("Sending email to " + receiverEmail);
-        sendEmail(senderEmail, senderPassword, receiverEmail, subject, content);
-        System.out.println("Email has been sent to " + receiverEmail);
-
+        sendNotification(student, subject, content);
     }
 
     /**
@@ -71,7 +88,7 @@ public class EmailNotificationSender implements NotificationSender {
      */
     private void sendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
             String content) {
-        
+
         // Get system properties
         Properties props = new Properties();
 
@@ -80,8 +97,7 @@ public class EmailNotificationSender implements NotificationSender {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.ssl.enable", "true");
-
+        // props.put("mail.smtp.ssl.enable", "true");
 
         // public static Session getInstance(Properties prop, Authenticator auth)
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
@@ -91,7 +107,7 @@ public class EmailNotificationSender implements NotificationSender {
         });
 
         // Used to debug SMTP issues
-        session.setDebug(true);
+        // session.setDebug(true);
 
         try {
             // Create a default MimeMessage object
@@ -106,8 +122,30 @@ public class EmailNotificationSender implements NotificationSender {
             // Send message
             Transport.send(message);
 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            log.info("Email sent to " + receiverEmail);
+        } catch (Exception e) {
+            log.severe(e.getLocalizedMessage());
         }
+    }
+
+    /**
+     * Async send a email from given sender account to the given receiver containing
+     * the given subject and content.
+     * <P>
+     * {@link EmailNotificationSender#sendEmail(String, String, String, String, String)}
+     * will be called.
+     * 
+     * @param senderEmail    the sender's email account.
+     * @param senderPassword the sender's password.
+     * @param receiverEmail  the receiver's email account.
+     * @param subject        the subject of email.
+     * @param content        the content of email.
+     */
+    private void asyncSendEmail(String senderEmail, String senderPassword, String receiverEmail, String subject,
+            String content) {
+        Runnable task = () -> sendEmail(senderEmail, senderPassword, receiverEmail, subject, content);
+        Thread thread = new Thread(task);
+        log.info("Starts sending email to " + receiverEmail);
+        thread.start();
     }
 }

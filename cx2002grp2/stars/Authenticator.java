@@ -56,7 +56,8 @@ public class Authenticator {
      * <p>
      * Existence of user and correctness of password will be checked.
      * <p>
-     * The function won't loop and repeat asking user for input, any invalid will course 
+     * The function won't loop and repeat asking user for input, any invalid input
+     * will cause the function to return null.
      * 
      * @return the user login if the user exist in the selected domain and
      *         credentials are correct. Otherwise, return null
@@ -65,12 +66,11 @@ public class Authenticator {
         User.Domain[] allDomain = User.Domain.values();
         @SuppressWarnings("resource")
         Scanner in = new Scanner(System.in);
-        
 
         // input domain
         System.out.println("Select login domain: ");
         for (int i = 0; i < allDomain.length; ++i) {
-            System.out.printf("%d for %s\n", i+1, allDomain[i]);
+            System.out.printf("%d for %s\n", i + 1, allDomain[i]);
         }
         System.out.print("Enter the No. of Domain: ");
         String inStr = in.nextLine();
@@ -85,12 +85,12 @@ public class Authenticator {
         User.Domain domain = null;
 
         if (domainNo >= 1 && domainNo <= allDomain.length) {
-            domain = allDomain[domainNo-1];
+            domain = allDomain[domainNo - 1];
         } else {
             System.out.println("Invalid domain choice. Login again.");
             return null;
         }
-    
+
         return login(domain);
     }
 
@@ -100,6 +100,9 @@ public class Authenticator {
      * Interact with user and ask user to enter username and password.
      * <p>
      * Existence of user and correctness of password will be checked.
+     * <p>
+     * The function won't loop and repeat asking user for input, any invalid input
+     * will cause the function to return null.
      * 
      * @param useDomain the specified domain.
      * @return the user login if the user exist in the specified domain and

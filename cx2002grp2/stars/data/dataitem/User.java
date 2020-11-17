@@ -35,6 +35,7 @@ public class User implements SingleKeyItem<String> {
     public User(String username, String hashedPassword, User.Domain domain, String email, String phoneNo) {
         Objects.requireNonNull(username);
         Objects.requireNonNull(hashedPassword);
+        Objects.requireNonNull(domain);
         
         this.username = username;
         this.hashedPassword = hashedPassword;
@@ -50,6 +51,7 @@ public class User implements SingleKeyItem<String> {
 
     @Override
     public void setKey(String newKey) {
+        Objects.requireNonNull(newKey);
         username = newKey;
     }
 
@@ -86,6 +88,7 @@ public class User implements SingleKeyItem<String> {
      * @param newPassed hashed password of this user
      */
     public void setHashedPassword(String newPassed) {
+        Objects.requireNonNull(newPassed);
         this.hashedPassword = newPassed;
     }
 
@@ -104,6 +107,7 @@ public class User implements SingleKeyItem<String> {
      * @param domain domain of this user
      */
     public void setDomain(Domain domain) {
+        Objects.requireNonNull(domain);
         this.domain = domain;
     }
 
