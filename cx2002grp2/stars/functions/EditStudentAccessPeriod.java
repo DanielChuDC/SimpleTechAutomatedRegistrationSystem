@@ -75,8 +75,16 @@ public class EditStudentAccessPeriod extends AbstractFunction {
             return;
         }
 
-        Configs.setAccessStartTime(newStartDateTime);
-        Configs.setAccessEndTime(newEndDateTime);
+        if (this.askYesNo("Change access time from " + newStartDateTime.format(formatter) +
+                    " to " + newEndDateTime.format(formatter) + "?")) {
+            Configs.setAccessStartTime(newStartDateTime);
+            Configs.setAccessEndTime(newEndDateTime);
+        }
+        else {
+            System.out.println("Action cancelled.");
+        }
+
+        
     }
     
     public static void main(String[] args) {
