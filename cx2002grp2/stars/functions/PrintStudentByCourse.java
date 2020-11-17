@@ -48,7 +48,7 @@ public class PrintStudentByCourse extends AbstractFunction {
             // Enter course code
             System.out.println("Enter course code: ");
             courseCode = sc().nextLine();
-    
+
             // check if course exist
             Course course = CourseDB.getDB().getByKey(courseCode);
             if (course == null) {
@@ -56,14 +56,15 @@ public class PrintStudentByCourse extends AbstractFunction {
                 if (!askYesNo("Try again?")) {
                     return;
                 }
-            } else break;
+            } else {
+                break;
+            }
 
         }
 
         // get Registration list
         Collection<Registration> regs = RegistrationDB.getDB().getRegOfCourseCode(courseCode, true);
 
-        
         // print list of students
         tbPrinter().printStudentInRegList(regs);
 

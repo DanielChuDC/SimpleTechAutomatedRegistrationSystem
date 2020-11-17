@@ -52,7 +52,7 @@ public class PrintStudentByIndex extends AbstractFunction {
             // Enter index number
             System.out.println("Enter course code: ");
             indexNo = sc().nextLine();
-            
+
             // Check if index number exist
             CourseIndex index = CourseIndexDB.getDB().getByKey(indexNo);
             if (index == null) {
@@ -60,11 +60,11 @@ public class PrintStudentByIndex extends AbstractFunction {
                 if (!askYesNo("Try again?")) {
                     return;
                 }
-            } else break;
+            } else {
+                break;
+            }
 
         }
-        
-
 
         // Get registration list
         Collection<Registration> regs = RegistrationDB.getDB().getRegOfIndex(indexNo);

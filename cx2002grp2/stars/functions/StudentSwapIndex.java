@@ -9,7 +9,7 @@ import cx2002grp2.stars.data.dataitem.User.Domain;
 import cx2002grp2.stars.data.dataitem.Registration;
 import cx2002grp2.stars.CourseAllocator.Result;
 
-public class StudentSwapIndex extends AbstractFunction{
+public class StudentSwapIndex extends AbstractFunction {
     /**
      * An instance of function, for Singleton pattern.
      */
@@ -28,7 +28,7 @@ public class StudentSwapIndex extends AbstractFunction{
      * private constructor reserve for Singleton pattern
      */
     private StudentSwapIndex() {
-        
+
     }
 
     @Override
@@ -38,7 +38,7 @@ public class StudentSwapIndex extends AbstractFunction{
 
     @Override
     public String name() {
-        return "Swop index number with another student";
+        return "Swap index number with another student";
     }
 
     @Override
@@ -47,16 +47,16 @@ public class StudentSwapIndex extends AbstractFunction{
         String indexNo1, username1, indexNo2, username2;
         CourseIndex index1, index2;
         Registration reg1, reg2;
-        
-        // user1 - current user // user2 - user to swop with
+
+        // user1 - current user // user2 - user to swap with
         User user2 = null;
 
         while (true) {
             // ask for user1's index number
-            System.out.println("Enter first (current) user index number to swop:");
+            System.out.println("Enter first (current) user index number to swap:");
             indexNo1 = sc().nextLine();
             username1 = user.getUsername();
-    
+
             // check if indexNo exist and if user1 is taking the index number
             index1 = CourseIndexDB.getDB().getByKey(indexNo1);
             reg1 = RegistrationDB.getDB().getByIndex(indexNo1, username1);
@@ -65,25 +65,31 @@ public class StudentSwapIndex extends AbstractFunction{
                 if (!askYesNo("Try again?")) {
                     return;
                 }
-            } else break;
+            } else {
+                break;
+            }
 
         }
 
         // second student login - login(domain)
         while (true) {
-            System.out.println("Login second user (user to swop index with)");
+            System.out.println("Login second student (student to swap index with)");
             user2 = auth.login(Domain.STUDENT);
-            if (user2 != null) break;
-            
-            if (!askYesNo("Try logging in second user again?")) return;
+            if (user2 != null) {
+                break;
+            }
+
+            if (!askYesNo("Try logging in student user again?")) {
+                return;
+            }
         }
 
         while (true) {
             // ask for user2's index number
-            System.out.println("Enter second user index number to swop:");
+            System.out.println("Enter second user index number to swap:");
             indexNo2 = sc().nextLine();
             username2 = user2.getUsername();
-    
+
             // check if indexNo exist and if user1 is taking the index number
             index2 = CourseIndexDB.getDB().getByKey(indexNo2);
             reg2 = RegistrationDB.getDB().getByIndex(indexNo2, username2);
@@ -92,31 +98,34 @@ public class StudentSwapIndex extends AbstractFunction{
                 if (!askYesNo("Try again?")) {
                     return;
                 }
-            } else break;
+            } else {
+                break;
+            }
 
         }
-        
 
-        // if all checks successful, table printer the swopping
+        // if all checks successful, table printer the swapping
         System.out.println("Student #1");
-        tbPrinter().printRegDetail(reg1); 
+        tbPrinter().printRegDetail(reg1);
         System.out.println("Student #2");
-        tbPrinter().printRegDetail(reg2); 
-        
-        
+        tbPrinter().printRegDetail(reg2);
+
         // ask to confirm, swap indexes (updateDB) if yes. if no, return;
-        if (!askYesNo("Confirm to Swop Index Number?")) {
-            System.out.println("Failed to swop index number. Exiting function...");
+        if (!askYesNo("Confirm to Swap Index Number?")) {
+            System.out.println("Failed to swap index number. Exiting function...");
             return;
         } else {
-            // Swop index of both students
+            // Swap index of both students
             Result result = allocator().swapRegistration(reg1, reg2);
-            
+
             // print successful
-            System.out.println(result.message());
-            System.out.printf("%s-Index Number %s has been successfully swopped with %s-Index Number %s.%n", username1, indexNo1, username2, indexNo2);
+            if (result.isSuccessful()) {
+                System.out.printf("%s-Index Number %s has been successfully swapped with %s-Index Number %s.%n",
+                        username1, indexNo1, username2, indexNo2);
+            } else {
+                System.out.println(result.message());
+            }
         }
-        
 
     }
 
