@@ -117,14 +117,9 @@ public class StudentSwapIndex extends AbstractFunction {
         } else {
             // Swap index of both students
             Result result = allocator().swapRegistration(reg1, reg2);
-
-            // print successful
-            if (result.isSuccessful()) {
-                System.out.printf("%s-Index Number %s has been successfully swapped with %s-Index Number %s.%n",
-                        username1, indexNo1, username2, indexNo2);
-            } else {
-                System.out.println(result.message());
-            }
+            
+            // print failure or success
+            System.out.println(result.message());
         }
 
     }
