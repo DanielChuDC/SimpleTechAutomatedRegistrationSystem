@@ -268,7 +268,7 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
     }
 
     @Override
-    protected void saveData() {
+    public void saveData() {
         loader.save(this, DB_FILE_PATH, converter);
     }
 

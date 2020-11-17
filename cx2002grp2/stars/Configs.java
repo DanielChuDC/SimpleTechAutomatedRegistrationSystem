@@ -12,7 +12,7 @@ import cx2002grp2.stars.data.dataitem.SingleKeyItem;
 import cx2002grp2.stars.util.EmailNotificationSender;
 
 /**
- * A collection of the global configuration.
+ * A collection of the global configurations.
  * <p>
  * All the configuration is backed by a config database.
  */
@@ -286,7 +286,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
     }
 
     @Override
-    protected void saveData() {
+    public void saveData() {
         List<List<String>> configTable = new ArrayList<>();
 
         for (OneConfig config : this) {
@@ -352,5 +352,12 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         public void setValue(Object value) {
             this.value = value;
         }
+    }
+
+    public static void main(String[] args) {
+        Configs.init();
+        System.out.println(Configs.getAccessEndTime());
+        Configs.setAccessEndTime(LocalDateTime.now());
+        System.out.println(Configs.getAccessEndTime());
     }
 }

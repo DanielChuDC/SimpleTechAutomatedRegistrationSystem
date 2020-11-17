@@ -197,7 +197,7 @@ public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
 	}
 
 	@Override
-	protected void saveData() {
+	public void saveData() {
 		loader.save(this, DB_FILE_PATH, converter);
 	}
 
