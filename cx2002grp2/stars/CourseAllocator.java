@@ -1,6 +1,7 @@
 package cx2002grp2.stars;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import cx2002grp2.stars.data.dataitem.*;
@@ -82,20 +83,31 @@ public class CourseAllocator {
 			return clashingResult;
 		}
 
-		Result result;
-		Registration registration;
+		Result result = null;
+		Registration registration = null;
 
 		// Check vacancy
 		if (newIndex.getAvailableVacancy() <= 0) {
 			result = failure("Index " + newIndex.getIndexNo() + " has not vacancy. Added to wait list instead.");
 			registration = new Registration(student, newIndex, LocalDateTime.now(), Status.WAITLIST);
-		} else {
+		}
+
+		// Check max AU limit
+		double maxAu = Configs.getMaxAu(), totalAu = student.getRegisteredAU(), indexAu = newIndex.getCourse().getAu();
+		if (maxAu < totalAu + indexAu) {
+			result = failure("Max AU limit is " + maxAu
+					+ ". New index cannot be registered, and is added to wait list instead.");
+			registration = new Registration(student, newIndex, LocalDateTime.now(), Status.WAITLIST);
+		}
+
+		// If no failure result is produced
+		if (result == null) {
 			result = Result.SUCCESSFUL;
 			registration = new Registration(student, newIndex, LocalDateTime.now(), Status.REGISTERED);
 		}
 
 		// Add new registration into registration database.
-		// regDB.addItem(registration);
+		regDB.addItem(registration);
 
 		return result;
 	}
@@ -130,10 +142,10 @@ public class CourseAllocator {
 		}
 
 		// Drop the registration.
-		// regDB.delItem(existingReg);
-		// existingReg.drop();
+		regDB.delItem(existingReg);
+		existingReg.drop();
 
-		// TODO - handle possible course reallocation.
+		approveRegistration(dropIndex, 1);
 
 		return Result.SUCCESSFUL;
 	}
@@ -162,15 +174,19 @@ public class CourseAllocator {
 			return failure("Max Vacancy must be greater than 0.");
 		}
 
+		if (courseIndex.getMaxVacancy() == newMaxVcc) {
+			return Result.SUCCESSFUL;
+		}
+
 		int existingRegistered = courseIndex.getRegisteredList().size();
 		if (newMaxVcc < existingRegistered) {
 			return failure(existingRegistered
 					+ " students has already registered the index, the new max vacancy cannot be smaller than that.");
 		}
 
-		// courseIndex.setMaxVacancy(newMaxVcc);
+		courseIndex.setMaxVacancy(newMaxVcc);
 
-		// TODO - handle possible course reallocation.
+		approveRegistration(courseIndex, Integer.MAX_VALUE);
 
 		return Result.SUCCESSFUL;
 	}
@@ -223,9 +239,10 @@ public class CourseAllocator {
 			return clashingResult;
 		}
 
-		// currentReg.setCourseIndex(newIndex);
+		CourseIndex oldIndex = currentReg.getCourseIndex();
+		currentReg.setCourseIndex(newIndex);
 
-		// TODO - handle possible course reallocation.
+		approveRegistration(oldIndex, 1);
 
 		return Result.SUCCESSFUL;
 	}
@@ -291,9 +308,9 @@ public class CourseAllocator {
 		}
 
 		// Swapping index.
-		// CourseIndex temp = reg1.getCourseIndex();
-		// reg1.setCourseIndex(reg2.getCourseIndex());
-		// reg2.setCourseIndex(temp);
+		CourseIndex temp = reg1.getCourseIndex();
+		reg1.setCourseIndex(reg2.getCourseIndex());
+		reg2.setCourseIndex(temp);
 
 		return Result.SUCCESSFUL;
 	}
@@ -395,19 +412,43 @@ public class CourseAllocator {
 	}
 
 	/**
-	 * Approve a student's registration on wait list of the given course index.
+	 * Approve student's registration on wait list of the given course index.
 	 * <p>
 	 * Notification will be sent through {@link Configs#getNotificationSender()}
 	 * 
 	 * @param index the index whose wait list is checked.
-	 * @return the approved registration. return null if no registration is
-	 *         approved.
+	 * @param limit the limit of the number of the approvals.
 	 */
-	private Registration approveAStudent(CourseIndex index) {
+	private void approveRegistration(CourseIndex index, int limit) {
 		if (index.getRegisteredList().size() >= index.getMaxVacancy() || index.getWaitList().size() <= 0) {
-			return null;
+			return;
 		}
-		return null;
+
+		// Find out the strictest number of limit.
+		limit = Math.min(limit, index.getWaitList().size());
+		limit = Math.min(limit, index.getMaxVacancy() - index.getRegisteredList().size());
+
+		// The registrations to be approved.
+		List<Registration> approvals = new ArrayList<>(limit);
+
+		// Searching from the earliest wait list to the latest wait list.
+		for (Registration reg : index.getWaitList()) {
+			// Check approval limit
+			if (approvals.size() >= limit) {
+				break;
+			}
+			// Check AU limit.
+			if (Configs.getMaxAu() >= reg.getStudent().getRegisteredAU() + index.getCourse().getAu()) {
+				approvals.add(reg);
+			}
+		}
+
+		for (Registration reg : approvals) {
+			// Notify course index so that it can maintain the wait list.
+			index.changeRegistrationStatus(reg, Status.REGISTERED);
+			// Notify the student for registration approval.
+			sender.sendWaitlistNotification(reg);
+		}
 	}
 
 	/**
