@@ -21,29 +21,37 @@ public class UserConverter implements Converter<User> {
 
     @Override
     public List<String> toStringList(User item) {
-        String[] row = new String[ROW_SIZE];
+        try {
+            String[] row = new String[ROW_SIZE];
 
-        row[NAME_POS] = item.getUsername();
-        row[PASSWD_POS] = item.getHashedPassword();
-        row[DOMAIN_POS] = item.getDomain().name();
-        row[EMAIL_POS] = item.getEmail();
-        row[PHONE_POS] = item.getPhoneNo();
+            row[NAME_POS] = item.getUsername();
+            row[PASSWD_POS] = item.getHashedPassword();
+            row[DOMAIN_POS] = item.getDomain().name();
+            row[EMAIL_POS] = item.getEmail();
+            row[PHONE_POS] = item.getPhoneNo();
 
-        return Arrays.asList(row);
+            return Arrays.asList(row);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public User fromStringList(List<String> strings) {
-        String username, hashedPassword, email, phoneNo;
-        User.Domain domain;
+        try {
+            String username, hashedPassword, email, phoneNo;
+            User.Domain domain;
 
-        username = strings.get(NAME_POS);
-        hashedPassword = strings.get(PASSWD_POS);
-        domain = User.Domain.valueOf(strings.get(DOMAIN_POS));
-        email = strings.get(EMAIL_POS);
-        phoneNo = strings.get(PHONE_POS);
+            username = strings.get(NAME_POS);
+            hashedPassword = strings.get(PASSWD_POS);
+            domain = User.Domain.valueOf(strings.get(DOMAIN_POS));
+            email = strings.get(EMAIL_POS);
+            phoneNo = strings.get(PHONE_POS);
 
-        return new User(username, hashedPassword, domain, email, phoneNo);
+            return new User(username, hashedPassword, domain, email, phoneNo);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

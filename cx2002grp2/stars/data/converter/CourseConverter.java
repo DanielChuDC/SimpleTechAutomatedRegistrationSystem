@@ -22,27 +22,35 @@ public class CourseConverter implements Converter<Course> {
 
     @Override
     public List<String> toStringList(Course item) {
-        String[] row = new String[ROW_SIZE];
+        try {
+            String[] row = new String[ROW_SIZE];
 
-        row[CODE_POS] = item.getCourseCode();
-        row[TITLE_POS] = item.getCourseName();
-        row[AU_POS] = String.valueOf(item.getAu());
-        row[SCHOOL_POS] = item.getSchool();
+            row[CODE_POS] = item.getCourseCode();
+            row[TITLE_POS] = item.getCourseName();
+            row[AU_POS] = String.valueOf(item.getAu());
+            row[SCHOOL_POS] = item.getSchool();
 
-        return Arrays.asList(row);
+            return Arrays.asList(row);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public Course fromStringList(List<String> strings) {
-        String courseCode, courseName, school;
-        double au;
+        try {
+            String courseCode, courseName, school;
+            double au;
 
-        courseCode = strings.get(CODE_POS);
-        courseName = strings.get(TITLE_POS);
-        school = strings.get(SCHOOL_POS);
-        au = Double.parseDouble(strings.get(AU_POS));
+            courseCode = strings.get(CODE_POS);
+            courseName = strings.get(TITLE_POS);
+            school = strings.get(SCHOOL_POS);
+            au = Double.parseDouble(strings.get(AU_POS));
 
-        return new Course(courseCode, courseName, school, au);
+            return new Course(courseCode, courseName, school, au);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

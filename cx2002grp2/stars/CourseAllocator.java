@@ -505,4 +505,18 @@ public class CourseAllocator {
 
 	}
 
+	public static void main(String[] args) {
+		Configs.init();
+		Student stud = StudentDB.getDB().getByKey("testuser0");
+		CourseIndex index = CourseIndexDB.getDB().getByKey("10046");
+		System.out.println(stud);
+		System.out.println(index);
+		TablePrinter.getPrinter().printIndexAndSchedule(index);
+		Result result = CourseAllocator.getInstance().registerCourse(stud, index);
+		System.out.println(result.message());
+		result = CourseAllocator.getInstance().registerCourse(stud, index);
+		System.out.println(result.message());
+		RegistrationDB.getDB().saveData();
+	}
+
 }
