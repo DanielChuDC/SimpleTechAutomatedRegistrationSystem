@@ -46,7 +46,7 @@ public class EditStudentAccessPeriod extends AbstractFunction {
         String pattern = "yyyy-MM-dd HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 
-        
+
         System.out.print("Please input new start date and time (Format: " + pattern + "): \n");
         String input = this.sc().nextLine();
         LocalDateTime newStartDateTime;
@@ -75,12 +75,12 @@ public class EditStudentAccessPeriod extends AbstractFunction {
             return;
         }
 
-
         Configs.setAccessStartTime(newStartDateTime);
         Configs.setAccessEndTime(newEndDateTime);
     }
     
     public static void main(String[] args) {
         EditStudentAccessPeriod.getInstance().run(UserDB.getDB().getByKey("testuser1"));
+        Configs.saveConfig();
     }
 }

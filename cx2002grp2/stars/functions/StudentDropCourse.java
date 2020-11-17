@@ -1,5 +1,6 @@
 package cx2002grp2.stars.functions;
 
+import cx2002grp2.stars.CourseAllocator.Result;
 import cx2002grp2.stars.data.database.CourseIndexDB;
 import cx2002grp2.stars.data.database.StudentDB;
 import cx2002grp2.stars.data.dataitem.CourseIndex;
@@ -56,7 +57,16 @@ public class StudentDropCourse extends AbstractFunction {
             return;
         }
 
-        this.allocator().dropCourse(student, courseIndex);      
+        this.tbPrinter().printIndexAndSchedule(courseIndex);
+
+        if (this.askYesNo("Drop course index " + rawIndex + "?")) {
+            Result result = this.allocator().dropCourse(student, courseIndex);   
+            System.out.println(result.message());
+        }
+        else {
+            System.out.println("Action cancelled.");
+        }
+
     }
     
 }
