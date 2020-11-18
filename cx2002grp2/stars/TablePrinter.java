@@ -30,7 +30,7 @@ public class TablePrinter {
 
 	private static final String GENERAL_INFO_FORMAT = "%-30s %-30s %-30s \n";
 	private static final String EMPTY_TABLE_MSG = "This table currently have no content.\n";
-	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("hh:mm");
+	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 	private static final int BREAK_LINE_LENGTH = 100;
 
 	/**

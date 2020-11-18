@@ -26,14 +26,14 @@ public class EditCourseIndex extends AbstractFunction {
     /**
      * An instance of function, for Singleton pattern.
      */
-    private static Function instance = new EditCourseIndex();
+    private static EditCourseIndex instance = new EditCourseIndex();
 
     /**
      * An getter of function instance, for Singleton pattern.
      * 
      * @return an instance of function.
      */
-    public static Function getInstance() {
+    public static EditCourseIndex getInstance() {
         return instance;
     }
 
@@ -289,8 +289,8 @@ public class EditCourseIndex extends AbstractFunction {
         while (true) {
             tbPrinter().printBreakLine("<<< Index Editor >>>", '-');
             System.out.println("Index being edit: " + index.getIndexNo());
-            int funcSelect = selectFunction("Print Index Details and Schedules", "Edit Max Vacancy", "Add Schedule",
-                    "Delete Schedule", "Edit Schedule", "Leave Index Editor");
+            int funcSelect = selectFunction("Print Index Details and Schedules", "Edit Max Vacancy", "Manage Schedule",
+                    "Leave Index Editor");
             switch (funcSelect) {
                 case 1:
                     tbPrinter().printIndexAndSchedule(index);
@@ -299,15 +299,8 @@ public class EditCourseIndex extends AbstractFunction {
                     editMaxVcc(user, index);
                     break;
                 case 3:
-                    addSchedule(user, index);
-                    break;
+                    EditCourseSchedule.getInstance().manageSchedule(user, index);
                 case 4:
-                    delSchedule(user, index);
-                    break;
-                case 5:
-                    editSchedule(user, index);
-                    break;
-                case 6:
                     return;
             }
         }
@@ -333,37 +326,5 @@ public class EditCourseIndex extends AbstractFunction {
         } else {
             System.out.println(result.message());
         }
-    }
-
-    /**
-     * Interact with user for adding schedule for given index.
-     * 
-     * @param user  the user of this function.
-     * @param index the index to add schedule.
-     */
-    private void addSchedule(User user, CourseIndex index) {
-        System.out.println("Current Schedule:");
-        tbPrinter().printIndexAndSchedule(index);
-        
-    }
-
-    /**
-     * Interact with user for deleting schedule from given index.
-     * 
-     * @param user  the user of this function.
-     * @param index the index to add schedule.
-     */
-    private void delSchedule(User user, CourseIndex index) {
-
-    }
-
-    /**
-     * Interact with user for editing schedule of given index.
-     * 
-     * @param user  the user of this function.
-     * @param index the index to add schedule.
-     */
-    private void editSchedule(User user, CourseIndex index) {
-
     }
 }
