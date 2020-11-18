@@ -1,5 +1,6 @@
 package cx2002grp2.stars.functions;
 
+import java.security.AccessControlException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -7,10 +8,12 @@ import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
 import cx2002grp2.stars.database.CourseIndexDB;
+import cx2002grp2.stars.database.UserDB;
 import cx2002grp2.stars.dataitem.CourseIndex;
 import cx2002grp2.stars.dataitem.Schedule;
 import cx2002grp2.stars.dataitem.User;
@@ -67,11 +70,29 @@ public class EditCourseSchedule extends AbstractFunction {
                 break;
             }
         }
+
+        manageSchedule(user, index);
     }
 
     public void manageSchedule(User user, CourseIndex index) {
+        Objects.requireNonNull(user);
+        Objects.requireNonNull(index);
+
+        if (!UserDB.getDB().hasItem(user)) {
+            throw new IllegalArgumentException("The input user does not exist in the database.");
+        }
+        if (!CourseIndexDB.getDB().hasItem(index)) {
+            throw new IllegalArgumentException("The input course does not exist in the database.");
+        }
+
+        if (!accessible(user)) {
+            throw new AccessControlException("User " + user + " has not access to function: " + name());
+        }
+
         String closingFunctionName = "Close Manager for Index: " + index.getIndexNo();
+
         while (true) {
+            tbPrinter().printBreakLine("<<< Schedule Manager >>>");
             System.out.println("Managing schedule for course index: " + index.getIndexNo());
             int funcSelect = selectFunction("Print Schedule Table", "Add Schedule", "Edit Schedule", "Delete Schedule",
                     closingFunctionName);
@@ -83,15 +104,14 @@ public class EditCourseSchedule extends AbstractFunction {
                     addSchedule(user, index);
                     break;
                 case 3:
-                    delSchedule(user, index);
+                    editSchedule(user, index);
                     break;
                 case 4:
-                    editSchedule(user, index);
+                    delSchedule(user, index);
                     break;
                 case 5:
                     return;
             }
-            tbPrinter().printBreakLine();
         }
     }
 
@@ -107,7 +127,7 @@ public class EditCourseSchedule extends AbstractFunction {
         LocalTime ret = null;
         while (true) {
             System.out.println(hintMsg);
-            System.out.print("Time format: hhmm (e.g. 0830, 1700): ");
+            System.out.print("Time format: HHMM (e.g. 0830, 1700): ");
             String input = sc().nextLine().trim();
             try {
                 ret = LocalTime.parse(input, timeFormatter);
@@ -212,8 +232,7 @@ public class EditCourseSchedule extends AbstractFunction {
      * @param initialSchedule the schedule being edited
      * @return true if the schedule is edited. Otherwise, return false.
      */
-    private boolean editTimeInfo(Schedule initialSchedule) {
-        CourseIndex index = initialSchedule.getCourseIndex();
+    private boolean editTimeInfo(CourseIndex index, Schedule initialSchedule) {
         DayOfWeek dayOfWeek;
         LocalTime beginTime;
         LocalTime endTime;
@@ -227,7 +246,6 @@ public class EditCourseSchedule extends AbstractFunction {
             if (beginTime.compareTo(endTime) >= 0) {
                 System.out.println("Begin time must be earlier than end time.");
                 if (!askYesNo("Enter time again?")) {
-                    System.out.println("Schedule addition terminated.");
                     return false;
                 }
             }
@@ -247,7 +265,6 @@ public class EditCourseSchedule extends AbstractFunction {
             tbPrinter().printScheduleList(List.of(clashingSchedule));
 
             if (!askYesNo("Enter time info again?")) {
-                System.out.println("Schedule creation terminated.");
                 return false;
             }
         }
@@ -278,9 +295,9 @@ public class EditCourseSchedule extends AbstractFunction {
             System.out.println("Current Schedule:");
             tbPrinter().printIndexAndSchedule(index);
 
-            Schedule schedule = new Schedule(index, null, null, null, null, null, null, null);
+            Schedule schedule = new Schedule(null, null, null, null, null, null, null, null);
 
-            if (!editTimeInfo(schedule)) {
+            if (!editTimeInfo(index, schedule)) {
                 return;
             }
 
@@ -302,8 +319,8 @@ public class EditCourseSchedule extends AbstractFunction {
             System.out.println("The following schedule will be added: ");
             tbPrinter().printScheduleList(List.of(schedule));
 
-            if (!askYesNo("Confirm addition?")) {
-                schedule.setCourseIndex(null);
+            if (askYesNo("Confirm addition?")) {
+                schedule.setCourseIndex(index);
             }
 
             if (!askYesNo("Add another schedule under index " + index.getIndexNo() + "?")) {
@@ -352,9 +369,100 @@ public class EditCourseSchedule extends AbstractFunction {
      * Interact with user for editing schedule of given index.
      * 
      * @param user  the user of this function.
-     * @param index the index to add schedule.
+     * @param index the index to be edited.
      */
     private void editSchedule(User user, CourseIndex index) {
+        System.out.print("Current Schedules of index " + index.getIndexNo() + ": ");
+        tbPrinter().printIndexAndSchedule(index);
+        int selection = enterInt("Enter the row No. of schedule to be edited");
+
+        Schedule schedule = index.getScheduleList().get(selection);
+
+        editSchedule(user, schedule);
+
+    }
+
+    /**
+     * Interact with user for editing schedule.
+     * 
+     * @param user     the user of this function.
+     * @param schedule the schedule to be edited.
+     */
+    private void editSchedule(User user, Schedule schedule) {
+        tbPrinter().printBreakLine("Schedule Editor", '-');
+        while (true) {
+            tbPrinter().printScheduleList(List.of(schedule));
+            int selection = selectFunction("Edit Class Type", "Edit Group", "Edit Venue", "Edit Remark",
+                    "Edit Day of Week", "Edit Begin Time", "Edit End Time", "Edit Teaching Weeks",
+                    "Edit All Time Info at a Time", "End Editing");
+
+            switch (selection) {
+                case 1:
+                    ClassType type = selectEnum("Select class type: ", ClassType.values());
+                    schedule.setClassType(type);
+                    System.out.println("Edition is done.");
+                    break;
+                case 2:
+                    System.out.print("Enter new group: ");
+                    String group = sc().nextLine();
+                    schedule.setGroup(group);
+                    System.out.println("Edition is done.");
+                    break;
+                case 3:
+                    System.out.print("Enter new venue: ");
+                    String venue = sc().nextLine();
+                    schedule.setVenue(venue);
+                    System.out.println("Edition is done.");
+                    break;
+                case 4:
+                    System.out.print("Enter new remark: ");
+                    String remark = sc().nextLine();
+                    schedule.setRemark(remark);
+                    System.out.println("Edition is done.");
+                    break;
+                case 5:
+                    DayOfWeek dayOfWeek = selectEnum("Select new day of week: ", DayOfWeek.values());
+                    schedule.setDayOfWeek(dayOfWeek);
+                    System.out.println("Edition is done.");
+                    break;
+                case 6:
+                    LocalTime beginTime = enterTime("Enter new start time: ");
+                    if (beginTime.compareTo(schedule.getEndTime()) >= 0) {
+                        System.out.println("Begin time must be earlier than end time.");
+                        System.out.println("Edition Failed");
+                        continue;
+                    }
+                    schedule.setBeginTime(beginTime);
+                    System.out.println("Edition is done.");
+                    break;
+                case 7:
+                    LocalTime endTime = enterTime("Enter new end time: ");
+                    if (schedule.getBeginTime().compareTo(endTime) >= 0) {
+                        System.out.println("Begin time must be earlier than end time.");
+                        System.out.println("Edition Failed");
+                        continue;
+                    }
+                    schedule.setEndTime(endTime);
+                    System.out.println("Edition is done.");
+                    break;
+                case 8:
+                    Set<Integer> teachWk = enterTeachingWk(schedule.teachingWeeks());
+                    if (teachWk == null) {
+                        continue;
+                    }
+                    schedule.teachingWeeks().clear();
+                    schedule.teachingWeeks().addAll(teachWk);
+                    System.out.println("Edition is done.");
+                    break;
+                case 9:
+                    if (editTimeInfo(schedule.getCourseIndex(), schedule)) {
+                        System.out.println("Edition is done.");
+                    }
+                    break;
+                case 10:
+                    return;
+            }
+        }
 
     }
 }
