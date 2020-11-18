@@ -266,7 +266,7 @@ public abstract class AbstractFunction implements Function {
         for (int i = 0; i < funcNameList.size(); i++) {
             System.out.printf("%2d: %s\n", i + 1, funcNameList.get(i));
         }
-        return enterInt("Select a function: ", 1, funcNameList.size());
+        return enterInt("Enter your choice: ", 1, funcNameList.size());
     }
 
     /**

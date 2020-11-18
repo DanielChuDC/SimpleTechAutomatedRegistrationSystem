@@ -2,7 +2,9 @@ package cx2002grp2.stars;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cx2002grp2.stars.database.*;
 import cx2002grp2.stars.dataitem.*;
@@ -322,8 +324,22 @@ public class CourseAllocator {
 	 * @param s2 the other schedule
 	 * @return true if they clash with each other
 	 */
-	public boolean isClashed(Schedule s1, Schedule s2) {
-		return s1.getBeginTime().compareTo(s2.getEndTime()) < 0 && s2.getBeginTime().compareTo(s1.getEndTime()) < 0;
+	private boolean isClashed(Schedule s1, Schedule s2) {
+		if (s1.getDayOfWeek() != s2.getDayOfWeek()) {
+			return false;
+		}
+
+		if (s1.getBeginTime().compareTo(s2.getEndTime()) >= 0 || s2.getBeginTime().compareTo(s1.getEndTime()) >= 0) {
+			return false;
+		}
+
+		Set<Integer> weekIntersection = new HashSet<>(s1.teachingWeeks());
+		weekIntersection.retainAll(s2.teachingWeeks());
+		if (weekIntersection.isEmpty()) {
+			return false;
+		}
+		
+		return true;
 	}
 
 	/**
@@ -335,7 +351,7 @@ public class CourseAllocator {
 	 * @param index2 the other index
 	 * @return true if they clash with each other
 	 */
-	public boolean isClashed(CourseIndex index1, CourseIndex index2) {
+	private boolean isClashed(CourseIndex index1, CourseIndex index2) {
 		List<Schedule> scheduleList1 = index1.getScheduleList();
 		List<Schedule> scheduleList2 = index2.getScheduleList();
 
