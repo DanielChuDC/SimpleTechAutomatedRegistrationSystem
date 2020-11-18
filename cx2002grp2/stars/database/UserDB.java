@@ -9,7 +9,7 @@ import cx2002grp2.stars.dataitem.User;
  * <p>
  * The database is implemented with Singleton pattern.
  */
-public class UserDB extends AbstractSingleKeyDatabase<String, User> {
+public class UserDB extends CaseInsensitiveStringKeyDB<User> {
 
 	/**
 	 * database file that user database is storing

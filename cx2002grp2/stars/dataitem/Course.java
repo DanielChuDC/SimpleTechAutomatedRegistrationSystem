@@ -28,7 +28,7 @@ public class Course implements SingleKeyItem<String> {
 	public Course(String courseCode, String courseName, String school, double au) {
 		Objects.requireNonNull(courseCode);
 
-		this.courseCode = courseCode;
+		this.courseCode = courseCode.toUpperCase();
 		this.courseName = courseName;
 		this.school = school;
 		this.au = au;

@@ -44,33 +44,7 @@ public class ExampleFunction extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-        int num = enterInt("Enter an integer: ");
-        System.out.println(num + "*2 = " + (num * 2));
-
-        System.out.println();
-
-        Gender gender = selectEnum("Choose your gender: ", Gender.values());
-        System.out.println("Your gender is: " + gender);
-
-        System.out.println();
-
-        while (true) {
-            System.out.println("Select a course index.");
-            String indexNo = sc().nextLine();
-            CourseIndex index = CourseIndexDB.getDB().getByKey(indexNo);
-
-            if (index == null) {
-                System.out.println("invalid index.");
-            } else {
-                tbPrinter().printIndexAndSchedule(index);
-                break;
-            }
-            
-            if (!askYesNo("Try again?")) {
-                break;
-            }
-            
-            System.out.println();
-        }
+        int n = selectFunction("Func A", "Func B", "Func C");
+        System.out.println("You selected "+n);
     }
 }

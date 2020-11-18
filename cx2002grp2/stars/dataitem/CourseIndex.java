@@ -40,7 +40,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	public CourseIndex(String indexNo, Course course, int maxVacancy) {
 		Objects.requireNonNull(indexNo);
 
-		this.indexNo = indexNo;
+		this.indexNo = indexNo.toUpperCase();
 		this.maxVacancy = maxVacancy;
 		this.scheduleList = new ArrayList<>();
 		this.registrationList = new TreeSet<>(new RegistrationComparator());

@@ -37,7 +37,7 @@ public class User implements SingleKeyItem<String> {
         Objects.requireNonNull(hashedPassword);
         Objects.requireNonNull(domain);
         
-        this.username = username;
+        this.username = username.toUpperCase();
         this.hashedPassword = hashedPassword;
         this.domain = domain;
         this.email = email;

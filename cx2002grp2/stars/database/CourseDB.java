@@ -9,7 +9,7 @@ import cx2002grp2.stars.dataitem.Course;
  * <p>
  * The database is implemented with Singleton pattern.
  */
-public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
+public class CourseDB extends CaseInsensitiveStringKeyDB<Course> {
 
     /**
      * database file that course database is storing
@@ -44,6 +44,11 @@ public class CourseDB extends AbstractSingleKeyDatabase<String, Course> {
      */
     protected CourseDB() {
         loadData();
+    }
+
+    @Override
+    public Course getByKey(String key) {
+        return super.getByKey(key.toUpperCase());
     }
 
     @Override
