@@ -30,7 +30,7 @@ import cx2002grp2.stars.dataitem.User;
  * 
  * @see UserDB
  */
-public class StudentDB extends AbstractSingleKeyDatabase<String, Student> {
+public class StudentDB extends CaseInsensitiveStringKeyDB<Student> {
 	/**
 	 * database file that student database is storing
 	 */
