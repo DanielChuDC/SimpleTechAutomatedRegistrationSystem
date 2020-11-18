@@ -264,7 +264,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 
 		this.registrationList.remove(registration);
 
-		registration.drop();
+		registration.setCourseIndex(null);
 
 		return true;
 	}

@@ -56,8 +56,8 @@ public class EditCourseIndex extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-        tbPrinter().printBreakLine("<<< Course Index Manager >>>", '-');
         while (true) {
+            tbPrinter().printBreakLine("<<< Course Index Manager >>>", '-');
             int funcNo = selectFunction("Print All Indexes", "Print Indexes of Course", "Create Course Index",
                     "Edit Course Index", "Delete Course Index", "Leave Course Index Manager");
             switch (funcNo) {

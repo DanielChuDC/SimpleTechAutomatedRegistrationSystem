@@ -3,6 +3,7 @@ package cx2002grp2.stars;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import cx2002grp2.stars.dataitem.Course;
 import cx2002grp2.stars.dataitem.CourseIndex;
@@ -66,8 +67,8 @@ public class TablePrinter {
 	public void printStudentAndReg(Student student) {
 		final String TABLE_FORMAT = "%-20s | %-20s | %-20s | %-20s\n";
 
-		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(),
-				"Full Name: " + student.getFullName(), "Total Registered AU: " + roundedAu(student.getRegisteredAU()));
+		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(), "Total Registered AU: " + roundedAu(student.getRegisteredAU()),
+				"Full Name: " + student.getFullName());
 
 		System.out.printf(TABLE_FORMAT, "Course Code", "Course Index", "Registration State", "AU");
 		printBreakLine();
@@ -191,6 +192,14 @@ public class TablePrinter {
 		}
 		printBreakLine();
 	}
+	/**
+	 * Print the table for a schedules.
+	 * 
+	 * @param scheSet the set of schedules to be printed.
+	 */
+	public void printSchedule(Schedule sche) {
+		printScheduleList(List.of(sche));
+	}
 
 	/**
 	 * Print student list in a table manner.
@@ -311,6 +320,6 @@ public class TablePrinter {
 	 * @return a string representing the AU with 2 digit precision.
 	 */
 	private String roundedAu(double au) {
-		return String.format("%.2f", au);
+		return String.format("%.1f", au);
 	}
 }

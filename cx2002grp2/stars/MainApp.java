@@ -266,6 +266,6 @@ public class MainApp implements OnExitSubject {
         MainApp app = MainApp.getApp();
         app.initialize(args);
         app.run();
-        System.out.println("Waiting for email sender.");
+        System.out.println("Waiting for background tasks (like sending email).");
     }
 }

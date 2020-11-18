@@ -53,6 +53,9 @@ public class EditStudentAccessPeriod extends AbstractFunction {
         String pattern = "yyyy-MM-dd HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 
+        System.out.println("Current student access time:");
+        System.out.println(Configs.getAccessStartTime().format(formatter) + " ~ " + Configs.getAccessEndTime().format(formatter));
+
 
         System.out.print("Please input new start date and time (Format: " + pattern + "): \n");
         String input = this.sc().nextLine();
