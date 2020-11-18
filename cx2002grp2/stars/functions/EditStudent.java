@@ -59,24 +59,41 @@ public class EditStudent extends AbstractFunction {
         // ask user if he wants to add, update or delete student (input 1, 2 or 3)
         int n = selectFunction("Add Student", "Edit Student", "Delete Student");
         System.out.println("You selected "+n);
+
+        switch (n) {
+          case 1:
+            System.out.println("You selected to add student.");
+            if (addStudent()) System.out.println("Successfully added student.");
+            return;
+          case 2:
+            System.out.println("You selected to edit student.");
+            if (editStudent()) System.out.println("Successfully edit student.");
+            return;
+          case 3:
+            System.out.println("You selected to delete student.");
+            if (delStudent()) System.out.println("Successfully delete student.");
+            return;
+        }
         // 
 
     }
 
-    private void addStudent() {
+    private boolean addStudent() {
       Authenticator auth = Authenticator.getInstance();
       Console console = System.console();
+      String username;
       // User class attributes
-      System.out.println("Enter username of student: ");
-      String username = sc().nextLine();
-
-      //// check username early 
-      User user_exist = UserDB.getDB().getByKey(username);
-
-        if (user_exist != null) {
-            System.out.println("Account with that username already exists. Exiting function..");
-            return;
+      while (true) {
+        System.out.println("Enter username of student: ");
+        username = sc().nextLine();
+  
+        // check if user exist
+        if (UserDB.getDB().hasKey(username)) {
+          System.out.println("Account with that username already exists.");
+          if (askYesNo("Try again?")) continue;
+          else return false;
         }
+      }
 
       char[] passwordEntry = console.readPassword("Enter password of student: \n");
       String password = String.valueOf(passwordEntry);
@@ -101,7 +118,7 @@ public class EditStudent extends AbstractFunction {
       // confirm
       if (!askYesNo("Confirm to add student?")) {
         System.out.println("Failed to add student. Exiting function...");
-        return;
+        return false;
       }
 
       // create account (will create user in the process)
@@ -112,33 +129,78 @@ public class EditStudent extends AbstractFunction {
       StudentDB.getDB().addItem(newStudent);
 
       // Print details of created student
-      System.out.println("Student created successfully: ");
       tbPrinter().printStudentBrief(newStudent);
+      return true;
       
     }
 
-    private void editStudent() {
-      // ask for username
+    private boolean editStudent() {
+      Student student;
 
-      // check if username exist. if no, return.
+      // ask for username
+      while (true) {
+        System.out.println("Enter username of student: ");
+        String username = sc().nextLine();
+  
+        student = StudentDB.getDB().getByKey(username);
+  
+        // check if username exist. if no, return.
+        if (student == null) {
+            System.out.println("Student account with that username does not exist.");
+            if (askYesNo("Try again?")) continue;
+            else return false;
+        }
+      }
 
       // print details of student
+      System.out.println("Current details of the student:");
+      tbPrinter().printStudentBrief(student);
 
       // Ask what to edit
+      System.out.println("Please select the attribute to edit");
+      int n = selectFunction("username", "password", "matric number", "full name", "nationality", "year of study", "programme", "gender", "email", "phone number");
+      // gender, user attributes liek email, phoneNo
 
-      // changing username need to changekey in db?
+      switch (n) {
+        case 1:
+          return editUsername(student);
+        case 2:
+          return editPassword(student);
+        case 3:
+          return editMatricNo(student);
+        case 4:
+          return editFullName(student);
+        case 5:
+          return editNationality(student);
+        case 6:
+          return editYOS(student);
+        case 7:
+          return editProgramme(student);
+        case 8:
+          return editGender(student);
+        case 9:
+          return editEmail(student);
+        case 10:
+          return editPhoneNo(student);
+      }
+
+      return false;
+
     }
 
-    private void delStudent() {
-      System.out.println("Enter username of student: ");
-      String username = sc().nextLine();
-
-      //// check if username exist. if no, return.
-      Student student = StudentDB.getDB().getByKey(username);
-
-      if (student == null) {
-          System.out.println("Student account with that username does not exist. Exiting function..");
-          return;
+    private boolean delStudent() {
+      Student student;
+      while (true) {
+        System.out.println("Enter username of student: ");
+        String username = sc().nextLine();
+  
+        student = StudentDB.getDB().getByKey(username);
+  
+        if (student == null) {
+            System.out.println("Student account with that username does not exist.");
+            if (askYesNo("Try again?")) continue;
+            else return false;
+        }
       }
 
       // print details of student (tblPrinter().printStudentBrief())
@@ -148,11 +210,243 @@ public class EditStudent extends AbstractFunction {
       // confirm deletion
       if (!askYesNo("Confirm to delete student?")) {
         System.out.println("Failed to delete student. Exiting function...");
-        return;
+        return false;
       }
 
       // delete from DB
       StudentDB.getDB().delItem(student);
-      System.out.println("Student deleted successfully.");
+      return true;
+    }
+
+    private boolean editUsername(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's username.");
+      // change key
+    }
+
+    private boolean editFullName(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's full name.");
+
+      while (true) {
+        System.out.println("Enter new full name:");
+        String newFullName = sc().nextLine();
+
+        System.out.println("Old full name: " + student.getFullName());
+        System.out.println("New full name: " + newFullName);
+        if (this.askForApplyChange()) {
+            student.setFullName(newFullName);
+            break;
+        } else {
+            System.out.println("Action Cancelled.");
+            if (askYesNo("Try again?"))
+                continue;
+            else
+                return false;
+        }
+      }
+
+      return true;
+    }
+
+    private boolean editMatricNo(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's matric number.");
+      while (true) {
+        System.out.println("Enter new matric number:");
+        String newMatricNo = sc().nextLine();
+
+        System.out.println("Old matric number: " + student.getMatricNo());
+        System.out.println("New matric number: " + newMatricNo);
+        if (this.askForApplyChange()) {
+            student.setMatricNo(newMatricNo);
+            break;
+        } else {
+            System.out.println("Action Cancelled.");
+            if (askYesNo("Try again?"))
+                continue;
+            else
+                return false;
+        }
+      }
+
+      return true;
+    }
+
+    private boolean editNationality(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's nationality.");
+
+      while (true) {
+        System.out.println("Enter new nationality:");
+        String newNationality = sc().nextLine();
+
+        System.out.println("Old nationality: " + student.getNationality());
+        System.out.println("New nationality: " + newNationality);
+        if (this.askForApplyChange()) {
+            student.setNationality(newNationality);
+            break;
+        } else {
+            System.out.println("Action Cancelled.");
+            if (askYesNo("Try again?"))
+                continue;
+            else
+                return false;
+        }
+      }
+
+      return true;
+      
+    }
+
+    private boolean editPassword(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's password.");
+      Authenticator auth = Authenticator.getInstance();
+
+      while (true) {
+        System.out.println("Enter new password:");
+        String newPassword = sc().nextLine();
+
+        // will not print out old password for "security purposes"
+        System.out.println("New password: " + newPassword);
+        if (this.askForApplyChange()) {
+            auth.changePassword(student, newPassword);
+            break;
+        } else {
+            System.out.println("Action Cancelled.");
+            if (askYesNo("Try again?"))
+                continue;
+            else
+                return false;
+        }
+      }
+
+      return true;
+    }
+
+    private boolean editProgramme(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's programme.");
+
+      while (true) {
+        System.out.println("Enter new programme:");
+        String newProgramme = sc().nextLine();
+
+        System.out.println("Old programme: " + student.getProgramme());
+        System.out.println("New programme: " + newProgramme);
+        if (this.askForApplyChange()) {
+            student.setProgramme(newProgramme);
+            break;
+        } else {
+            System.out.println("Action Cancelled.");
+            if (askYesNo("Try again?"))
+                continue;
+            else
+                return false;
+        }
+      }
+
+      return true;
+    }
+
+    private boolean editYOS(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's year of study.");
+
+      while (true) {
+        System.out.println("Enter new year of study:");
+        int newYOS = sc().nextInt();
+
+        System.out.println("Old year of study: " + student.getYearOfStudy());
+        System.out.println("New year of study: " + newYOS);
+        if (this.askForApplyChange()) {
+            student.setYearOfStudy(newYOS);
+            break;
+        } else {
+            System.out.println("Action Cancelled.");
+            if (askYesNo("Try again?"))
+                continue;
+            else
+                return false;
+        }
+      }
+
+      return true;
+    }
+
+    private boolean editGender(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's gender.");
+
+      while (true) {
+        // print out gender to choose from
+        Gender newGender = selectEnum("Select new gender: ", Gender.values());
+
+        System.out.println("Old gender: " + student.getGender());
+        System.out.println("New gender: " + newGender);
+        if (this.askForApplyChange()) {
+            student.setGender(newGender);
+            break;
+        } else {
+            System.out.println("Action Cancelled.");
+            if (askYesNo("Try again?"))
+                continue;
+            else
+                return false;
+        }
+      }
+
+      return true;
+    }
+
+    private boolean editEmail(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's email.");
+
+      while (true) {
+        System.out.println("Enter new email:");
+        String newEmail = sc().nextLine();
+
+        System.out.println("Old email: " + student.getEmail());
+        System.out.println("New email: " + newEmail);
+        if (this.askForApplyChange()) {
+            student.setEmail(newEmail);
+            break;
+        } else {
+            System.out.println("Action Cancelled.");
+            if (askYesNo("Try again?"))
+                continue;
+            else
+                return false;
+        }
+      }
+
+      return true;
+    }
+
+    private boolean editPhoneNo(Student student) {
+      tbPrinter().printBreakLine();
+      System.out.println("You selected to edit student's phone number.");
+
+      while (true) {
+        System.out.println("Enter new phone number:");
+        String newPhoneNo = sc().nextLine();
+
+        System.out.println("Old phone number: " + student.getPhoneNo());
+        System.out.println("New phone number: " + newPhoneNo);
+        if (this.askForApplyChange()) {
+            student.setPhoneNo(newPhoneNo);
+            break;
+        } else {
+            System.out.println("Action Cancelled.");
+            if (askYesNo("Try again?"))
+                continue;
+            else
+                return false;
+        }
+      }
+
+      return true;
     }
 }
