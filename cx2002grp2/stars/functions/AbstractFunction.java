@@ -4,6 +4,7 @@ import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -239,6 +240,33 @@ public abstract class AbstractFunction implements Function {
         }
         int selection = enterInt("Enter your choice: ", 1, values.length);
         return values[selection - 1];
+    }
+
+    /**
+     * Ask user to select a function from a list of function.
+     * <p>
+     * Example:
+     * <p>
+     * int selection = selectFunction("Add Course", "Edit Course", "Delete Course");
+     * 
+     * @param funcNameList the list of function name
+     * @return the index of function user selected (start from 1, not 0)
+     */
+    protected int selectFunction(String... funcNameList) {
+        return selectFunction(List.of(funcNameList));
+    }
+
+    /**
+     * Ask user to select a function from a list of function.
+     * 
+     * @param funcNameList the list of function name
+     * @return the index of function user selected (start from 1, not 0)
+     */
+    protected int selectFunction(List<String> funcNameList) {
+        for (int i = 0; i < funcNameList.size(); i++) {
+            System.out.printf("%2d: %s\n", i+1, funcNameList.get(i));
+        }
+        return enterInt("Select a function: ", 1, funcNameList.size());
     }
 
     /**
