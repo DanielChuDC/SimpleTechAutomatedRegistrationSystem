@@ -49,6 +49,8 @@ public class ScheduleConverter implements Converter<Schedule> {
 
             return Arrays.asList(row);
         } catch (Exception e) {
+            
+            e.printStackTrace();
             return null;
         }
     }
@@ -84,6 +86,8 @@ public class ScheduleConverter implements Converter<Schedule> {
 
             return ret;
         } catch (Exception e) {
+            
+            e.printStackTrace();
             return null;
         }
     }

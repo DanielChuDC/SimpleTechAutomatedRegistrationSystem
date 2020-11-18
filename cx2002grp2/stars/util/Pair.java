@@ -112,4 +112,28 @@ public class Pair<T1, T2> {
             return pair1.val2().compareTo(pair2.val2());
         };
     }
+
+    /**
+     * Generate a comparator such that compare the in lexicological manner.
+     * <p>
+     * That is, the comparator will compare the first element ({@link val1()})
+     * first. If they are not equal, return the compare result. Otherwise, the
+     * compare result of the second element ({@link val2()}) will be returned.
+     * 
+     * @param <T1> data type of the first value in the pair
+     * @param <T2> data type of the second value in the pair
+     * @param cmp1 comparator for first value in the pair
+     * @param cmp2 comparator for first value in the pair
+     * @return  a comparator that will compare two pair in lexicological manner.
+     */
+    public static <T1, T2> Comparator<Pair<T1, T2>>
+    pairComparator(Comparator<? super T1> cmp1, Comparator<? super T2> cmp2) {
+        return (pair1, pair2) -> {
+            int result1 = cmp1.compare(pair1.val1(), pair2.val1());
+            if (result1 != 0) {
+                return result1;
+            }
+            return cmp2.compare(pair1.val2(), pair2.val2());
+        };
+    }
 }

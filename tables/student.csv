@@ -1,6 +1,6 @@
 Username,Matric No,Name,Gender,Nationality,Year of Study,Programme
-testuser0,U1910101K,Samara Dawson,MALE,Singaporean,1,CSC
-testuser2,U2045312A,Rojin Stone,SPECIAL,Singaporean,1,CE
-testuser3,U1748712X,Lin Xiaojun,MALE,Chinese,3,EEE
-testuser4,U1912839P,Andy Jeffery,FEMALE,American,2,BCG
-testuser5,U1937823W,Tivano Mohamad,MALE,Malaysian,4,Business
+TESTUSER0,U1910101K,Samara Dawson,MALE,Singaporean,1,CSC
+TESTUSER2,U2045312A,Rojin Stone,SPECIAL,Singaporean,1,CE
+TESTUSER3,U1748712X,Lin Xiaojun,MALE,Chinese,3,EEE
+TESTUSER4,U1912839P,Andy Jeffery,FEMALE,American,2,BCG
+TESTUSER5,U1937823W,Tivano Mohamad,MALE,Malaysian,4,Business

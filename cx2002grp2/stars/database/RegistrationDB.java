@@ -3,6 +3,7 @@ package cx2002grp2.stars.database;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -67,7 +68,8 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
     /**
      * A map used to mapping from a student username and course code to a data item.
      */
-    private SortedMap<Pair<String, String>, Registration> regMap = new TreeMap<>(Pair.pairComparator());
+    private SortedMap<Pair<String, String>, Registration> regMap = new TreeMap<>(
+            Pair.pairComparator(String.CASE_INSENSITIVE_ORDER, String.CASE_INSENSITIVE_ORDER));
 
     /**
      * Construct a database with data loaded and setup syncing process.
@@ -245,9 +247,10 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
         }
 
         Pair<String, String> lowerBound = new Pair<>(courseCode, "");
-        Pair<String, String> upperBound = new Pair<>(courseCode, "\u7fff");
+        Pair<String, String> upperBound = new Pair<>(courseCode, "~");
+        Map<Pair<String, String>, Registration> wanted = regMap.subMap(lowerBound, upperBound);
 
-        Collection<Registration> ret = regMap.subMap(lowerBound, upperBound).values();
+        Collection<Registration> ret = wanted.values();
 
         if (onlyRegistered) {
             ret = ret.stream().filter(reg -> !reg.isDropped() && reg.getStatus() == Status.REGISTERED)

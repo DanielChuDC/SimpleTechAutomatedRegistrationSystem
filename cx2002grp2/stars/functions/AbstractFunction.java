@@ -239,6 +239,7 @@ public abstract class AbstractFunction implements Function {
             System.out.printf(ENUM_LIST_FORMAT, i + 1, values[i]);
         }
         int selection = enterInt("Enter your choice: ", 1, values.length);
+        System.out.println("Selected value: " + values[selection - 1]);
         return values[selection - 1];
     }
 

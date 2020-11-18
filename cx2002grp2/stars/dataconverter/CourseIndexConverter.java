@@ -36,6 +36,7 @@ public class CourseIndexConverter implements Converter<CourseIndex> {
 
             return Arrays.asList(row);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -53,6 +54,7 @@ public class CourseIndexConverter implements Converter<CourseIndex> {
 
             return new CourseIndex(indexNo, course, maxVacancy);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
