@@ -1,6 +1,7 @@
 package cx2002grp2.stars;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Collections;
 
 import cx2002grp2.stars.dataitem.Course;
@@ -110,7 +111,7 @@ public class TablePrinter {
 				"Vacancy: " + index.getAvailableVacancy(), "Waitlist Length: " + index.getWaitList().size());
 		printBreakLine();
 
-		this.printScheduleTable(index);
+		this.printScheduleList(index.getScheduleList());
 	}
 
 	/**
@@ -138,7 +139,7 @@ public class TablePrinter {
 				"Vacancy: " + registration.getCourseIndex().getAvailableVacancy(),
 				"WaitList Length: " + registration.getCourseIndex().getWaitList().size());
 
-		this.printScheduleTable(registration.getCourseIndex());
+		this.printScheduleList(registration.getCourseIndex().getScheduleList());
 	}
 
 	/**
@@ -167,19 +168,20 @@ public class TablePrinter {
 	}
 
 	/**
-	 * Print the schedule table of a index without information of index.
+	 * Print the table for a set of schedules.
 	 * 
-	 * @param index the index which the schedule is under.
+	 * @param regSet the set of schedules to be printed.
 	 */
-	private void printScheduleTable(CourseIndex index) {
+	public void printScheduleList(Collection<Schedule> regSet) {
 		final String TABLE_FORMAT = "%-3s | %-4s | %-10s | %-3s | %-11s | %-15s | %-15s | %-10s\n";
 		System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Week", "Remark");
+
 		printBreakLine();
-		if (index.getScheduleList().isEmpty()) {
+		if (regSet.isEmpty()) {
 			System.out.printf(EMPTY_TABLE_MSG);
 		} else {
 			int rowNumber = 0;
-			for (Schedule schedule : index.getScheduleList()) {
+			for (Schedule schedule : regSet) {
 				System.out.printf(TABLE_FORMAT, ++rowNumber, schedule.getClassType(), schedule.getGroup(),
 						schedule.getDayOfWeek().toString().substring(0, 3),
 						schedule.getBeginTime().format(TIME_FORMATTER) + "-"
