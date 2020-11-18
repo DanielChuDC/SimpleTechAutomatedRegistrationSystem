@@ -316,6 +316,41 @@ public class CourseAllocator {
 	}
 
 	/**
+	 * Checking whether two schedules clash
+	 * 
+	 * @param s1 one schedule
+	 * @param s2 the other schedule
+	 * @return true if they clash with each other
+	 */
+	public boolean isClashed(Schedule s1, Schedule s2) {
+		return s1.getBeginTime().compareTo(s2.getEndTime()) < 0 && s2.getBeginTime().compareTo(s1.getEndTime()) < 0;
+	}
+
+	/**
+	 * Checking whether two indexes clash.
+	 * <p>
+	 * Two indexes clash if any two schedules of them clash.
+	 * 
+	 * @param index1 one index
+	 * @param index2 the other index
+	 * @return true if they clash with each other
+	 */
+	public boolean isClashed(CourseIndex index1, CourseIndex index2) {
+		List<Schedule> scheduleList1 = index1.getScheduleList();
+		List<Schedule> scheduleList2 = index2.getScheduleList();
+
+		for (int i = 0; i < scheduleList1.size(); ++i) {
+			for (int j = 0; j < scheduleList2.size(); ++j) {
+				if (isClashed(scheduleList1.get(i), scheduleList2.get(j))) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Generate a failure result.
 	 * 
 	 * @param msg the message of result.
@@ -364,7 +399,7 @@ public class CourseAllocator {
 	 *                    checking.
 	 * @return result of clashing checking. If not clashing happens, return null.
 	 */
-	Result checkTimeSlotClash(Iterable<Registration> regList, CourseIndex courseIndex, Registration except) {
+	private Result checkTimeSlotClash(Iterable<Registration> regList, CourseIndex courseIndex, Registration except) {
 		for (Registration reg : regList) {
 			if (reg == except) {
 				continue;
@@ -374,41 +409,6 @@ public class CourseAllocator {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Checking whether two schedules clash
-	 * 
-	 * @param s1 one schedule
-	 * @param s2 the other schedule
-	 * @return true if they clash with each other
-	 */
-	private boolean isClashed(Schedule s1, Schedule s2) {
-		return s1.getBeginTime().compareTo(s2.getEndTime()) < 0 && s2.getBeginTime().compareTo(s1.getEndTime()) < 0;
-	}
-
-	/**
-	 * Checking whether two indexes clash.
-	 * <p>
-	 * Two indexes clash if any two schedules of them clash.
-	 * 
-	 * @param index1 one index
-	 * @param index2 the other index
-	 * @return true if they clash with each other
-	 */
-	private boolean isClashed(CourseIndex index1, CourseIndex index2) {
-		List<Schedule> scheduleList1 = index1.getScheduleList();
-		List<Schedule> scheduleList2 = index2.getScheduleList();
-
-		for (int i = 0; i < scheduleList1.size(); ++i) {
-			for (int j = 0; j < scheduleList2.size(); ++j) {
-				if (isClashed(scheduleList1.get(i), scheduleList2.get(j))) {
-					return true;
-				}
-			}
-		}
-
-		return false;
 	}
 
 	/**
