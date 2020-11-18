@@ -1,5 +1,12 @@
 package cx2002grp2.stars.functions;
 
+import java.security.AccessControlException;
+import java.util.Objects;
+
+import cx2002grp2.stars.database.CourseDB;
+import cx2002grp2.stars.database.CourseIndexDB;
+import cx2002grp2.stars.dataitem.Course;
+import cx2002grp2.stars.dataitem.CourseIndex;
 import cx2002grp2.stars.dataitem.User;
 import cx2002grp2.stars.dataitem.User.Domain;
 
@@ -47,7 +54,48 @@ public class EditCourseIndex extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-        
+
+    }
+
+    /**
+     * Add course index under the given course.
+     * 
+     * @param user   the user trying to run the function
+     * @param course the course under which the new index is add
+     * @throws NullPointerException
+     */
+    public void addCourseIndex(User user, Course course) {
+        Objects.requireNonNull(user);
+        Objects.requireNonNull(course);
+
+        if (!CourseDB.getDB().hasItem(course)) {
+            throw new IllegalArgumentException("The input course does not exist in the database.");
+        }
+
+        if (!accessible(user)) {
+            throw new AccessControlException("User " + user + " has not access to function: " + name());
+        }
+
+        System.out.printf("Creating new index under course:\n%s: %s\n", course.getCourseCode(), course.getCourseName());
+
+        String indexNo;
+        while (true) {
+            System.out.print("Enter new index No.: ");
+            indexNo = sc().nextLine().trim();
+            CourseIndex existingIndex = CourseIndexDB.getDB().getByKey(indexNo);
+            if (existingIndex != null) {
+                System.out.println("The following index already exist: ");
+                tbPrinter().printIndexAndSchedule(existingIndex);
+                if (askYesNo("Enter another index?")) {
+                    continue;
+                } else {
+                    return;
+                }
+            } else {
+                break;
+            }
+        }
+
     }
 
 }
