@@ -189,9 +189,9 @@ public abstract class AbstractFunction implements Function {
         if (minInt != Integer.MIN_VALUE && maxInt != Integer.MAX_VALUE) {
             errorMsg += " between " + minInt + " and " + maxInt;
         } else if (minInt != Integer.MIN_VALUE) {
-            errorMsg += " greater than " + minInt;
+            errorMsg += " not less than " + minInt;
         } else if (maxInt != Integer.MAX_VALUE) {
-            errorMsg += " smaller than " + maxInt;
+            errorMsg += " not greater than " + maxInt;
         }
 
         Integer ret = null;
@@ -264,7 +264,7 @@ public abstract class AbstractFunction implements Function {
      */
     protected int selectFunction(List<String> funcNameList) {
         for (int i = 0; i < funcNameList.size(); i++) {
-            System.out.printf("%2d: %s\n", i+1, funcNameList.get(i));
+            System.out.printf("%2d: %s\n", i + 1, funcNameList.get(i));
         }
         return enterInt("Select a function: ", 1, funcNameList.size());
     }

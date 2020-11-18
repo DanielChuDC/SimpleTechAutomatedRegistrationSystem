@@ -240,6 +240,31 @@ public class TablePrinter {
 	}
 
 	/**
+	 * Print course list in a table manner.
+	 * <p>
+	 * A header is required to be printed
+	 * <p>
+	 * Each row contains the course code, school, AU and course name of a course.
+	 *
+	 * @param indexList the course list to be printed.
+	 */
+	public void printCourseIndexList(Iterable<CourseIndex> indexList) {
+		final String TABLE_FORMAT = "%-10s | %-10s | %-10s | %-10s\n";
+		System.out.printf(TABLE_FORMAT, "Index", "Course", "Vacancy", "Max Vcc");
+		boolean printed = false;
+		printBreakLine();
+		for (CourseIndex index : indexList) {
+			System.out.printf(TABLE_FORMAT, index.getIndexNo(), index.getCourse().getCourseCode(),
+					index.getAvailableVacancy(), index.getMaxVacancy());
+			printed = true;
+		}
+		if (!printed) {
+			System.out.println(EMPTY_TABLE_MSG);
+		}
+		printBreakLine();
+	}
+
+	/**
 	 * Print a break line
 	 */
 	public void printBreakLine() {

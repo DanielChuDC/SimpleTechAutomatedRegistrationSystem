@@ -3,6 +3,7 @@ package cx2002grp2.stars.functions;
 import java.security.AccessControlException;
 import java.util.Objects;
 
+import cx2002grp2.stars.CourseAllocator.Result;
 import cx2002grp2.stars.database.CourseDB;
 import cx2002grp2.stars.database.CourseIndexDB;
 import cx2002grp2.stars.database.UserDB;
@@ -50,21 +51,107 @@ public class EditCourseIndex extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Edit Course Indexes";
+        return "Manage Course Indexes";
     }
 
     @Override
     protected void implementation(User user) {
-        int funcNo = selectFunction("Create Course Index", "Edit Course Index", "Delete Course Index");
-        switch (funcNo) {
-            case 1:
-                addCourseIndex(user);
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
+        tbPrinter().printBreakLine("<<< Course Index Manager >>>", '-');
+        while (true) {
+            int funcNo = selectFunction("Print All Indexes", "Print Indexes of Course", "Create Course Index",
+                    "Edit Course Index", "Delete Course Index", "Leave Course Index Manager");
+            switch (funcNo) {
+                case 1:
+                    tbPrinter().printCourseIndexList(CourseIndexDB.getDB());
+                    break;
+                case 2:
+                    printIndexOfCourse(user);
+                    break;
+                case 3:
+                    addCourseIndex(user);
+                    break;
+                case 4:
+                    editCourseIndex(user);
+                    break;
+                case 5:
+                    deleteCourseIndex(user);
+                    break;
+                case 6:
+                    return;
+            }
         }
+    }
+
+    /**
+     * Ask user to enter course.
+     * <p>
+     * Existence of course will be checked.
+     * 
+     * @param hintingMsg hinting message to be printed before asking user to enter
+     *                   course code.
+     * @return the course selected by the user. If user fail to select a course,
+     *         return null.
+     */
+    private Course enterCourse(String hintingMsg) {
+        // Input course
+        Course course = null;
+        while (true) {
+            System.out.println(hintingMsg);
+            String courseCode = sc().nextLine();
+            course = CourseDB.getDB().getByKey(courseCode);
+            if (course == null) {
+                System.out.println("Course code does not exist.");
+                if (!askYesNo("Try again?")) {
+                    return null;
+                }
+            } else {
+                break;
+            }
+        }
+        return course;
+    }
+
+    /**
+     * Ask user to enter course index.
+     * <p>
+     * Existence of course index will be checked.
+     * 
+     * @param hintingMsg hinting message to be printed before asking user to enter
+     *                   course index number.
+     * @return the course index selected by the user. If user fail to select a
+     *         course index, return null.
+     */
+    private CourseIndex enterIndex(String hintingMsg) {
+        CourseIndex index = null;
+
+        while (true) {
+            System.out.println(hintingMsg);
+            String indexNo = sc().nextLine().trim();
+            index = CourseIndexDB.getDB().getByKey(indexNo);
+            if (index == null) {
+                System.out.println("Course index does not exist.");
+                if (!askYesNo("Try again?")) {
+                    return null;
+                }
+            } else {
+                break;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Print the index under course selected by user
+     * 
+     * @param user the user of this function.
+     */
+    private void printIndexOfCourse(User user) {
+        // Input course
+        Course course = enterCourse("Enter the course code of the indexes to be printed:");
+        if (course == null) {
+            return;
+        }
+        tbPrinter().printCourseIndexList(course.getIndexList());
     }
 
     /**
@@ -74,27 +161,12 @@ public class EditCourseIndex extends AbstractFunction {
      */
     private void addCourseIndex(User user) {
         // Input course
-        Course course;
-        while (true) {
-            System.out.println("Enter the course code under with the new index to be added:");
-            String courseCode = sc().nextLine();
-            course = CourseDB.getDB().getByKey(courseCode);
-            if (course == null) {
-                System.out.println("Course code does not exist.");
-                if (!askYesNo("Try again?")) {
-                    return;
-                }
-            } else {
-                break;
-            }
+        Course course = enterCourse("Enter the course code under which the new index to be added:");
+        if (course == null) {
+            return;
         }
 
-        while (true) {
-            addCourseIndex(user, course);
-            if (!askYesNo("Add another index for course " + course.getCourseCode() + "?")) {
-                return;
-            }
-        }
+        addCourseIndex(user, course);
     }
 
     /**
@@ -103,20 +175,9 @@ public class EditCourseIndex extends AbstractFunction {
      * @param user the user of this function
      */
     private void deleteCourseIndex(User user) {
-        CourseIndex index;
-
-        while (true) {
-            System.out.println("Enter the course index to be deleted:");
-            String indexNo = sc().nextLine().trim();
-            index = CourseIndexDB.getDB().getByKey(indexNo);
-            if (index == null) {
-                System.out.println("Course index does not exist.");
-                if (!askYesNo("Try again?")) {
-                    return;
-                }
-            } else {
-                break;
-            }
+        CourseIndex index = enterIndex("Enter the course index to be deleted:");
+        if (index == null) {
+            return;
         }
 
         System.out.println("The index to be deleted: ");
@@ -126,7 +187,7 @@ public class EditCourseIndex extends AbstractFunction {
         System.out.println("Deleting an index will results in all the registrations under it being deleted.");
         tbPrinter().printBreakLine("", '=');
 
-        if (!askYesNo("Confirm delete index "+index.getIndexNo()+"?")) {
+        if (!askYesNo("Confirm delete index " + index.getIndexNo() + "?")) {
             System.out.println("Deletion cancelled.");
         }
 
@@ -139,13 +200,12 @@ public class EditCourseIndex extends AbstractFunction {
      * 
      * @param user   the user trying to run the function
      * @param course the course under which the new index is add
-     * @return true if a new course index is added, otherwise, return false.
      * @throws NullPointerException     if any argument is null
      * @throws IllegalArgumentException if any argument does not exist in the
      *                                  database
      * @throws AccessControlException   if the user have no access to this function.
      */
-    public boolean addCourseIndex(User user, Course course) {
+    public void addCourseIndex(User user, Course course) {
         Objects.requireNonNull(user);
         Objects.requireNonNull(course);
 
@@ -160,45 +220,150 @@ public class EditCourseIndex extends AbstractFunction {
             throw new AccessControlException("User " + user + " has not access to function: " + name());
         }
 
-        System.out.printf("Creating new index under course:\n%s: %s\n", course.getCourseCode(), course.getCourseName());
-
-        String indexNo;
         while (true) {
-            System.out.print("Enter new index No.: ");
-            indexNo = sc().nextLine().trim();
+            System.out.printf("Creating new index under course:\n%s: %s\n\n", course.getCourseCode(),
+                    course.getCourseName());
 
-            CourseIndex existingIndex = CourseIndexDB.getDB().getByKey(indexNo);
-            if (existingIndex != null) {
-                System.out.println("The following index already exist: ");
-                tbPrinter().printIndexAndSchedule(existingIndex);
-                if (!askYesNo("Enter another index?")) {
-                    return false;
+            String indexNo;
+            while (true) {
+                System.out.print("Enter new index No.: ");
+                indexNo = sc().nextLine().trim();
+
+                CourseIndex existingIndex = CourseIndexDB.getDB().getByKey(indexNo);
+                if (existingIndex != null) {
+                    System.out.println("The following index already exist: ");
+                    tbPrinter().printIndexAndSchedule(existingIndex);
+                    if (!askYesNo("Enter another index?")) {
+                        System.out.println("Index creation failed.");
+                        return;
+                    }
+                } else {
+                    break;
                 }
-            } else {
-                break;
+
+            }
+            int maxVcc = enterInt("Enter max vacancy of course index: ", 0, Integer.MAX_VALUE);
+
+            System.out.println();
+            System.out.println("The following course index will be created: ");
+            System.out.printf("Course Code: %s, Index: %s, Max Vcc: %d\n", course.getCourseCode(), indexNo, maxVcc);
+
+            if (!askYesNo("Confirm creation?")) {
+                System.out.println("Index creation cancelled.");
+                System.out.println();
+                if (askYesNo("Restart index creation under course " + course.getCourseCode() + "?")) {
+                    continue;
+                }
+                return;
             }
 
+            try {
+                CourseIndex newIndex = new CourseIndex(indexNo, course, maxVcc);
+                CourseIndexDB.getDB().addItem(newIndex);
+            } catch (Exception e) {
+                System.out.println(e.getLocalizedMessage());
+                System.out.println("Index creation failed.");
+                return;
+            }
+
+            System.out.println("Index " + indexNo + " created");
+
+            if (!askYesNo("Add another index for course " + course.getCourseCode() + "?")) {
+                return;
+            }
         }
-        int maxVcc = enterInt("Enter max vacancy of course index: ", 0, Integer.MAX_VALUE);
+    }
 
-        System.out.println("The following course index will be created: ");
-        System.out.printf("Course Code: %s, Index: %s, Max Vcc: %d\n", course.getCourseCode(), indexNo, maxVcc);
+    /**
+     * Interact with user to edit the course index.
+     * 
+     * @param user the user of this function.
+     */
+    private void editCourseIndex(User user) {
 
-        if (!askYesNo("Confirm?")) {
-            System.out.println("Index creation cancelled.");
-            return false;
+        CourseIndex index = enterIndex("Please enter the index to be edited:");
+        if (index == null) {
+            return;
         }
 
-        try {
-            CourseIndex newIndex = new CourseIndex(indexNo, course, maxVcc);
-            CourseIndexDB.getDB().addItem(newIndex);
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println("Index creation failed.");
-            return false;
+        while (true) {
+            tbPrinter().printBreakLine("<<< Index Editor >>>", '-');
+            System.out.println("Index being edit: " + index.getIndexNo());
+            int funcSelect = selectFunction("Print Index Details and Schedules", "Edit Max Vacancy", "Add Schedule",
+                    "Delete Schedule", "Edit Schedule", "Leave Index Editor");
+            switch (funcSelect) {
+                case 1:
+                    tbPrinter().printIndexAndSchedule(index);
+                    break;
+                case 2:
+                    editMaxVcc(user, index);
+                    break;
+                case 3:
+                    addSchedule(user, index);
+                    break;
+                case 4:
+                    delSchedule(user, index);
+                    break;
+                case 5:
+                    editSchedule(user, index);
+                    break;
+                case 6:
+                    return;
+            }
         }
 
     }
 
+    /**
+     * Interact with use for changing max vacancy of an index
+     * 
+     * @param user  the user running the function
+     * @param index the index whose max vacancy to be changed.
+     */
+    private void editMaxVcc(User user, CourseIndex index) {
+        int registeredCount = index.getRegisteredList().size();
+
+        System.out.printf("Current Registered Student / Max Vcc: %d / %d\n", registeredCount, index.getMaxVacancy());
+
+        int newVcc = enterInt("Enter new max vacancy: ", 0, Integer.MAX_VALUE);
+
+        Result result = allocator().changeMaxVacancy(index, newVcc);
+        if (result.isSuccessful()) {
+            System.out.println("Max vacancy changed.");
+        } else {
+            System.out.println(result.message());
+        }
+    }
+
+    /**
+     * Interact with user for adding schedule for given index.
+     * 
+     * @param user  the user of this function.
+     * @param index the index to add schedule.
+     */
+    private void addSchedule(User user, CourseIndex index) {
+        System.out.println("Current Schedule:");
+        tbPrinter().printIndexAndSchedule(index);
+        
+    }
+
+    /**
+     * Interact with user for deleting schedule from given index.
+     * 
+     * @param user  the user of this function.
+     * @param index the index to add schedule.
+     */
+    private void delSchedule(User user, CourseIndex index) {
+
+    }
+
+    /**
+     * Interact with user for editing schedule of given index.
+     * 
+     * @param user  the user of this function.
+     * @param index the index to add schedule.
+     */
+    private void editSchedule(User user, CourseIndex index) {
+
+    }
 }
