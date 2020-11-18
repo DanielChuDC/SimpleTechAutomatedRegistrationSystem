@@ -170,18 +170,18 @@ public class TablePrinter {
 	/**
 	 * Print the table for a set of schedules.
 	 * 
-	 * @param regSet the set of schedules to be printed.
+	 * @param scheSet the set of schedules to be printed.
 	 */
-	public void printScheduleList(Collection<Schedule> regSet) {
+	public void printScheduleList(Collection<Schedule> scheSet) {
 		final String TABLE_FORMAT = "%-3s | %-4s | %-10s | %-3s | %-11s | %-15s | %-15s | %-10s\n";
 		System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Week", "Remark");
 
 		printBreakLine();
-		if (regSet.isEmpty()) {
+		if (scheSet.isEmpty()) {
 			System.out.printf(EMPTY_TABLE_MSG);
 		} else {
 			int rowNumber = 0;
-			for (Schedule schedule : regSet) {
+			for (Schedule schedule : scheSet) {
 				System.out.printf(TABLE_FORMAT, ++rowNumber, schedule.getClassType(), schedule.getGroup(),
 						schedule.getDayOfWeek().toString().substring(0, 3),
 						schedule.getBeginTime().format(TIME_FORMATTER) + "-"

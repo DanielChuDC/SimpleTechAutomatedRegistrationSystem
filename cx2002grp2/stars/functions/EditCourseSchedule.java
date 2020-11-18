@@ -178,28 +178,88 @@ public class EditCourseSchedule extends AbstractFunction {
      * @param end          the begin time of the class
      * @param day          the day of the class
      * @param teachWk      the teaching week of the class
-     * @return whether time slot clashing happens
+     * @return the schedule that clash with the given time interval. If no clash
+     *         happens, return null
      */
-    private boolean checkClash(Iterable<Schedule> scheduleList, Schedule except, LocalTime begin, LocalTime end,
+    private Schedule checkClash(Iterable<Schedule> scheduleList, Schedule except, LocalTime begin, LocalTime end,
             DayOfWeek day, Set<Integer> teachWk) {
-                
-		// if (s1.getDayOfWeek() != s2.getDayOfWeek()) {
-		// 	return false;
-		// }
 
-		// if (s1.getBeginTime().compareTo(s2.getEndTime()) >= 0 || s2.getBeginTime().compareTo(s1.getEndTime()) >= 0) {
-		// 	return false;
-		// }
+        for (Schedule s1 : scheduleList) {
 
-		// Set<Integer> weekIntersection = new HashSet<>(s1.teachingWeeks());
-		// weekIntersection.retainAll(s2.teachingWeeks());
-		// if (weekIntersection.isEmpty()) {
-		// 	return false;
-		// }
-		
-		// return true;
-        return false;
+            if (s1.getDayOfWeek() != day) {
+                continue;
+            }
+
+            if (s1.getBeginTime().compareTo(end) >= 0 || begin.compareTo(s1.getEndTime()) >= 0) {
+                continue;
+            }
+
+            Set<Integer> weekIntersection = new HashSet<>(s1.teachingWeeks());
+            weekIntersection.retainAll(teachWk);
+            if (weekIntersection.isEmpty()) {
+                continue;
+            }
+
+            return s1;
+        }
+
+        return null;
     };
+
+    /**
+     * Ask user to edit the time information of a schedule
+     * 
+     * @param initialSchedule the schedule being edited
+     * @return true if the schedule is edited. Otherwise, return false.
+     */
+    private boolean editTimeInfo(Schedule initialSchedule) {
+        CourseIndex index = initialSchedule.getCourseIndex();
+        DayOfWeek dayOfWeek;
+        LocalTime beginTime;
+        LocalTime endTime;
+        Set<Integer> teachWk;
+
+        while (true) {
+            System.out.println();
+            beginTime = enterTime("Enter the begin time of schedule: ");
+            endTime = enterTime("Enter the end time of schedule: ");
+
+            if (beginTime.compareTo(endTime) >= 0) {
+                System.out.println("Begin time must be earlier than end time.");
+                if (!askYesNo("Enter time again?")) {
+                    System.out.println("Schedule addition terminated.");
+                    return false;
+                }
+            }
+
+            dayOfWeek = selectEnum("Choose the day of new schedule: ", DayOfWeek.values());
+
+            teachWk = enterTeachingWk(initialSchedule.teachingWeeks());
+
+            Schedule clashingSchedule = checkClash(index.getScheduleList(), initialSchedule, beginTime, endTime,
+                    dayOfWeek, teachWk);
+
+            if (clashingSchedule == null) {
+                break;
+            }
+
+            System.out.println("The entered class time clashes with the following schedule: ");
+            tbPrinter().printScheduleList(List.of(clashingSchedule));
+
+            if (!askYesNo("Enter time info again?")) {
+                System.out.println("Schedule creation terminated.");
+                return false;
+            }
+        }
+
+        initialSchedule.setBeginTime(beginTime);
+        initialSchedule.setEndTime(endTime);
+        initialSchedule.setDayOfWeek(dayOfWeek);
+        initialSchedule.teachingWeeks().clear();
+        initialSchedule.teachingWeeks().addAll(teachWk);
+
+        return true;
+    }
 
     /**
      * Interact with user for adding schedule for given index.
@@ -208,52 +268,48 @@ public class EditCourseSchedule extends AbstractFunction {
      * @param index the index to add schedule.
      */
     private void addSchedule(User user, CourseIndex index) {
-        System.out.println("Current Schedule:");
-        tbPrinter().printIndexAndSchedule(index);
 
         ClassType classType;
         String group;
-        DayOfWeek dayOfWeek;
         String venue;
-        LocalTime beginTime;
-        LocalTime endTime;
         String remark;
-        Set<Integer> teachWk;
 
         while (true) {
-            beginTime = enterTime("Enter the begin time of schedule: ");
-            endTime = enterTime("Enter the end time of schedule: ");
+            System.out.println("Current Schedule:");
+            tbPrinter().printIndexAndSchedule(index);
 
-            if (beginTime.compareTo(endTime) >= 0) {
-                System.out.println("Begin time cannot be later than end time.");
-                if (!askYesNo("Enter time again?")) {
-                    System.out.println("Schedule addition terminated.");
-                    return;
-                }
+            Schedule schedule = new Schedule(index, null, null, null, null, null, null, null);
+
+            if (!editTimeInfo(schedule)) {
+                return;
             }
 
-            dayOfWeek = selectEnum("Choose the day of new schedule: ", DayOfWeek.values());
+            classType = selectEnum("Choose class type: ", ClassType.values());
+            schedule.setClassType(classType);
 
-            teachWk = enterTeachingWk(Set.of());
+            System.out.print("Enter the class group: ");
+            group = sc().nextLine();
+            schedule.setGroup(group);
 
-            break;
+            System.out.print("Enter the class venue: ");
+            venue = sc().nextLine();
+            schedule.setVenue(venue);
+
+            System.out.print("Enter any remark: ");
+            remark = sc().nextLine();
+            schedule.setRemark(remark);
+
+            System.out.println("The following schedule will be added: ");
+            tbPrinter().printScheduleList(List.of(schedule));
+
+            if (!askYesNo("Confirm addition?")) {
+                schedule.setCourseIndex(null);
+            }
+
+            if (!askYesNo("Add another schedule under index " + index.getIndexNo() + "?")) {
+                return;
+            }
         }
-
-        classType = selectEnum("Choose class type: ", ClassType.values());
-
-        System.out.print("Enter the class group: ");
-        group = sc().nextLine();
-
-        System.out.print("Enter the class venue: ");
-        venue = sc().nextLine();
-
-        System.out.print("Enter any remark: ");
-        remark = sc().nextLine();
-
-        Schedule schedule = new Schedule(index, classType, group, dayOfWeek, venue, remark, beginTime, endTime);
-        schedule.teachingWeeks().addAll(teachWk);
-
-
 
     }
 
@@ -261,9 +317,34 @@ public class EditCourseSchedule extends AbstractFunction {
      * Interact with user for deleting schedule from given index.
      * 
      * @param user  the user of this function.
-     * @param index the index to add schedule.
+     * @param index the index to delete schedule.
      */
     private void delSchedule(User user, CourseIndex index) {
+        if (index.getScheduleList().isEmpty()) {
+            System.out.println("The index has no schedule, deletion cannot be performed.");
+            return;
+        }
+
+        while (true) {
+            System.out.println("Current Schedule:");
+            tbPrinter().printIndexAndSchedule(index);
+
+            int scheduleSelection = enterInt("Enter the row No. of schedule to be deleted: ", 1,
+                    index.getScheduleList().size());
+
+            Schedule schedule = index.getScheduleList().get(scheduleSelection);
+
+            System.out.println("The following schedule will be delete: ");
+            tbPrinter().printScheduleList(List.of(schedule));
+
+            if (askYesNo("Confirm deletion?")) {
+                schedule.setCourseIndex(null);
+            }
+
+            if (!askYesNo("Delete another schedule under index " + index.getIndexNo() + "?")) {
+                return;
+            }
+        }
 
     }
 
