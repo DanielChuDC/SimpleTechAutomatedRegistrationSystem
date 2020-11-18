@@ -26,7 +26,7 @@ import cx2002grp2.stars.dataitem.Schedule;
  * between the deleted course index and its course will be cut.
  * </ul>
  */
-public class CourseIndexDB extends AbstractSingleKeyDatabase<String, CourseIndex> {
+public class CourseIndexDB extends CaseInsensitiveStringKeyDB<CourseIndex> {
 
     /**
      * database file that course index database is storing

@@ -74,6 +74,7 @@ public interface SingleKeyDatabase<KeyType extends Comparable<KeyType>, ItemType
      * The key of the item won't be changed in two cases:
      * <ol>
      * <li>The item does not exist in the database.
+     * <li>The new key already exists in the database.
      * <li>The original key value is the same to the new key value, that is,
      * oldKey.equals(newKey) is true.
      * </ol>

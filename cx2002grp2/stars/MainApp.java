@@ -108,7 +108,7 @@ public class MainApp implements OnExitSubject {
         StudentDB.getDB();
         RegistrationDB.getDB();
 
-        // signal on exit when the virtual machine is terminating.
+        // signal on exit when the JVM is terminating.
         Runtime.getRuntime().addShutdownHook(new Thread(this::signalOnExit));
 
         initialized = true;

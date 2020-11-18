@@ -23,8 +23,8 @@ import cx2002grp2.stars.dataitem.SingleKeyItem;
  * <li>Get size of database
  * <li>Support iteration
  * <li>Implement interface {@link OnKeyChangedSubject
- * OnKeyChangedSubject&lt;KeyType, ItemType&gt;} and the corresponding
- * signaling method
+ * OnKeyChangedSubject&lt;KeyType, ItemType&gt;} and the corresponding signaling
+ * method
  * {@link AbstractSingleKeyDatabase#signalKeyChanged(Comparable, SingleKeyItem)}
  * </ul>
  */
@@ -123,6 +123,10 @@ public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyTy
             return false;
         }
 
+        if (hasKey(newKey)) {
+            return false;
+        }
+
         ItemType item = getByKey(oldKey);
 
         if (item == null) {
@@ -147,7 +151,8 @@ public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyTy
     }
 
     /**
-     * A collection of observer that are observing on this database for the key changing events.
+     * A collection of observer that are observing on this database for the key
+     * changing events.
      */
     private Collection<OnKeyChangedObserver<? super KeyType, ? super ItemType>> onKeyChangedObservers = new HashSet<>();
 
@@ -169,5 +174,25 @@ public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyTy
      */
     protected void signalKeyChanged(KeyType oldKey, ItemType newItem) {
         onKeyChangedObservers.forEach(ob -> ob.doOnKeyChange(oldKey, newItem));
+    }
+
+    /**
+     * Get the data map used by the database.
+     * 
+     * @return the data map used by the database internally
+     */
+    protected Map<KeyType, ItemType> getDataMap() {
+        return data;
+    }
+
+    /**
+     * Set the data map used by the database internally
+     * 
+     * @param newMap the new data map.
+     * @throws NullPointerException if the input map is null
+     */
+    protected void setDataMap(Map<KeyType, ItemType> newMap) {
+        Objects.requireNonNull(newMap);
+        data = newMap;
     }
 }
