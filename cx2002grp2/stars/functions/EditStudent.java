@@ -153,7 +153,7 @@ public class EditStudent extends AbstractFunction {
       }
 
       // print details of student
-      System.out.println("Current details of the student:");
+      System.out.println("Selected student:");
       tbPrinter().printStudentBrief(student);
 
       // Ask what to edit
@@ -204,7 +204,7 @@ public class EditStudent extends AbstractFunction {
       }
 
       // print details of student (tblPrinter().printStudentBrief())
-      System.out.println("You selected student:");
+      System.out.println("Selected student:");
       tbPrinter().printStudentBrief(student);
     
       // confirm deletion
