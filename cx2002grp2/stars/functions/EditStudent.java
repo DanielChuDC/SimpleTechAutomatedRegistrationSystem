@@ -221,7 +221,34 @@ public class EditStudent extends AbstractFunction {
     private boolean editUsername(Student student) {
       tbPrinter().printBreakLine();
       System.out.println("You selected to edit student's username.");
-      // change key
+
+      while (true) {
+            System.out.println("Enter new username:");
+            String newUsername = this.sc().nextLine();
+
+            System.out.println("Old username: " + student.getUsername());
+            System.out.println("New username: " + newUsername);
+            if (this.askForApplyChange()) {
+                if (UserDB.getDB().changeKey(student, newUsername)) {
+                    break;
+                } else {
+                    System.out.println("Action Failed. There is duplicated username in Database.");
+                    if (askYesNo("Try again?"))
+                        continue;
+                    else
+                        return false;
+                }
+            } else {
+                System.out.println("Action Cancelled.");
+                if (askYesNo("Try again?"))
+                    continue;
+                else
+                    return false;
+            }
+        }
+
+        return true;
+      
     }
 
     private boolean editFullName(Student student) {
