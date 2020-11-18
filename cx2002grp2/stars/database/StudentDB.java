@@ -24,8 +24,8 @@ import cx2002grp2.stars.dataitem.User;
  * that conflicts with an existing username in {@link UserDB user database}, the
  * attempt of changing will be rejected.
  * <li>If the client try to add a student that is found to be not a student in
- * the {@link UserDB user database}, in another word, the domain of the user found is
- * not {@link User.Domain#STUDENT}, then exception will be thrown.
+ * the {@link UserDB user database}, in another word, the domain of the user
+ * found is not {@link User.Domain#STUDENT}, then exception will be thrown.
  * </ul>
  * 
  * @see UserDB
@@ -156,10 +156,10 @@ public class StudentDB extends CaseInsensitiveStringKeyDB<Student> {
 	 * <p>
 	 * Changing the key of a student will affect a user database too. Therefore, the
 	 * key changing may happen only if the key can change in user database. That is,
-	 * the third case when the key won't change:
-	 * <ol start="3">
+	 * the forth case when the key won't change:
+	 * <ol start="4">
 	 * <li>The new key of student conflicts with an existing key in the
-	 * {@link UserDB user database }
+	 * {@link UserDB user database}
 	 * </ol>
 	 */
 	@Override

@@ -123,6 +123,10 @@ public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyTy
             return false;
         }
 
+        if (hasKey(newKey)) {
+            return false;
+        }
+
         ItemType item = getByKey(oldKey);
 
         if (item == null) {
