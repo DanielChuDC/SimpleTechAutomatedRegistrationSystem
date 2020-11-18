@@ -57,7 +57,8 @@ public class EditStudent extends AbstractFunction {
     @Override
     protected void implementation(User user) {
         // ask user if he wants to add, update or delete student (input 1, 2 or 3)
-
+        int n = selectFunction("Add Student", "Edit Student", "Delete Student");
+        System.out.println("You selected "+n);
         // 
 
     }
