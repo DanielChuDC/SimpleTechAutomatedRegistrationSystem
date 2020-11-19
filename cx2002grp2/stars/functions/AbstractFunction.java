@@ -117,7 +117,7 @@ public abstract class AbstractFunction implements Function {
      * @param hintMsg hinting message to be print before asking.
      * @return true if user enter yes, false if user enter no.
      */
-    boolean askYesNo(String hintMsg) {
+    protected boolean askYesNo(String hintMsg) {
         System.out.println(hintMsg);
         while (true) {
             System.out.print("Please enter yes(y) or no(n): ");
@@ -201,7 +201,7 @@ public abstract class AbstractFunction implements Function {
 
         while (true) {
             System.out.print(hintMsg);
-            String input = stdin.nextLine();
+            String input = stdin.nextLine().trim();
 
             try {
                 ret = Integer.parseInt(input);
