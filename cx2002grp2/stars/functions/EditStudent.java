@@ -63,7 +63,12 @@ public class EditStudent extends AbstractFunction {
         switch (n) {
           case 1:
             System.out.println("You selected to add student.");
-            if (addStudent()) System.out.println("Successfully added student.");
+            if (addStudent()) {
+              // print out all students
+              tbPrinter().printBreakLine();
+              tbPrinter().printStudentList(StudentDB.getDB());
+              System.out.println("Successfully added student."); 
+            }
             return;
           case 2:
             System.out.println("You selected to edit student.");
@@ -110,10 +115,10 @@ public class EditStudent extends AbstractFunction {
       String fullName = sc().nextLine();
       System.out.println("Enter nationality of student: ");
       String nationality = sc().nextLine();
-      System.out.println("Enter student's year of study: ");
-      int yearOfStudy = sc().nextInt();
       System.out.println("Enter student's programme: ");
       String programme = sc().nextLine();
+      System.out.println("Enter student's year of study: ");
+      int yearOfStudy = sc().nextInt();
       
       // confirm
       if (!askYesNo("Confirm to add student?")) {
@@ -129,6 +134,7 @@ public class EditStudent extends AbstractFunction {
       StudentDB.getDB().addItem(newStudent);
 
       // Print details of created student
+      System.out.println("Created Student:");
       tbPrinter().printStudentBrief(newStudent);
       return true;
       
