@@ -165,6 +165,7 @@ public class EditCourseSchedule extends AbstractFunction {
     /**
      * Ask user to enter teaching week.
      * 
+     * @param initialSet the initial teaching week set
      * @return the teaching weeks selected by user.
      */
     private Set<Integer> enterTeachingWk(Collection<Integer> initialSet) {
@@ -252,6 +253,7 @@ public class EditCourseSchedule extends AbstractFunction {
     /**
      * Ask user to edit the time information of a schedule
      * 
+     * @param index index of the schedule.
      * @param initialSchedule the schedule being edited
      * @return true if the schedule is edited. Otherwise, return false.
      */

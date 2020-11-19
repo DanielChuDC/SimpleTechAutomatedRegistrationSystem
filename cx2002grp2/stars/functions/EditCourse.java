@@ -254,9 +254,10 @@ public class EditCourse extends AbstractFunction {
      * 
      * @param course the course to be set a new AU.
      * @return true if AU is successfully edited.
-     * @deprecated AU of a course is supposed to be fix. Changing AU of a course may
-     *             results in the change of course allocation, since max AU limit is
-     *             considered when allocating course.
+     * @deprecated AU of a course is supposed to be fixed. Changing AU of a course
+     *             may results in the change of course allocation, since max AU
+     *             limit is considered when allocating course. However, it is not
+     *             supported by our allocation system.
      */
     @Deprecated
     private boolean editAU(Course course) {

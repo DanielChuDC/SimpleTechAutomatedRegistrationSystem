@@ -67,8 +67,8 @@ public class TablePrinter {
 	public void printStudentAndReg(Student student) {
 		final String TABLE_FORMAT = "%-20s | %-20s | %-20s | %-20s\n";
 
-		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(), "Total Registered AU: " + roundedAu(student.getRegisteredAU()),
-				"Full Name: " + student.getFullName());
+		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(),
+				"Total Registered AU: " + roundedAu(student.getRegisteredAU()), "Full Name: " + student.getFullName());
 
 		System.out.printf(TABLE_FORMAT, "Course Code", "Course Index", "Registration State", "AU");
 		printBreakLine();
@@ -192,10 +192,11 @@ public class TablePrinter {
 		}
 		printBreakLine();
 	}
+
 	/**
 	 * Print the table for a schedules.
 	 * 
-	 * @param scheSet the set of schedules to be printed.
+	 * @param sche the schedules to be printed.
 	 */
 	public void printSchedule(Schedule sche) {
 		printScheduleList(List.of(sche));
