@@ -1,8 +1,10 @@
 package cx2002grp2.stars.database;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.SortedMap;
@@ -247,7 +249,7 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
         }
 
         Pair<String, String> lowerBound = new Pair<>(courseCode, "");
-        Pair<String, String> upperBound = new Pair<>(courseCode, "~");
+        Pair<String, String> upperBound = new Pair<>(courseCode, "\u7fff");
         Map<Pair<String, String>, Registration> wanted = regMap.subMap(lowerBound, upperBound);
 
         Collection<Registration> ret = wanted.values();
@@ -281,7 +283,11 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
      * @param deletedStudent the deleted student.
      */
     private void doOnStudentDeleted(Student deletedStudent) {
-        deletedStudent.getRegistrationList().forEach(reg -> delItem(reg));
+        // Copy the indexes to avoid concurrent modification.
+        // That is, iterating the registration list while deleting registration from the
+        // registration list
+        List<Registration> regList =new ArrayList<>(deletedStudent.getRegistrationList());
+        regList.forEach(reg -> delItem(reg));
     }
 
     /**
@@ -290,7 +296,11 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
      * @param deletedIndex the deleted index.
      */
     private void doOnIndexDeleted(CourseIndex deletedIndex) {
-        deletedIndex.getAllRegistration().forEach(reg -> delItem(reg));
+        // Copy the indexes to avoid concurrent modification.
+        // That is, iterating the registration list while deleting registration from the
+        // registration list
+        List<Registration> regList =new ArrayList<>(deletedIndex.getAllRegistration());
+        regList.forEach(reg -> delItem(reg));
     }
 
     /**

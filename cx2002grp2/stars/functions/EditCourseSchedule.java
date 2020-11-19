@@ -170,14 +170,15 @@ public class EditCourseSchedule extends AbstractFunction {
     private Set<Integer> enterTeachingWk(Collection<Integer> initialSet) {
         int week = 0;
         Set<Integer> teachWk = new TreeSet<>(initialSet);
-        List<String> options = List.of("Week 1~13", "All even weeks", "All odd weeks", "Enter one week to add",
-                "Enter one week to remove", "Clean all Selected weeks", "Confirm week Selection");
+        List<String> options = List.of("Add week 1~13", "Add all even weeks", "Add all odd weeks",
+                "Enter one week to add", "Enter one week to remove", "Clean all Selected weeks",
+                "Confirm week s2election");
 
         while (true) {
             System.out.println();
             System.out.println("Current selected teaching weeks: " + teachWk);
 
-            System.out.println("Select teaching week(s) to add: ");
+            System.out.println("Select operation on teaching week(s): ");
             int weekSelection = selectFunction(options);
 
             switch (weekSelection) {
@@ -313,8 +314,10 @@ public class EditCourseSchedule extends AbstractFunction {
         String venue;
         String remark;
 
-        System.out.println("Current Schedule:");
+        System.out.println("Current schedule:");
         tbPrinter().printIndexAndSchedule(index);
+
+        System.out.println("Creating new schedule:");
 
         Schedule schedule = new Schedule(null, null, null, null, null, null, null, null);
 
