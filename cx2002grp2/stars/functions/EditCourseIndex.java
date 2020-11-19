@@ -83,6 +83,85 @@ public class EditCourseIndex extends AbstractFunction {
     }
 
     /**
+     * Add course index under the given course.
+     * 
+     * @param user   the user trying to run the function
+     * @param course the course under which the new index is add
+     * @throws NullPointerException     if any argument is null
+     * @throws IllegalArgumentException if any argument does not exist in the
+     *                                  database
+     * @throws AccessControlException   if the user have no access to this function.
+     */
+    public void addCourseIndex(User user, Course course) {
+        Objects.requireNonNull(user);
+        Objects.requireNonNull(course);
+
+        if (!UserDB.getDB().hasItem(user)) {
+            throw new IllegalArgumentException("The input user does not exist in the database.");
+        }
+        if (!CourseDB.getDB().hasItem(course)) {
+            throw new IllegalArgumentException("The input course does not exist in the database.");
+        }
+
+        if (!accessible(user)) {
+            throw new AccessControlException("User " + user + " has not access to function: " + name());
+        }
+
+        while (true) {
+            System.out.printf("Creating new index under course:\n%s: %s\n\n", course.getCourseCode(),
+                    course.getCourseName());
+
+            String indexNo;
+            while (true) {
+                System.out.print("Enter new index No.: ");
+                indexNo = sc().nextLine().trim();
+
+                CourseIndex existingIndex = CourseIndexDB.getDB().getByKey(indexNo);
+                if (existingIndex != null) {
+                    System.out.println("The following index already exist: ");
+                    tbPrinter().printIndexAndSchedule(existingIndex);
+                    if (!askYesNo("Enter another index?")) {
+                        System.out.println("Index creation failed.");
+                        return;
+                    }
+                } else {
+                    break;
+                }
+
+            }
+            int maxVcc = enterInt("Enter max vacancy of course index: ", 0, Integer.MAX_VALUE);
+
+            System.out.println();
+            System.out.println("The following course index will be created: ");
+            System.out.printf("Course Code: %s, Index: %s, Max Vcc: %d\n", course.getCourseCode(), indexNo, maxVcc);
+
+            if (!askYesNo("Confirm creation?")) {
+                System.out.println("Index creation cancelled.");
+                System.out.println();
+                if (askYesNo("Restart index creation under course " + course.getCourseCode() + "?")) {
+                    continue;
+                }
+                return;
+            }
+
+            try {
+                CourseIndex newIndex = new CourseIndex(indexNo, course, maxVcc);
+                CourseIndexDB.getDB().addItem(newIndex);
+            } catch (Exception e) {
+                System.out.println(e.getLocalizedMessage());
+                System.out.println("Index creation failed.");
+                return;
+            }
+
+            System.out.println("Index " + indexNo + " created");
+
+            if (!askYesNo("Add another index for course " + course.getCourseCode() + "?")) {
+                return;
+            }
+        }
+    }
+
+    /**
      * Ask user to enter course.
      * <p>
      * Existence of course will be checked.
@@ -193,85 +272,6 @@ public class EditCourseIndex extends AbstractFunction {
 
         CourseIndexDB.getDB().delItem(index);
 
-    }
-
-    /**
-     * Add course index under the given course.
-     * 
-     * @param user   the user trying to run the function
-     * @param course the course under which the new index is add
-     * @throws NullPointerException     if any argument is null
-     * @throws IllegalArgumentException if any argument does not exist in the
-     *                                  database
-     * @throws AccessControlException   if the user have no access to this function.
-     */
-    public void addCourseIndex(User user, Course course) {
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(course);
-
-        if (!UserDB.getDB().hasItem(user)) {
-            throw new IllegalArgumentException("The input user does not exist in the database.");
-        }
-        if (!CourseDB.getDB().hasItem(course)) {
-            throw new IllegalArgumentException("The input course does not exist in the database.");
-        }
-
-        if (!accessible(user)) {
-            throw new AccessControlException("User " + user + " has not access to function: " + name());
-        }
-
-        while (true) {
-            System.out.printf("Creating new index under course:\n%s: %s\n\n", course.getCourseCode(),
-                    course.getCourseName());
-
-            String indexNo;
-            while (true) {
-                System.out.print("Enter new index No.: ");
-                indexNo = sc().nextLine().trim();
-
-                CourseIndex existingIndex = CourseIndexDB.getDB().getByKey(indexNo);
-                if (existingIndex != null) {
-                    System.out.println("The following index already exist: ");
-                    tbPrinter().printIndexAndSchedule(existingIndex);
-                    if (!askYesNo("Enter another index?")) {
-                        System.out.println("Index creation failed.");
-                        return;
-                    }
-                } else {
-                    break;
-                }
-
-            }
-            int maxVcc = enterInt("Enter max vacancy of course index: ", 0, Integer.MAX_VALUE);
-
-            System.out.println();
-            System.out.println("The following course index will be created: ");
-            System.out.printf("Course Code: %s, Index: %s, Max Vcc: %d\n", course.getCourseCode(), indexNo, maxVcc);
-
-            if (!askYesNo("Confirm creation?")) {
-                System.out.println("Index creation cancelled.");
-                System.out.println();
-                if (askYesNo("Restart index creation under course " + course.getCourseCode() + "?")) {
-                    continue;
-                }
-                return;
-            }
-
-            try {
-                CourseIndex newIndex = new CourseIndex(indexNo, course, maxVcc);
-                CourseIndexDB.getDB().addItem(newIndex);
-            } catch (Exception e) {
-                System.out.println(e.getLocalizedMessage());
-                System.out.println("Index creation failed.");
-                return;
-            }
-
-            System.out.println("Index " + indexNo + " created");
-
-            if (!askYesNo("Add another index for course " + course.getCourseCode() + "?")) {
-                return;
-            }
-        }
     }
 
     /**
