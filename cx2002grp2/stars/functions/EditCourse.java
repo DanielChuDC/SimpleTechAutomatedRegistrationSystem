@@ -1,9 +1,10 @@
 package cx2002grp2.stars.functions;
 
+import java.util.List;
+
 import cx2002grp2.stars.database.CourseDB;
 import cx2002grp2.stars.database.RegistrationDB;
 import cx2002grp2.stars.dataitem.Course;
-import cx2002grp2.stars.dataitem.Registration;
 import cx2002grp2.stars.dataitem.User;
 import cx2002grp2.stars.dataitem.User.Domain;
 
@@ -206,7 +207,7 @@ public class EditCourse extends AbstractFunction {
         this.tbPrinter().printBreakLine();
         System.out.println("You selected: AU");
         while (true) {
-            int AU = this.enterInt("Please input the AU of this course:", 1, 6);
+            int AU = this.enterInt("Please input the AU of this course: ", 1, 6);
 
             System.out.println("Old AU: " + (int) course.getAu());
             System.out.println("New AU: " + AU);
@@ -227,16 +228,20 @@ public class EditCourse extends AbstractFunction {
 
     private boolean editCourse() {
         System.out.println("You selected: Edit a Course");
-
+        
         System.out.println("Please input the Course Code:");
         String courseCode = this.sc().nextLine();
-
+        
         if (!CourseDB.getDB().hasKey(courseCode)) {
             System.out.println("The course code doesn't exist in the database. Please try again.");
             return false;
         }
 
         Course course = CourseDB.getDB().getByKey(courseCode);
+        
+        System.out.println("Current Course Info: ");
+        tbPrinter().printCourseList(List.of(course));
+
         System.out.println("Please select the attribute to edit:");
         System.out.println("1: course code");
         System.out.println("2: course name");
@@ -279,7 +284,7 @@ public class EditCourse extends AbstractFunction {
                     + "this course, including ALL course indexes, schedules and registrations!!!");
 
             System.out.println("Number of indexes under this course: " + deleted.getIndexList().size());
-            System.out.println("Number of registration under this course: "
+            System.out.println("Number of registrations under this course: "
                     + RegistrationDB.getDB().getRegOfCourseCode(deleted.getCourseCode(), false).size());
 
             if (this.askYesNo("Confirm deletion?")) {

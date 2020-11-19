@@ -52,7 +52,7 @@ public class User implements SingleKeyItem<String> {
     @Override
     public void setKey(String newKey) {
         Objects.requireNonNull(newKey);
-        username = newKey;
+        username = newKey.toUpperCase();
     }
 
     /**
