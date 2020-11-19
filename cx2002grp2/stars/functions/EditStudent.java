@@ -92,7 +92,7 @@ public class EditStudent extends AbstractFunction {
           System.out.println("Account with that username already exists.");
           if (askYesNo("Try again?")) continue;
           else return false;
-        }
+        } else break;
       }
 
       char[] passwordEntry = console.readPassword("Enter password of student: \n");
@@ -149,8 +149,8 @@ public class EditStudent extends AbstractFunction {
             System.out.println("Student account with that username does not exist.");
             if (askYesNo("Try again?")) continue;
             else return false;
+          } else break;
         }
-      }
 
       // print details of student
       System.out.println("Selected student:");
@@ -200,7 +200,7 @@ public class EditStudent extends AbstractFunction {
             System.out.println("Student account with that username does not exist.");
             if (askYesNo("Try again?")) continue;
             else return false;
-        }
+        } else break;
       }
 
       // print details of student (tblPrinter().printStudentBrief())
