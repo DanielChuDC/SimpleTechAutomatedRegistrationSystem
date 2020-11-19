@@ -47,16 +47,20 @@ public class CheckIndexInfo extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-        System.out.print("Please enter course index: ");
-        String rawIndex = this.sc().nextLine();
-
-        CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(rawIndex);
-        if (courseIndex == null) {
-            System.out.println("course Index doesn't exist. Please try again.");
-            return;
+        while (true) {
+            System.out.print("Please enter course index: ");
+            String rawIndex = this.sc().nextLine();
+    
+            CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(rawIndex);
+            if (courseIndex == null) {
+                System.out.println("course Index doesn't exist.");
+            } else {
+                tbPrinter().printIndexAndSchedule(courseIndex);
+            }
+            if (!askYesNo("Enter another index?")) {
+                return;
+            }
         }
-            
-        tbPrinter().printIndexAndSchedule(courseIndex);
     }
     
 }

@@ -85,8 +85,8 @@ public class EditStudentAccessPeriod extends AbstractFunction {
             return;
         }
 
-        if (this.askYesNo("Change access time from " + newStartDateTime.format(formatter) +
-                    " to " + newEndDateTime.format(formatter) + "?")) {
+        if (this.askYesNo("Confirm new access period: " + newStartDateTime.format(formatter) +
+                    " ~ " + newEndDateTime.format(formatter) + "?")) {
             Configs.setAccessStartTime(newStartDateTime);
             Configs.setAccessEndTime(newEndDateTime);
         }

@@ -247,7 +247,7 @@ public class RegistrationDB extends AbstractDatabase<Registration> {
         }
 
         Pair<String, String> lowerBound = new Pair<>(courseCode, "");
-        Pair<String, String> upperBound = new Pair<>(courseCode, "~");
+        Pair<String, String> upperBound = new Pair<>(courseCode, "\u7fff");
         Map<Pair<String, String>, Registration> wanted = regMap.subMap(lowerBound, upperBound);
 
         Collection<Registration> ret = wanted.values();

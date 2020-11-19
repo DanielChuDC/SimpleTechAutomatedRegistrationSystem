@@ -15,7 +15,6 @@ import java.util.TreeSet;
 import cx2002grp2.stars.database.CourseIndexDB;
 import cx2002grp2.stars.database.UserDB;
 import cx2002grp2.stars.dataitem.CourseIndex;
-import cx2002grp2.stars.dataitem.Registration;
 import cx2002grp2.stars.dataitem.Schedule;
 import cx2002grp2.stars.dataitem.User;
 import cx2002grp2.stars.dataitem.Schedule.ClassType;
@@ -155,14 +154,15 @@ public class EditCourseSchedule extends AbstractFunction {
     private Set<Integer> enterTeachingWk(Collection<Integer> initialSet) {
         int week = 0;
         Set<Integer> teachWk = new TreeSet<>(initialSet);
-        List<String> options = List.of("Week 1~13", "All even weeks", "All odd weeks", "Enter one week to add",
-                "Enter one week to remove", "Clean all Selected weeks", "Confirm week Selection");
+        List<String> options = List.of("Add week 1~13", "Add all even weeks", "Add all odd weeks",
+                "Enter one week to add", "Enter one week to remove", "Clean all Selected weeks",
+                "Confirm week s2election");
 
         while (true) {
             System.out.println();
             System.out.println("Current selected teaching weeks: " + teachWk);
 
-            System.out.println("Select teaching week(s) to add: ");
+            System.out.println("Select operation on teaching week(s): ");
             int weekSelection = selectFunction(options);
 
             switch (weekSelection) {
@@ -298,41 +298,37 @@ public class EditCourseSchedule extends AbstractFunction {
         String venue;
         String remark;
 
-        while (true) {
-            System.out.println("Current Schedule:");
-            tbPrinter().printIndexAndSchedule(index);
+        System.out.println("Current schedule:");
+        tbPrinter().printIndexAndSchedule(index);
 
-            Schedule schedule = new Schedule(null, null, null, null, null, null, null, null);
+        System.out.println("Creating new schedule:");
 
-            if (!editTimeInfo(index, schedule)) {
-                return;
-            }
+        Schedule schedule = new Schedule(null, null, null, null, null, null, null, null);
 
-            classType = selectEnum("Choose class type: ", ClassType.values());
-            schedule.setClassType(classType);
+        if (!editTimeInfo(index, schedule)) {
+            return;
+        }
 
-            System.out.print("Enter the class group: ");
-            group = sc().nextLine();
-            schedule.setGroup(group);
+        classType = selectEnum("Choose class type: ", ClassType.values());
+        schedule.setClassType(classType);
 
-            System.out.print("Enter the class venue: ");
-            venue = sc().nextLine();
-            schedule.setVenue(venue);
+        System.out.print("Enter the class group: ");
+        group = sc().nextLine();
+        schedule.setGroup(group);
 
-            System.out.print("Enter any remark: ");
-            remark = sc().nextLine();
-            schedule.setRemark(remark);
+        System.out.print("Enter the class venue: ");
+        venue = sc().nextLine();
+        schedule.setVenue(venue);
 
-            System.out.println("The following schedule will be added: ");
-            tbPrinter().printScheduleList(List.of(schedule));
+        System.out.print("Enter any remark: ");
+        remark = sc().nextLine();
+        schedule.setRemark(remark);
 
-            if (askYesNo("Confirm addition?")) {
-                schedule.setCourseIndex(index);
-            }
+        System.out.println("The following schedule will be added: ");
+        tbPrinter().printScheduleList(List.of(schedule));
 
-            if (!askYesNo("Add another schedule under index " + index.getIndexNo() + "?")) {
-                return;
-            }
+        if (askYesNo("Confirm addition?")) {
+            schedule.setCourseIndex(index);
         }
 
     }
@@ -344,30 +340,24 @@ public class EditCourseSchedule extends AbstractFunction {
      * @param index the index to delete schedule.
      */
     private void delSchedule(User user, CourseIndex index) {
-        while (true) {
-            if (index.getScheduleList().isEmpty()) {
-                System.out.println("The index has no schedule, deletion cannot be performed.");
-                return;
-            }
+        if (index.getScheduleList().isEmpty()) {
+            System.out.println("The index has no schedule, deletion cannot be performed.");
+            return;
+        }
 
-            System.out.println("Current Schedule:");
-            tbPrinter().printIndexAndSchedule(index);
+        System.out.println("Current Schedule:");
+        tbPrinter().printIndexAndSchedule(index);
 
-            int scheduleSelection = enterInt("Enter the row No. of schedule to be deleted: ", 1,
-                    index.getScheduleList().size());
+        int scheduleSelection = enterInt("Enter the row No. of schedule to be deleted: ", 1,
+                index.getScheduleList().size());
 
-            Schedule schedule = index.getScheduleList().get(scheduleSelection - 1);
+        Schedule schedule = index.getScheduleList().get(scheduleSelection - 1);
 
-            System.out.println("The following schedule will be delete: ");
-            tbPrinter().printScheduleList(List.of(schedule));
+        System.out.println("The following schedule will be delete: ");
+        tbPrinter().printScheduleList(List.of(schedule));
 
-            if (askYesNo("Confirm deletion?")) {
-                schedule.setCourseIndex(null);
-            }
-
-            if (!askYesNo("Delete another schedule under index " + index.getIndexNo() + "?")) {
-                return;
-            }
+        if (askYesNo("Confirm deletion?")) {
+            schedule.setCourseIndex(null);
         }
 
     }
