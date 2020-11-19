@@ -1,7 +1,9 @@
 package cx2002grp2.stars.functions;
 
 import cx2002grp2.stars.database.CourseDB;
+import cx2002grp2.stars.database.RegistrationDB;
 import cx2002grp2.stars.dataitem.Course;
+import cx2002grp2.stars.dataitem.Registration;
 import cx2002grp2.stars.dataitem.User;
 import cx2002grp2.stars.dataitem.User.Domain;
 
@@ -26,6 +28,52 @@ public class EditCourse extends AbstractFunction {
      */
     private EditCourse() {
 
+    }
+
+    @Override
+    public boolean accessible(User user) {
+        return user.getDomain() == Domain.STAFF;
+    }
+
+    @Override
+    public String name() {
+        return "Manage Courses";
+    }
+
+    @Override
+    protected void implementation(User user) {
+        while (true) {
+            System.out.println("Please select the action: ");
+            System.out.println("1: Add a Course");
+            System.out.println("2: Edit a Course");
+            System.out.println("3: Delete a course");
+            System.out.println("4: Print all courses");
+            System.out.println("5: Exit course manager");
+
+            int selection = this.enterInt("", 1, 5);
+            switch (selection) {
+                case 1:
+                    if (this.addCourse()) {
+                        System.out.println("Successfully added.");
+                    }
+                    break;
+                case 2:
+                    if (this.editCourse()) {
+                        System.out.println("Successfully edited.");
+                    }
+                    break;
+                case 3:
+                    if (this.deleteCourse()) {
+                        System.out.println("Successfully deleted.");
+                    }
+                    break;
+                case 4:
+                    tbPrinter().printCourseList(CourseDB.getDB());
+                    break;
+                case 5:
+                    return;
+            }
+        }
     }
 
     private boolean addCourse() {
@@ -212,12 +260,14 @@ public class EditCourse extends AbstractFunction {
 
     private boolean deleteCourse() {
         System.out.println("You selected: Delete a Course");
+        Course deleted = null;
 
         while (true) {
             System.out.println("Please input the Course Code:");
             String courseCode = this.sc().nextLine();
+            deleted = CourseDB.getDB().getByKey(courseCode);
 
-            if (!CourseDB.getDB().hasKey(courseCode)) {
+            if (deleted == null) {
                 System.out.println("The course code doesn't exist in the database. Please try again.");
                 if (askYesNo("Try again?"))
                     continue;
@@ -225,8 +275,14 @@ public class EditCourse extends AbstractFunction {
                     return false;
             }
 
-            if (this.askYesNo("WARNING: This action will delete ALL information related to\n"
-                    + "this course, including ALL course indexes, schedules and registrations!!!")) {
+            System.out.println("WARNING: This action will delete ALL information related to\n"
+                    + "this course, including ALL course indexes, schedules and registrations!!!");
+
+            System.out.println("Number of indexes under this course: " + deleted.getIndexList().size());
+            System.out.println("Number of registration under this course: "
+                    + RegistrationDB.getDB().getRegOfCourseCode(deleted.getCourseCode(), false).size());
+
+            if (this.askYesNo("Confirm deletion?")) {
                 CourseDB.getDB().delByKey(courseCode);
                 break;
             } else {
@@ -239,43 +295,6 @@ public class EditCourse extends AbstractFunction {
         }
 
         return true;
-    }
-
-    @Override
-    public boolean accessible(User user) {
-        return user.getDomain() == Domain.STAFF;
-    }
-
-    @Override
-    public String name() {
-        return "Edit Courses";
-    }
-
-    @Override
-    protected void implementation(User user) {
-        System.out.println("Please select the action: ");
-        System.out.println("1: Add a Course");
-        System.out.println("2: Edit a Course");
-        System.out.println("3: Delete a course");
-
-        int selection = this.enterInt("", 1, 3);
-        switch (selection) {
-            case 1:
-                if (this.addCourse()) {
-                    System.out.println("Successfully added.");
-                }
-                return;
-            case 2:
-                if (this.editCourse()) {
-                    System.out.println("Successfully edited.");
-                }
-                return;
-            case 3:
-                if (this.deleteCourse()) {
-                    System.out.println("Successfully deleted.");
-                }
-                return;
-        }
     }
 
 }
