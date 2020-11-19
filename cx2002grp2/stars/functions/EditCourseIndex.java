@@ -20,6 +20,8 @@ import cx2002grp2.stars.dataitem.User.Domain;
  * <p>
  * Delete a course index will result in all the registration under this course
  * index being dropped.
+ * <p>
+ * this function can be accessed by student and staff.
  */
 public class EditCourseIndex extends AbstractFunction {
 
