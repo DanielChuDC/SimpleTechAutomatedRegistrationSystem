@@ -85,7 +85,10 @@ public class CourseIndexDB extends CaseInsensitiveStringKeyDB<CourseIndex> {
      * @param deletedCourse deleted course
      */
     private void doOnCourseDeleted(Course deletedCourse) {
-        deletedCourse.getIndexList().forEach(deletedIndex -> delItem(deletedIndex));
+        // Copy the indexes to avoid concurrent modification.
+        // That is, iterating the index list while deleting index from the index list
+        List<CourseIndex> deletedIndexes = new ArrayList<>(deletedCourse.getIndexList());
+        deletedIndexes.forEach(deletedIndex -> delItem(deletedIndex));
     }
 
     /**

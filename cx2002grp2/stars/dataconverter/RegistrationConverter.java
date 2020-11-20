@@ -42,6 +42,8 @@ public class RegistrationConverter implements Converter<Registration> {
 
             return Arrays.asList(row);
         } catch (Exception e) {
+
+            e.printStackTrace();
             return null;
         }
     }
@@ -61,6 +63,8 @@ public class RegistrationConverter implements Converter<Registration> {
 
             return new Registration(student, courseIndex, registerDateTime, status);
         } catch (Exception e) {
+
+            e.printStackTrace();
             return null;
         }
     }

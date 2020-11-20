@@ -39,6 +39,8 @@ public class StudentConverter implements Converter<Student> {
 
             return Arrays.asList(row);
         } catch (Exception e) {
+            
+            e.printStackTrace();
             return null;
         }
     }
@@ -63,6 +65,8 @@ public class StudentConverter implements Converter<Student> {
 
             return new Student(user, matricNo, gender, fullName, nationality, yearOfStudy, programme);
         } catch (Exception e) {
+            
+            e.printStackTrace();
             return null;
         }
     }

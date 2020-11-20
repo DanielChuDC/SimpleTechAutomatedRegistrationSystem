@@ -32,6 +32,8 @@ public class CourseConverter implements Converter<Course> {
 
             return Arrays.asList(row);
         } catch (Exception e) {
+            
+            e.printStackTrace();
             return null;
         }
     }
@@ -49,6 +51,8 @@ public class CourseConverter implements Converter<Course> {
 
             return new Course(courseCode, courseName, school, au);
         } catch (Exception e) {
+            
+            e.printStackTrace();
             return null;
         }
     }

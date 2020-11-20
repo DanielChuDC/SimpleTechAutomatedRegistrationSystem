@@ -43,7 +43,7 @@ public class Course implements SingleKeyItem<String> {
 	@Override
 	public void setKey(String newKey) {
 		Objects.requireNonNull(newKey);
-		this.courseCode = newKey;
+		this.courseCode = newKey.toUpperCase();
 	}
 
 	/**

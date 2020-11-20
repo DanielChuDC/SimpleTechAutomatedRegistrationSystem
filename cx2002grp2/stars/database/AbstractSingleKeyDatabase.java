@@ -102,6 +102,10 @@ public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyTy
 
         ItemType deletedItem = data.remove(key);
 
+        if (deletedItem != null) {
+            signalItemDeleted(deletedItem);
+        }
+
         return deletedItem;
     }
 

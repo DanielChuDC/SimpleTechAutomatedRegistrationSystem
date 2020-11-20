@@ -1,7 +1,9 @@
 package cx2002grp2.stars;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import cx2002grp2.stars.dataitem.Course;
 import cx2002grp2.stars.dataitem.CourseIndex;
@@ -30,7 +32,7 @@ public class TablePrinter {
 
 	private static final String GENERAL_INFO_FORMAT = "%-30s %-30s %-30s \n";
 	private static final String EMPTY_TABLE_MSG = "This table currently have no content.\n";
-	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("hh:mm");
+	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 	private static final int BREAK_LINE_LENGTH = 100;
 
 	/**
@@ -66,7 +68,7 @@ public class TablePrinter {
 		final String TABLE_FORMAT = "%-20s | %-20s | %-20s | %-20s\n";
 
 		System.out.printf(GENERAL_INFO_FORMAT, "Username: " + student.getUsername(),
-				"Full Name: " + student.getFullName(), "Total Registered AU: " + roundedAu(student.getRegisteredAU()));
+				"Total Registered AU: " + roundedAu(student.getRegisteredAU()), "Full Name: " + student.getFullName());
 
 		System.out.printf(TABLE_FORMAT, "Course Code", "Course Index", "Registration State", "AU");
 		printBreakLine();
@@ -110,7 +112,7 @@ public class TablePrinter {
 				"Vacancy: " + index.getAvailableVacancy(), "Waitlist Length: " + index.getWaitList().size());
 		printBreakLine();
 
-		this.printScheduleTable(index);
+		this.printScheduleList(index.getScheduleList());
 	}
 
 	/**
@@ -138,7 +140,7 @@ public class TablePrinter {
 				"Vacancy: " + registration.getCourseIndex().getAvailableVacancy(),
 				"WaitList Length: " + registration.getCourseIndex().getWaitList().size());
 
-		this.printScheduleTable(registration.getCourseIndex());
+		this.printScheduleList(registration.getCourseIndex().getScheduleList());
 	}
 
 	/**
@@ -167,19 +169,20 @@ public class TablePrinter {
 	}
 
 	/**
-	 * Print the schedule table of a index without information of index.
+	 * Print the table for a set of schedules.
 	 * 
-	 * @param index the index which the schedule is under.
+	 * @param scheSet the set of schedules to be printed.
 	 */
-	private void printScheduleTable(CourseIndex index) {
+	public void printScheduleList(Collection<Schedule> scheSet) {
 		final String TABLE_FORMAT = "%-3s | %-4s | %-10s | %-3s | %-11s | %-15s | %-15s | %-10s\n";
 		System.out.printf(TABLE_FORMAT, "No.", "Type", "Group", "Day", "Time", "Venue", "Teaching Week", "Remark");
+
 		printBreakLine();
-		if (index.getScheduleList().isEmpty()) {
+		if (scheSet.isEmpty()) {
 			System.out.printf(EMPTY_TABLE_MSG);
 		} else {
 			int rowNumber = 0;
-			for (Schedule schedule : index.getScheduleList()) {
+			for (Schedule schedule : scheSet) {
 				System.out.printf(TABLE_FORMAT, ++rowNumber, schedule.getClassType(), schedule.getGroup(),
 						schedule.getDayOfWeek().toString().substring(0, 3),
 						schedule.getBeginTime().format(TIME_FORMATTER) + "-"
@@ -188,6 +191,15 @@ public class TablePrinter {
 			}
 		}
 		printBreakLine();
+	}
+
+	/**
+	 * Print the table for a schedules.
+	 * 
+	 * @param sche the schedules to be printed.
+	 */
+	public void printSchedule(Schedule sche) {
+		printScheduleList(List.of(sche));
 	}
 
 	/**
@@ -231,6 +243,31 @@ public class TablePrinter {
 		for (Course course : courseList) {
 			System.out.printf(TABLE_FORMAT, course.getCourseCode(), course.getSchool(), roundedAu(course.getAu()),
 					course.getCourseName());
+			printed = true;
+		}
+		if (!printed) {
+			System.out.println(EMPTY_TABLE_MSG);
+		}
+		printBreakLine();
+	}
+
+	/**
+	 * Print course list in a table manner.
+	 * <p>
+	 * A header is required to be printed
+	 * <p>
+	 * Each row contains the course code, school, AU and course name of a course.
+	 *
+	 * @param indexList the course list to be printed.
+	 */
+	public void printCourseIndexList(Iterable<CourseIndex> indexList) {
+		final String TABLE_FORMAT = "%-10s | %-10s | %-10s | %-10s\n";
+		System.out.printf(TABLE_FORMAT, "Index", "Course", "Vacancy", "Max Vcc");
+		boolean printed = false;
+		printBreakLine();
+		for (CourseIndex index : indexList) {
+			System.out.printf(TABLE_FORMAT, index.getIndexNo(), index.getCourse().getCourseCode(),
+					index.getAvailableVacancy(), index.getMaxVacancy());
 			printed = true;
 		}
 		if (!printed) {
@@ -284,6 +321,6 @@ public class TablePrinter {
 	 * @return a string representing the AU with 2 digit precision.
 	 */
 	private String roundedAu(double au) {
-		return String.format("%.2f", au);
+		return String.format("%.1f", au);
 	}
 }

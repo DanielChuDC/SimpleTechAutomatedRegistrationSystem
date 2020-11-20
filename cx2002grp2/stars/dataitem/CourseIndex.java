@@ -59,7 +59,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 	@Override
 	public void setKey(String newKey) {
 		Objects.requireNonNull(newKey);
-		this.indexNo = newKey;
+		this.indexNo = newKey.toUpperCase();
 	}
 
 	/**
@@ -264,7 +264,7 @@ public class CourseIndex implements SingleKeyItem<String> {
 
 		this.registrationList.remove(registration);
 
-		registration.drop();
+		registration.setCourseIndex(null);
 
 		return true;
 	}

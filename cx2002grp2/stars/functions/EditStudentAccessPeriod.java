@@ -53,6 +53,9 @@ public class EditStudentAccessPeriod extends AbstractFunction {
         String pattern = "yyyy-MM-dd HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 
+        System.out.println("Current student access time:");
+        System.out.println(Configs.getAccessStartTime().format(formatter) + " ~ " + Configs.getAccessEndTime().format(formatter));
+
 
         System.out.print("Please input new start date and time (Format: " + pattern + "): \n");
         String input = this.sc().nextLine();
@@ -82,8 +85,8 @@ public class EditStudentAccessPeriod extends AbstractFunction {
             return;
         }
 
-        if (this.askYesNo("Change access time from " + newStartDateTime.format(formatter) +
-                    " to " + newEndDateTime.format(formatter) + "?")) {
+        if (this.askYesNo("Confirm new access period: " + newStartDateTime.format(formatter) +
+                    " ~ " + newEndDateTime.format(formatter) + "?")) {
             Configs.setAccessStartTime(newStartDateTime);
             Configs.setAccessEndTime(newEndDateTime);
         }

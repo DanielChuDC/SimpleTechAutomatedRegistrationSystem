@@ -32,6 +32,8 @@ public class UserConverter implements Converter<User> {
 
             return Arrays.asList(row);
         } catch (Exception e) {
+
+            e.printStackTrace();
             return null;
         }
     }
@@ -50,6 +52,8 @@ public class UserConverter implements Converter<User> {
 
             return new User(username, hashedPassword, domain, email, phoneNo);
         } catch (Exception e) {
+
+            e.printStackTrace();
             return null;
         }
     }

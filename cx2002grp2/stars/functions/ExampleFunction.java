@@ -1,8 +1,5 @@
 package cx2002grp2.stars.functions;
 
-import cx2002grp2.stars.database.CourseIndexDB;
-import cx2002grp2.stars.dataitem.CourseIndex;
-import cx2002grp2.stars.dataitem.Gender;
 import cx2002grp2.stars.dataitem.User;
 import cx2002grp2.stars.dataitem.User.Domain;
 

@@ -55,26 +55,37 @@ public class StudentAddCourse extends AbstractFunction {
             return;
         }
 
-        System.out.print("Please enter course index: ");
-        String rawIndex = this.sc().nextLine();
+        while (true) {
+            System.out.print("Please enter course index: ");
+            String rawIndex = this.sc().nextLine();
 
-        CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(rawIndex);
-        if (courseIndex == null) {
-            System.out.println("course Index doesn't exist. Please try again.");
-            return;
+            CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(rawIndex);
+            if (courseIndex == null) {
+                System.out.println("course Index doesn't exist.");
+                if (!askYesNo("Try again?")) {
+                    return;
+                } else {
+                    continue;
+                }
+            }
+
+            this.tbPrinter().printIndexAndSchedule(courseIndex);
+
+            if (this.askYesNo("Register for course index " + rawIndex + "?")) {
+                Result result = this.allocator().registerCourse(student, courseIndex);
+                System.out.println(result.message());
+                if (!result.isSuccessful()) {
+                    if (!askYesNo("Try again?")) {
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
+            } else {
+                System.out.println("Action cancelled.");
+            }
         }
 
-        this.tbPrinter().printIndexAndSchedule(courseIndex);
-
-        if (this.askYesNo("Register for course index " + rawIndex + "?")) {
-            Result result = this.allocator().registerCourse(student, courseIndex);
-            System.out.println(result.message());
-        }
-        else {
-            System.out.println("Action cancelled.");
-        }
-        
-        
     }
-    
+
 }
