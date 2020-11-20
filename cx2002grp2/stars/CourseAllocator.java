@@ -79,6 +79,14 @@ public class CourseAllocator {
 					+ " already exists.");
 		}
 
+		// Check max AU limit
+		double maxAu = Configs.getMaxAu(), totalAu = student.getRegisteredAU(), indexAu = newIndex.getCourse().getAu();
+		if (maxAu < totalAu + indexAu) {
+			return failure(String.format(
+					"Max AU limit (%d AU) is exceeded. Current total AU is % and the AU of new course is %d.", maxAu,
+					totalAu, indexAu));
+		}
+
 		// Check clashing
 		Result clashingResult = checkTimeSlotClash(student.getRegistrationList(), newIndex, null);
 		if (clashingResult != null) {
@@ -91,14 +99,6 @@ public class CourseAllocator {
 		// Check vacancy
 		if (newIndex.getAvailableVacancy() <= 0) {
 			result = failure("Index " + newIndex.getIndexNo() + " has not vacancy. Added to wait list instead.");
-			registration = new Registration(student, newIndex, LocalDateTime.now(), Status.WAITLIST);
-		}
-
-		// Check max AU limit
-		double maxAu = Configs.getMaxAu(), totalAu = student.getRegisteredAU(), indexAu = newIndex.getCourse().getAu();
-		if (result == null && maxAu < totalAu + indexAu) {
-			result = failure("Max AU limit is " + maxAu
-					+ ". New index cannot be registered, and is added to wait list instead.");
 			registration = new Registration(student, newIndex, LocalDateTime.now(), Status.WAITLIST);
 		}
 
@@ -338,7 +338,7 @@ public class CourseAllocator {
 		if (weekIntersection.isEmpty()) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
