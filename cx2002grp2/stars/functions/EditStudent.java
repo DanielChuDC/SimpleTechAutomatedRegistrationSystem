@@ -61,6 +61,9 @@ public class EditStudent extends AbstractFunction {
                 case 1:
                     System.out.println("You selected to add student.");
                     if (addStudent()) {
+                        tbPrinter().printBreakLine();
+                        System.out.println("List of all students after addition:");
+                        tbPrinter().printStudentList(StudentDB.getDB());
                         System.out.println("Successfully added student.");
                     }
                     break;

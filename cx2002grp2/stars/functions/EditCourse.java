@@ -62,6 +62,9 @@ public class EditCourse extends AbstractFunction {
             switch (selection) {
                 case 1:
                     if (this.addCourse()) {
+                        tbPrinter().printBreakLine();
+                        System.out.println("List of all coruse after addition:");
+                        tbPrinter().printCourseList(CourseDB.getDB());
                         System.out.println("Successfully added.");
                     }
                     break;
