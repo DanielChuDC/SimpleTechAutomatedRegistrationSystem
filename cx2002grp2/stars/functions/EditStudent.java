@@ -51,7 +51,6 @@ public class EditStudent extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-<<<<<<< HEAD
         // ask user if he wants to add, update or delete student (input 1, 2 or 3)
         int n = selectFunction("Add Student", "Edit Student", "Delete Student");
         System.out.println("You selected "+n);
@@ -72,83 +71,18 @@ public class EditStudent extends AbstractFunction {
             return;
           case 3:
             System.out.println("You selected to delete student.");
-            if (delStudent()) System.out.println("Successfully delete student.");
+            if (delStudent()) {
+              tbPrinter().printBreakLine();
+              tbPrinter().printStudentList(StudentDB.getDB());
+              System.out.println("Successfully delete student.");
+            } 
+                
             return;
-=======
-        while(true) {
-            // ask user if he wants to add, update or delete student (input 1, 2 or 3)
-            int n = selectFunction("Add Student", "Edit Student", "Delete Student", "Exit Student Manager");
-            System.out.println("You selected " + n);
-    
-            switch (n) {
-                case 1:
-                    System.out.println("You selected to add student.");
-                    if (addStudent())
-                        System.out.println("Successfully added student.");
-                    break;
-                case 2:
-                    System.out.println("You selected to edit student.");
-                    if (editStudent())
-                        System.out.println("Successfully edit student.");
-                    break;
-                case 3:
-                    System.out.println("You selected to delete student.");
-                    if (delStudent())
-                        System.out.println("Successfully delete student.");
-                    break;
-                case 4:
-                    return;
-            }
-            //
->>>>>>> kaitao
         }
 
     }
 
     private boolean addStudent() {
-<<<<<<< HEAD
-      Authenticator auth = Authenticator.getInstance();
-      Console console = System.console();
-      String username;
-      // User class attributes
-      while (true) {
-        System.out.println("Enter username of student: ");
-        username = sc().nextLine();
-  
-        // check if user exist
-        if (UserDB.getDB().hasKey(username)) {
-          System.out.println("Account with that username already exists.");
-          if (askYesNo("Try again?")) continue;
-          else return false;
-        } else break;
-      }
-
-      char[] passwordEntry = console.readPassword("Enter password of student: \n");
-      String password = String.valueOf(passwordEntry);
-      System.out.println("Enter email of student: ");
-      String email = sc().nextLine();
-      System.out.println("Enter phone number of student: ");
-      String phoneNo = sc().nextLine();
-
-      // Student class attributes
-      System.out.println("Enter matric number of student: ");
-      String matricNo = sc().nextLine();
-      Gender gender = selectEnum("Enter gender of student: ", Gender.values());
-      System.out.println("Enter full name of student: ");
-      String fullName = sc().nextLine();
-      System.out.println("Enter nationality of student: ");
-      String nationality = sc().nextLine();
-      System.out.println("Enter student's programme: ");
-      String programme = sc().nextLine();
-      System.out.println("Enter student's year of study: ");
-      int yearOfStudy = sc().nextInt();
-      
-      // confirm
-      if (!askYesNo("Confirm to add student?")) {
-        System.out.println("Failed to add student. Exiting function...");
-        return false;
-      }
-=======
         Authenticator auth = Authenticator.getInstance();
         Console console = System.console();
         String username;
@@ -168,7 +102,6 @@ public class EditStudent extends AbstractFunction {
 
             break;
         }
->>>>>>> kaitao
 
         char[] passwordEntry = console.readPassword("Enter password of student: \n");
         String password = String.valueOf(passwordEntry);
@@ -203,14 +136,9 @@ public class EditStudent extends AbstractFunction {
         StudentDB.getDB().addItem(newStudent);
 
         // Print details of created student
+        System.out.println("Created Student:");
         tbPrinter().printStudentBrief(newStudent);
         return true;
-
-<<<<<<< HEAD
-      // Print details of created student
-      System.out.println("Created Student:");
-      tbPrinter().printStudentBrief(newStudent);
-      return true;
       
     }
 
@@ -239,7 +167,6 @@ public class EditStudent extends AbstractFunction {
       // Ask what to edit
       System.out.println("Please select the attribute to edit");
       int n = selectFunction("username", "password", "matric number", "full name", "nationality", "year of study", "programme", "gender", "email", "phone number");
-      // gender, user attributes liek email, phoneNo
 
       switch (n) {
         case 1:
@@ -265,85 +192,9 @@ public class EditStudent extends AbstractFunction {
       }
 
       return false;
-=======
-    }
-
-    private boolean editStudent() {
-        Student student;
-
-        // ask for username
-        while (true) {
-            System.out.println("Enter username of student: ");
-            String username = sc().nextLine();
-
-            student = StudentDB.getDB().getByKey(username);
-
-            // check if username exist. if no, return.
-            if (student == null) {
-                System.out.println("Student account with that username does not exist.");
-                if (askYesNo("Try again?"))
-                    continue;
-                else
-                    return false;
-            }
-
-            break;
-        }
-
-        // print details of student
-        System.out.println("Selected student:");
-        tbPrinter().printStudentBrief(student);
-
-        // Ask what to edit
-        System.out.println("Please select the attribute to edit");
-        int n = selectFunction("username", "password", "matric number", "full name", "nationality", "year of study",
-                "programme", "gender", "email", "phone number");
-        // gender, user attributes liek email, phoneNo
-
-        switch (n) {
-            case 1:
-                return editUsername(student);
-            case 2:
-                return editPassword(student);
-            case 3:
-                return editMatricNo(student);
-            case 4:
-                return editFullName(student);
-            case 5:
-                return editNationality(student);
-            case 6:
-                return editYOS(student);
-            case 7:
-                return editProgramme(student);
-            case 8:
-                return editGender(student);
-            case 9:
-                return editEmail(student);
-            case 10:
-                return editPhoneNo(student);
-        }
-
-        return false;
->>>>>>> kaitao
-
     }
 
     private boolean delStudent() {
-<<<<<<< HEAD
-      Student student;
-      while (true) {
-        System.out.println("Enter username of student: ");
-        String username = sc().nextLine();
-  
-        student = StudentDB.getDB().getByKey(username);
-  
-        if (student == null) {
-            System.out.println("Student account with that username does not exist.");
-            if (askYesNo("Try again?")) continue;
-            else return false;
-        } else break;
-      }
-=======
         Student student;
         while (true) {
             System.out.println("Enter username of student: ");
@@ -360,7 +211,6 @@ public class EditStudent extends AbstractFunction {
             }
             break;
         }
->>>>>>> kaitao
 
         // print details of student (tblPrinter().printStudentBrief())
         System.out.println("Selected student:");
