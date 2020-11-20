@@ -51,33 +51,36 @@ public class EditStudent extends AbstractFunction {
 
     @Override
     protected void implementation(User user) {
-        // ask user if he wants to add, update or delete student (input 1, 2 or 3)
-        int n = selectFunction("Add Student", "Edit Student", "Delete Student");
-        System.out.println("You selected "+n);
+        while (true) {
+            // ask user if he wants to add, update or delete student (input 1, 2, 3 or 4)
+            int n = selectFunction("Add Student", "Edit Student", "Delete Student", "Print All Students",
+                    "Exit Student Account Manager");
+            System.out.println("You selected " + n);
 
-        switch (n) {
-          case 1:
-            System.out.println("You selected to add student.");
-            if (addStudent()) {
-              // print out all students
-              tbPrinter().printBreakLine();
-              tbPrinter().printStudentList(StudentDB.getDB());
-              System.out.println("Successfully added student."); 
+            switch (n) {
+                case 1:
+                    System.out.println("You selected to add student.");
+                    if (addStudent()) {
+                        System.out.println("Successfully added student.");
+                    }
+                    break;
+                case 2:
+                    System.out.println("You selected to edit student.");
+                    if (editStudent())
+                        System.out.println("Successfully edited student.");
+                    break;
+                case 3:
+                    System.out.println("You selected to delete student.");
+                    if (delStudent()) {
+                        System.out.println("Successfully deleted student.");
+                    }
+                    break;
+                case 4:
+                    tbPrinter().printStudentList(StudentDB.getDB());
+                    break;
+                case 5:
+                    return;
             }
-            return;
-          case 2:
-            System.out.println("You selected to edit student.");
-            if (editStudent()) System.out.println("Successfully edit student.");
-            return;
-          case 3:
-            System.out.println("You selected to delete student.");
-            if (delStudent()) {
-              tbPrinter().printBreakLine();
-              tbPrinter().printStudentList(StudentDB.getDB());
-              System.out.println("Successfully delete student.");
-            } 
-                
-            return;
         }
 
     }
@@ -85,8 +88,8 @@ public class EditStudent extends AbstractFunction {
     /**
      * add a new student into database.
      * <p>
-     * This function will ask user to input basic information of a student, including
-     * username, matric number, full name, nationality etc.
+     * This function will ask user to input basic information of a student,
+     * including username, matric number, full name, nationality etc.
      * <p>
      * The username cannot be the same as other user.
      * 
@@ -149,7 +152,7 @@ public class EditStudent extends AbstractFunction {
         System.out.println("Created Student:");
         tbPrinter().printStudentBrief(newStudent);
         return true;
-      
+
     }
 
     /**
@@ -164,62 +167,66 @@ public class EditStudent extends AbstractFunction {
      * @return true if information is successfully edited.
      */
     private boolean editStudent() {
-      Student student;
+        Student student;
 
-      // ask for username
-      while (true) {
-        System.out.println("Enter username of student: ");
-        String username = sc().nextLine();
-  
-        student = StudentDB.getDB().getByKey(username);
-  
-        // check if username exist. if no, return.
-        if (student == null) {
-            System.out.println("Student account with that username does not exist.");
-            if (askYesNo("Try again?")) continue;
-            else return false;
-          } else break;
+        // ask for username
+        while (true) {
+            System.out.println("Enter username of student: ");
+            String username = sc().nextLine();
+
+            student = StudentDB.getDB().getByKey(username);
+
+            // check if username exist. if no, return.
+            if (student == null) {
+                System.out.println("Student account with that username does not exist.");
+                if (askYesNo("Try again?"))
+                    continue;
+                else
+                    return false;
+            } else
+                break;
         }
 
-      // print details of student
-      System.out.println("Selected student:");
-      tbPrinter().printStudentBrief(student);
+        // print details of student
+        System.out.println("Selected student:");
+        tbPrinter().printStudentBrief(student);
 
-      // Ask what to edit
-      System.out.println("Please select the attribute to edit");
-      int n = selectFunction("username", "password", "matric number", "full name", "nationality", "year of study", "programme", "gender", "email", "phone number");
+        // Ask what to edit
+        System.out.println("Please select the attribute to edit");
+        int n = selectFunction("username", "password", "matric number", "full name", "nationality", "year of study",
+                "programme", "gender", "email", "phone number");
 
-      switch (n) {
-        case 1:
-          return editUsername(student);
-        case 2:
-          return editPassword(student);
-        case 3:
-          return editMatricNo(student);
-        case 4:
-          return editFullName(student);
-        case 5:
-          return editNationality(student);
-        case 6:
-          return editYOS(student);
-        case 7:
-          return editProgramme(student);
-        case 8:
-          return editGender(student);
-        case 9:
-          return editEmail(student);
-        case 10:
-          return editPhoneNo(student);
-      }
+        switch (n) {
+            case 1:
+                return editUsername(student);
+            case 2:
+                return editPassword(student);
+            case 3:
+                return editMatricNo(student);
+            case 4:
+                return editFullName(student);
+            case 5:
+                return editNationality(student);
+            case 6:
+                return editYOS(student);
+            case 7:
+                return editProgramme(student);
+            case 8:
+                return editGender(student);
+            case 9:
+                return editEmail(student);
+            case 10:
+                return editPhoneNo(student);
+        }
 
-      return false;
+        return false;
     }
 
     /**
      * Delete a student from database.
      * <p>
-     * This function will ask user to input username, then ask whether to delete
-     * the student.
+     * This function will ask user to input username, then ask whether to delete the
+     * student.
      * 
      * @return true if selected student is successfully deleted.
      */
@@ -259,8 +266,8 @@ public class EditStudent extends AbstractFunction {
     /**
      * Edit the username of a student.
      * <p>
-     * This function will ask user to input new username, then ask whether to
-     * make change.
+     * This function will ask user to input new username, then ask whether to make
+     * change.
      * 
      * @param course the student to be set a new username.
      * @return true if username is successfully edited.
@@ -301,8 +308,8 @@ public class EditStudent extends AbstractFunction {
     /**
      * Edit the full name of a student.
      * <p>
-     * This function will ask user to input new full name, then ask whether to
-     * make change.
+     * This function will ask user to input new full name, then ask whether to make
+     * change.
      * 
      * @param course the student to be set a new full name.
      * @return true if full name is successfully edited.
@@ -403,8 +410,8 @@ public class EditStudent extends AbstractFunction {
     /**
      * Edit the password of a student.
      * <p>
-     * This function will ask user to input new password, then ask whether to
-     * make change.
+     * This function will ask user to input new password, then ask whether to make
+     * change.
      * 
      * @param course the student to be set a new password.
      * @return true if password is successfully edited.
@@ -438,8 +445,8 @@ public class EditStudent extends AbstractFunction {
     /**
      * Edit the programme of a student.
      * <p>
-     * This function will ask user to input new programme, then ask whether to
-     * make change.
+     * This function will ask user to input new programme, then ask whether to make
+     * change.
      * 
      * @param course the student to be set a new programme.
      * @return true if programme is successfully edited.
@@ -506,8 +513,8 @@ public class EditStudent extends AbstractFunction {
     /**
      * Edit the gender of a student.
      * <p>
-     * This function will ask user to input new gender from the list of genders, then ask whether to
-     * make change.
+     * This function will ask user to input new gender from the list of genders,
+     * then ask whether to make change.
      * 
      * @param course the student to be set a new gender.
      * @return true if gender is successfully edited.
@@ -540,8 +547,8 @@ public class EditStudent extends AbstractFunction {
     /**
      * Edit the email of a student.
      * <p>
-     * This function will ask user to input new email, then ask whether to
-     * make change.
+     * This function will ask user to input new email, then ask whether to make
+     * change.
      * 
      * @param course the student to be set a new email.
      * @return true if email is successfully edited.

@@ -213,7 +213,7 @@ public class TablePrinter {
 	 */
 	public void printStudentList(Iterable<Student> studList) {
 		final String TABLE_FORMAT = "%-15s | %-15s | %-30s\n";
-		System.out.printf(TABLE_FORMAT, "Username", "Full Name", "Matric No.");
+		System.out.printf(TABLE_FORMAT, "Username", "Matric No.", "Full Name");
 		boolean printed = false;
 		printBreakLine();
 		for (Student student : studList) {
