@@ -98,7 +98,7 @@ public class CourseAllocator {
 
 		// Check vacancy
 		if (newIndex.getAvailableVacancy() <= 0) {
-			result = failure("Index " + newIndex.getIndexNo() + " has not vacancy. Added to wait list instead.");
+			result = failure("Index " + newIndex.getIndexNo() + " has no vacancy. Added to wait list instead.");
 			registration = new Registration(student, newIndex, LocalDateTime.now(), Status.WAITLIST);
 		}
 
