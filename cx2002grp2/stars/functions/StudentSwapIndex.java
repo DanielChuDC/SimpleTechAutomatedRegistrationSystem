@@ -45,7 +45,7 @@ public class StudentSwapIndex extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Swap index number with another student";
+        return "Swap Index Number with Another Student";
     }
 
     @Override

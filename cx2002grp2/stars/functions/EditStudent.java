@@ -46,7 +46,7 @@ public class EditStudent extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Manage Students";
+        return "Manage Student Accounts";
     }
 
     @Override

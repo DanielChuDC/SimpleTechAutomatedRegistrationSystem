@@ -42,7 +42,7 @@ public class CheckIndexInfo extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Check Index Info";
+        return "Check Index Info (Including Schedule, Vacancy)";
     }
 
     @Override

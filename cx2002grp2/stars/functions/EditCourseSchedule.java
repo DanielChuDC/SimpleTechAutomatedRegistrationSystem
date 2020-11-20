@@ -60,7 +60,7 @@ public class EditCourseSchedule extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Manage Course Schedule";
+        return "Manage Course Schedules";
     }
 
     @Override

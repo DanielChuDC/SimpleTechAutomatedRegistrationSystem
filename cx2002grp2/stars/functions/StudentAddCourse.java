@@ -44,7 +44,7 @@ public class StudentAddCourse extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Add a course";
+        return "Add a Course";
     }
 
     @Override

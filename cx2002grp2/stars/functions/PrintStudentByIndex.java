@@ -46,7 +46,7 @@ public class PrintStudentByIndex extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Print student list by index number";
+        return "Print Student List by Index Number";
     }
 
     @Override

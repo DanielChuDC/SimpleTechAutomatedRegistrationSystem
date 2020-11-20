@@ -101,13 +101,21 @@ public class EditCourse extends AbstractFunction {
             System.out.println("Please input the Course Code:");
             String newCourseCode = this.sc().nextLine();
 
+            if (CourseDB.getDB().hasKey(newCourseCode)) {
+                System.out.println("The course code already exists in the database. Please try again.");
+                if (askYesNo("Try again?"))
+                    continue;
+                else
+                    return false;
+            }
+
             System.out.println("Please input the Course Name:");
             String newCourseName = this.sc().nextLine();
 
             System.out.println("Please input the School the course belongs to :");
             String school = this.sc().nextLine();
 
-            int AU = this.enterInt("Please input the AU of this course:", 1, 6);
+            int AU = this.enterInt("Please input the AU of this course: ", 1, 6);
 
             Course newCourse;
             try {
@@ -121,12 +129,12 @@ public class EditCourse extends AbstractFunction {
                     return false;
             }
 
-            if (CourseDB.getDB().hasKey(newCourseCode)) {
-                System.out.println("The course code already exists in the database. Please try again.");
-                if (askYesNo("Try again?"))
-                    continue;
-                else
-                    return false;
+            System.out.println("The following course will be added:");
+            tbPrinter().printCourseList(List.of(newCourse));
+
+            if (!askYesNo("Confirm?")) {
+                System.out.println("Course creation cancelled.");
+                return false;
             }
 
             CourseDB.getDB().addItem(newCourse);
@@ -150,20 +158,32 @@ public class EditCourse extends AbstractFunction {
 
         while (true) {
             System.out.println("Please input the Course Code:");
-            String newCourseCode = this.sc().nextLine();
+            String newCourseCode = this.sc().nextLine().trim().toUpperCase();
+
+            if (course.getCourseCode().equals(newCourseCode)) {
+                System.out.println("New course code is the same to the old one.");
+                if (askYesNo("Try again?"))
+                    continue;
+                else
+                    return false;
+            }
+
+            Course existingCourse = CourseDB.getDB().getByKey(newCourseCode);
+
+            if (existingCourse != null) {
+                System.out.println("The following course already exists.");
+                tbPrinter().printCourseList(List.of(existingCourse));
+                if (askYesNo("Try again?"))
+                    continue;
+                else
+                    return false;
+            }
 
             System.out.println("Old course code: " + course.getCourseCode());
             System.out.println("New course code: " + newCourseCode);
             if (this.askForApplyChange()) {
-                if (CourseDB.getDB().changeKey(course, newCourseCode)) {
-                    break;
-                } else {
-                    System.out.println("Action Failed. There is duplicated course code in Database.");
-                    if (askYesNo("Try again?"))
-                        continue;
-                    else
-                        return false;
-                }
+                CourseDB.getDB().changeKey(course, newCourseCode);
+                break;
             } else {
                 System.out.println("Action Cancelled.");
                 if (askYesNo("Try again?"))
@@ -172,9 +192,7 @@ public class EditCourse extends AbstractFunction {
                     return false;
             }
         }
-
         return true;
-
     }
 
     /**
@@ -359,6 +377,9 @@ public class EditCourse extends AbstractFunction {
                 else
                     return false;
             }
+
+            System.out.println("Deleting Course");
+            tbPrinter().printCourseList(List.of(deleted));
 
             System.out.println("WARNING: This action will delete ALL information related to\n"
                     + "this course, including ALL course indexes, schedules and registrations!!!");

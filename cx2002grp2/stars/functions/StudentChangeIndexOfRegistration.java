@@ -46,7 +46,7 @@ public class StudentChangeIndexOfRegistration extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Change Index of Registration";
+        return "Change Index Number of Course";
     }
 
     @Override

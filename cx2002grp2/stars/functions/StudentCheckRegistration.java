@@ -43,7 +43,7 @@ public class StudentCheckRegistration extends AbstractFunction {
 
     @Override
     public String name() {
-        return "Check Registration";
+        return "Check My Registration";
     }
 
     @Override
