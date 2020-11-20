@@ -82,6 +82,16 @@ public class EditStudent extends AbstractFunction {
 
     }
 
+    /**
+     * add a new student into database.
+     * <p>
+     * This function will ask user to input basic information of a student, including
+     * username, matric number, full name, nationality etc.
+     * <p>
+     * The username cannot be the same as other user.
+     * 
+     * @return true if student is successfully added.
+     */
     private boolean addStudent() {
         Authenticator auth = Authenticator.getInstance();
         Console console = System.console();
@@ -142,6 +152,17 @@ public class EditStudent extends AbstractFunction {
       
     }
 
+    /**
+     * Edit a student which already exists in the database.
+     * <p>
+     * This function will ask user to input username, then ask what to edit about
+     * the student.
+     * <p>
+     * User can edit student attributes.
+     * <p>
+     * 
+     * @return true if information is successfully edited.
+     */
     private boolean editStudent() {
       Student student;
 
@@ -194,6 +215,14 @@ public class EditStudent extends AbstractFunction {
       return false;
     }
 
+    /**
+     * Delete a student from database.
+     * <p>
+     * This function will ask user to input username, then ask whether to delete
+     * the student.
+     * 
+     * @return true if selected student is successfully deleted.
+     */
     private boolean delStudent() {
         Student student;
         while (true) {
@@ -227,6 +256,15 @@ public class EditStudent extends AbstractFunction {
         return true;
     }
 
+    /**
+     * Edit the username of a student.
+     * <p>
+     * This function will ask user to input new username, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new username.
+     * @return true if username is successfully edited.
+     */
     private boolean editUsername(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's username.");
@@ -260,6 +298,15 @@ public class EditStudent extends AbstractFunction {
 
     }
 
+    /**
+     * Edit the full name of a student.
+     * <p>
+     * This function will ask user to input new full name, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new full name.
+     * @return true if full name is successfully edited.
+     */
     private boolean editFullName(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's full name.");
@@ -285,6 +332,15 @@ public class EditStudent extends AbstractFunction {
         return true;
     }
 
+    /**
+     * Edit the matric number of a student.
+     * <p>
+     * This function will ask user to input new matric number, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new matric number.
+     * @return true if matric number is successfully edited.
+     */
     private boolean editMatricNo(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's matric number.");
@@ -309,6 +365,15 @@ public class EditStudent extends AbstractFunction {
         return true;
     }
 
+    /**
+     * Edit the nationality of a student.
+     * <p>
+     * This function will ask user to input new nationality, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new nationality.
+     * @return true if nationality is successfully edited.
+     */
     private boolean editNationality(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's nationality.");
@@ -335,6 +400,15 @@ public class EditStudent extends AbstractFunction {
 
     }
 
+    /**
+     * Edit the password of a student.
+     * <p>
+     * This function will ask user to input new password, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new password.
+     * @return true if password is successfully edited.
+     */
     private boolean editPassword(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's password.");
@@ -361,6 +435,15 @@ public class EditStudent extends AbstractFunction {
         return true;
     }
 
+    /**
+     * Edit the programme of a student.
+     * <p>
+     * This function will ask user to input new programme, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new programme.
+     * @return true if programme is successfully edited.
+     */
     private boolean editProgramme(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's programme.");
@@ -386,6 +469,15 @@ public class EditStudent extends AbstractFunction {
         return true;
     }
 
+    /**
+     * Edit the year of study of a student.
+     * <p>
+     * This function will ask user to input new year of study, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new year of study.
+     * @return true if year of study is successfully edited.
+     */
     private boolean editYOS(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's year of study.");
@@ -411,6 +503,15 @@ public class EditStudent extends AbstractFunction {
         return true;
     }
 
+    /**
+     * Edit the gender of a student.
+     * <p>
+     * This function will ask user to input new gender from the list of genders, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new gender.
+     * @return true if gender is successfully edited.
+     */
     private boolean editGender(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's gender.");
@@ -436,6 +537,15 @@ public class EditStudent extends AbstractFunction {
         return true;
     }
 
+    /**
+     * Edit the email of a student.
+     * <p>
+     * This function will ask user to input new email, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new email.
+     * @return true if email is successfully edited.
+     */
     private boolean editEmail(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's email.");
@@ -461,6 +571,15 @@ public class EditStudent extends AbstractFunction {
         return true;
     }
 
+    /**
+     * Edit the phone number of a student.
+     * <p>
+     * This function will ask user to input new phone number, then ask whether to
+     * make change.
+     * 
+     * @param course the student to be set a new phone number.
+     * @return true if phone number is successfully edited.
+     */
     private boolean editPhoneNo(Student student) {
         tbPrinter().printBreakLine();
         System.out.println("You selected to edit student's phone number.");
