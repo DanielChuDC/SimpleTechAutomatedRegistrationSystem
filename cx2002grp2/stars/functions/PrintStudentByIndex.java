@@ -54,7 +54,7 @@ public class PrintStudentByIndex extends AbstractFunction {
         String indexNo;
         while (true) {
             // Enter index number
-            System.out.println("Enter course code: ");
+            System.out.println("Enter index number: ");
             indexNo = sc().nextLine();
 
             // Check if index number exist
