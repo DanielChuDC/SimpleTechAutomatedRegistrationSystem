@@ -2,6 +2,7 @@ package cx2002grp2.stars;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
      * construct a configuration database with data loaded.
      */
     private Configs() {
+        super(Comparator.naturalOrder());
         loadData();
     }
 

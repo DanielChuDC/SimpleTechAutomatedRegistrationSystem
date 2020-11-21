@@ -27,7 +27,7 @@ import cx2002grp2.stars.dataitem.SingleKeyItem;
  * <li>Implement interface {@link OnKeyChangedSubject
  * OnKeyChangedSubject&lt;KeyType, ItemType&gt;} and the corresponding signaling
  * method
- * {@link AbstractSingleKeyDatabase#signalKeyChanged(Comparable, SingleKeyItem)}
+ * {@link AbstractSingleKeyDatabase#signalKeyChanged(Object, SingleKeyItem)}
  * </ul>
  */
 public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends SingleKeyItem<KeyType>>
@@ -46,7 +46,9 @@ public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends Single
     }
 
     /**
-     * Construct a database for comparable key type with the given comparator
+     * Construct a ordered database for comparable key type with the given comparator
+     * 
+     * @param comparator the customized comparator
      */
     public AbstractSingleKeyDatabase(Comparator<? super KeyType> comparator) {
         this.data = new TreeMap<>(comparator);

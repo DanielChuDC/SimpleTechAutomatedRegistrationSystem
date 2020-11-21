@@ -272,7 +272,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new username, then ask whether to make
      * change.
      * 
-     * @param course the student to be set a new username.
+     * @param student the student to be set a new username.
      * @return true if username is successfully edited.
      */
     private boolean editUsername(Student student) {
@@ -314,7 +314,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new full name, then ask whether to make
      * change.
      * 
-     * @param course the student to be set a new full name.
+     * @param student the student to be set a new full name.
      * @return true if full name is successfully edited.
      */
     private boolean editFullName(Student student) {
@@ -348,7 +348,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new matric number, then ask whether to
      * make change.
      * 
-     * @param course the student to be set a new matric number.
+     * @param student the student to be set a new matric number.
      * @return true if matric number is successfully edited.
      */
     private boolean editMatricNo(Student student) {
@@ -381,7 +381,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new nationality, then ask whether to
      * make change.
      * 
-     * @param course the student to be set a new nationality.
+     * @param student the student to be set a new nationality.
      * @return true if nationality is successfully edited.
      */
     private boolean editNationality(Student student) {
@@ -416,7 +416,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new password, then ask whether to make
      * change.
      * 
-     * @param course the student to be set a new password.
+     * @param student the student to be set a new password.
      * @return true if password is successfully edited.
      */
     private boolean editPassword(Student student) {
@@ -451,7 +451,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new programme, then ask whether to make
      * change.
      * 
-     * @param course the student to be set a new programme.
+     * @param student the student to be set a new programme.
      * @return true if programme is successfully edited.
      */
     private boolean editProgramme(Student student) {
@@ -485,7 +485,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new year of study, then ask whether to
      * make change.
      * 
-     * @param course the student to be set a new year of study.
+     * @param student the student to be set a new year of study.
      * @return true if year of study is successfully edited.
      */
     private boolean editYOS(Student student) {
@@ -519,7 +519,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new gender from the list of genders,
      * then ask whether to make change.
      * 
-     * @param course the student to be set a new gender.
+     * @param student the student to be set a new gender.
      * @return true if gender is successfully edited.
      */
     private boolean editGender(Student student) {
@@ -553,7 +553,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new email, then ask whether to make
      * change.
      * 
-     * @param course the student to be set a new email.
+     * @param student the student to be set a new email.
      * @return true if email is successfully edited.
      */
     private boolean editEmail(Student student) {
@@ -587,7 +587,7 @@ public class EditStudent extends AbstractFunction {
      * This function will ask user to input new phone number, then ask whether to
      * make change.
      * 
-     * @param course the student to be set a new phone number.
+     * @param student the student to be set a new phone number.
      * @return true if phone number is successfully edited.
      */
     private boolean editPhoneNo(Student student) {
