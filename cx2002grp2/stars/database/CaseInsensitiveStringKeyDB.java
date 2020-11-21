@@ -1,7 +1,5 @@
 package cx2002grp2.stars.database;
 
-import java.util.TreeMap;
-
 import cx2002grp2.stars.dataitem.SingleKeyItem;
 
 /**
@@ -14,6 +12,6 @@ public abstract class CaseInsensitiveStringKeyDB<ItemType extends SingleKeyItem<
      * Construct a database with case insensitive string as key.
      */
     public CaseInsensitiveStringKeyDB() {
-        setDataMap(new TreeMap<>(String.CASE_INSENSITIVE_ORDER));
+        super(String.CASE_INSENSITIVE_ORDER);
     }
 }

@@ -2,6 +2,8 @@ package cx2002grp2.stars.database;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,13 +30,27 @@ import cx2002grp2.stars.dataitem.SingleKeyItem;
  * {@link AbstractSingleKeyDatabase#signalKeyChanged(Comparable, SingleKeyItem)}
  * </ul>
  */
-public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyType>, ItemType extends SingleKeyItem<KeyType>>
+public abstract class AbstractSingleKeyDatabase<KeyType, ItemType extends SingleKeyItem<KeyType>>
         extends AbstractDatabase<ItemType> implements SingleKeyDatabase<KeyType, ItemType> {
 
     /**
      * A map used to mapping from a key to a data item.
      */
     private Map<KeyType, ItemType> data = new TreeMap<>();
+
+    /**
+     * Construct a database for general key type
+     */
+    public AbstractSingleKeyDatabase() {
+        this.data = new HashMap<>();
+    }
+
+    /**
+     * Construct a database for comparable key type with the given comparator
+     */
+    public AbstractSingleKeyDatabase(Comparator<? super KeyType> comparator) {
+        this.data = new TreeMap<>(comparator);
+    }
 
     /**
      * {@inheritDoc}
@@ -178,25 +194,5 @@ public abstract class AbstractSingleKeyDatabase<KeyType extends Comparable<KeyTy
      */
     protected void signalKeyChanged(KeyType oldKey, ItemType newItem) {
         onKeyChangedObservers.forEach(ob -> ob.doOnKeyChange(oldKey, newItem));
-    }
-
-    /**
-     * Get the data map used by the database.
-     * 
-     * @return the data map used by the database internally
-     */
-    protected Map<KeyType, ItemType> getDataMap() {
-        return data;
-    }
-
-    /**
-     * Set the data map used by the database internally
-     * 
-     * @param newMap the new data map.
-     * @throws NullPointerException if the input map is null
-     */
-    protected void setDataMap(Map<KeyType, ItemType> newMap) {
-        Objects.requireNonNull(newMap);
-        data = newMap;
     }
 }
