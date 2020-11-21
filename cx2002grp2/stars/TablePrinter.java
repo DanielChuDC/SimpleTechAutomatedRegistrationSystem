@@ -261,13 +261,13 @@ public class TablePrinter {
 	 * @param indexList the course list to be printed.
 	 */
 	public void printCourseIndexList(Iterable<CourseIndex> indexList) {
-		final String TABLE_FORMAT = "%-10s | %-10s | %-10s | %-10s\n";
-		System.out.printf(TABLE_FORMAT, "Index", "Course", "Vacancy", "Max Vcc");
+		final String TABLE_FORMAT = "%-10s | %-10s | %-10s | %-10s | %-10s\n";
+		System.out.printf(TABLE_FORMAT, "Index", "Course", "Max Vcc", "Vacancy", "Wait List");
 		boolean printed = false;
 		printBreakLine();
 		for (CourseIndex index : indexList) {
 			System.out.printf(TABLE_FORMAT, index.getIndexNo(), index.getCourse().getCourseCode(),
-					index.getAvailableVacancy(), index.getMaxVacancy());
+					index.getMaxVacancy(), index.getAvailableVacancy(), index.getWaitList().size());
 			printed = true;
 		}
 		if (!printed) {
