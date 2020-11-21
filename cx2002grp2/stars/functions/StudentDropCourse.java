@@ -2,8 +2,10 @@ package cx2002grp2.stars.functions;
 
 import cx2002grp2.stars.CourseAllocator.Result;
 import cx2002grp2.stars.database.CourseIndexDB;
+import cx2002grp2.stars.database.RegistrationDB;
 import cx2002grp2.stars.database.StudentDB;
 import cx2002grp2.stars.dataitem.CourseIndex;
+import cx2002grp2.stars.dataitem.Registration;
 import cx2002grp2.stars.dataitem.Student;
 import cx2002grp2.stars.dataitem.User;
 
@@ -60,11 +62,17 @@ public class StudentDropCourse extends AbstractFunction {
 
         CourseIndex courseIndex = CourseIndexDB.getDB().getByKey(rawIndex);
         if (courseIndex == null) {
-            System.out.println("course Index doesn't exist. Please try again.");
+            System.out.println("Course index doesn't exist. Please try again.");
             return;
         }
 
-        this.tbPrinter().printIndexAndSchedule(courseIndex);
+        Registration regToDrop = RegistrationDB.getDB().getByIndex(rawIndex, student.getUsername());
+        if (regToDrop == null) {
+            System.out.println("The course is not registered. Please try again.");
+            return;
+        }
+
+        this.tbPrinter().printRegDetail(regToDrop);
 
         if (this.askYesNo("Drop course index " + rawIndex + "?")) {
             Result result = this.allocator().dropCourse(student, courseIndex);   
