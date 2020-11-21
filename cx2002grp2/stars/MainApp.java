@@ -26,7 +26,7 @@ public class MainApp implements OnExitSubject {
     /**
      * formatter for access time period.
      */
-    private static final DateTimeFormatter ACCESS_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss");
+    private static final DateTimeFormatter ACCESS_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     /**
      * The formatting string used for printing function list.
