@@ -75,7 +75,8 @@ public class CourseAllocator {
 		String courseCode = course.getCourseCode();
 		Registration existingReg = regDB.getByCourseCode(courseCode, student.getUsername());
 		if (existingReg != null) {
-			return failure("Duplicated registration: index " + newIndex.getIndexNo() + " of course " + courseCode
+			CourseIndex existingIndex = existingReg.getCourseIndex();
+			return failure("Duplicated registration: index " + existingIndex.getIndexNo() + " of course " + courseCode
 					+ " already exists.");
 		}
 
