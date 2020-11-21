@@ -84,6 +84,11 @@ public class StudentAddCourse extends AbstractFunction {
             } else {
                 System.out.println("Action cancelled.");
             }
+
+            
+            if (!askYesNo("Add another course?")) {
+                return;
+            }
         }
 
     }
