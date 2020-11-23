@@ -137,6 +137,11 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
         setConfig(ACCESS_END_TIME_KEY, time);
     }
 
+    /**
+     * Check whether it is student access time now.
+     * 
+     * @return true if it is student access time now, otherwise, return false.
+     */
     public static boolean isStudentAccessTime() {
         LocalDateTime now = LocalDateTime.now();
         return now.compareTo(getAccessStartTime()) >= 0 && now.compareTo(getAccessEndTime()) < 0;
@@ -374,12 +379,5 @@ public class Configs extends AbstractSingleKeyDatabase<String, Configs.OneConfig
      */
     public static void saveConfig() {
         configDB.saveData();
-    }
-
-    public static void main(String[] args) {
-        Configs.init();
-        System.out.println(Configs.getAccessEndTime());
-        Configs.setAccessEndTime(LocalDateTime.now());
-        System.out.println(Configs.getAccessEndTime());
     }
 }
