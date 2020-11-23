@@ -63,7 +63,7 @@ public class EditCourse extends AbstractFunction {
                 case 1:
                     if (this.addCourse()) {
                         tbPrinter().printBreakLine();
-                        System.out.println("List of all coruse after addition:");
+                        System.out.println("List of all courses after addition:");
                         tbPrinter().printCourseList(CourseDB.getDB());
                         System.out.println("Successfully added.");
                     }

@@ -160,10 +160,10 @@ public class Authenticator {
     }
 
     /**
-     * Create an account with the given username and password.
+     * Create an account with the given username, password and other information.
      * 
      * @param username the username of new account.
-     * @param password the password of new account.
+     * @param password the password of new account in plain text form.
      * @param domain   the domain of new account.
      * @param email    the email of new account.
      * @param phoneNo  the phone number of new account.
